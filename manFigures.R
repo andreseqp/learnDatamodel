@@ -196,6 +196,8 @@ rsqr.gam.McFadden<-1-predictDataMode.gam[,sum(log.like)]/
 rsqr.Nrew.McFadden<-1-predictDataMode.Nrew[,sum(log.like)]/
   sum(dbinom(x=predictDataMode.Nrew[,visitorChoices],size = 20,prob = 0.5,log = TRUE))
 
+axislabSize<-10
+axisSize<-12
 # Panel full model contour
 cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
                                                 fill=market_binomial_data))+
@@ -205,8 +207,8 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
              shape=21,color="black")+sc+xlab("")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=12),
-axis.title.x = element_text(size=12),axis.title.y = element_text(size=12))
+  theme(axis.text = element_text(size=axisSize),
+axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
 
 # Panel full model scatter
 scatter.obs.pred.both<-ggplot(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred))+
@@ -217,11 +219,11 @@ scatter.obs.pred.both<-ggplot(data = fieldatabyLoc.both,aes(y=market_binomial_da
   ggtitle("")+
   theme_classic()+
   theme(plot.title = element_text(hjust = 0.5),
-      axis.title.x = element_text(size=12),axis.title.y = element_text(size=12),
+      axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
       axis.text = element_text(size=14))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=4)+
+  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.both.McFadden,4)))), 
-            parse = TRUE,size=4)
+            parse = TRUE,size=3)
 
 # Panel future reward contour
 cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
@@ -232,8 +234,8 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=12),
-        axis.title.x = element_text(size=12),axis.title.y = element_text(size=12))
+  theme(axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
 
 # Panel future reward scatter
 scatter.obs.pred.gam<-ggplot(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred))+
@@ -244,11 +246,11 @@ scatter.obs.pred.gam<-ggplot(data = fieldatabyLoc.gam,aes(y=market_binomial_data
   ggtitle("")+
   theme_classic()+
   theme(plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_text(size=12),axis.title.y = element_text(size=12),
+        axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
         axis.text = element_text(size=14))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=4)+
+  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.gam.McFadden,4)))), 
-            parse = TRUE,size=4)
+            parse = TRUE,size=3)
 
 # Panel negative reward contour
 cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
@@ -259,8 +261,8 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=12),
-        axis.title.x = element_text(size=12),axis.title.y = element_text(size=12))
+  theme(axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
 
 # Panel negative reward scatter
 scatter.obs.pred.Nrew<-ggplot(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred))+
@@ -271,12 +273,13 @@ scatter.obs.pred.Nrew<-ggplot(data = fieldatabyLoc.Nrew,aes(y=market_binomial_da
   ggtitle("")+
   theme_classic()+
   theme(plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_text(size=12),axis.title.y = element_text(size=12),
-        axis.text = element_text(size=14))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=4)+
+        axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
+        axis.text = element_text(size=axisSize))+
+  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.Nrew.McFadden,4)))), 
-            parse = TRUE,size=4)
+            parse = TRUE,size=3)
 
-
+# ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
+#           labels=c('a','b'),common.legend=FALSE,legend = "top")
 
 

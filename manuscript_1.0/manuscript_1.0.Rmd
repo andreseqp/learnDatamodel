@@ -312,8 +312,8 @@ for the probability of having different options in the cleaning station.
 
 ## Results
 
-```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black point) and the 65\\% (light blue) and 95\\% (grey)  highest posterior density interval for the three paramteres. On the left (panels a, c and c) posterior distributions for a model with   all three parameters; while on the right (b and d) a model without negative reward. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='95%',fig.height=9}
-require(data.table)
+```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black point) and the 65\\% (light blue) and 95\\% (grey)  highest posterior density interval for the three paramteres. On the left (panels a, c and c) posterior distributions for a model with   all three parameters; while on the right (b and d) a model without negative reward. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='100%',fig.height=7}
+library(data.table)
 library(coda)
 library(ggplot2)
 library(cowplot)
@@ -329,7 +329,7 @@ scen3<-"MCMCclean_Nrew_sca_"
 
 # NLables names for the three scenarios
 labels.Scen<-c("both","gam","Nrew")
-labelsPlot.Scen<-c("Full model","Future reward","Negative reward")
+labelsPlot.Scen<-c("Full \n model","Future \n reward","Negative \n reward")
 
 ## Load files --------------------------------------------------------------
 
@@ -418,11 +418,11 @@ panel.rsqr.all<-
   ggplot(data=loglikehoods.all[is.finite(lglikelihood)],
                   aes(y=model,x=Rsqrd,fill=model))+
   stat_halfeye(alpha=0.5,point_size=3)+
-  theme_classic()+xlim(-0.5,0.3)+
+  theme_classic()+xlim(-0.6,0.2)+
   scale_fill_manual(values=c("#1b9e77","#d95f02","#7570b3"),
   name = "Model", labels = labelsPlot.Scen)+
   geom_vline(xintercept = 0,color="black",size=1)+
-  theme(legend.position = c(.3, .80),legend.key.size = unit(0.4,'cm'),
+  theme(legend.position = c(.3, .75),legend.key.size = unit(0.25,'cm'),
         axis.text.y = element_blank())
 
 plot_grid(nrow=3,align = "v",byrow = FALSE,
@@ -432,21 +432,24 @@ plot_grid(nrow=3,align = "v",byrow = FALSE,
                          point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
                          show.legend=FALSE) + 
             labs(title=labelsPlot.Scen[1],subtitle = expression(gamma),x="",y="")+
-            theme_classic()+scale_fill_manual(values=c("gray85","skyblue","gray85")),
+            theme_classic()+scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+            theme(plot.margin = unit(rep(0.5,4), "lines")),
           # \eta
           ggplot(data=MCMCdata1,aes(x=negReward)) + 
             stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$negReward))),
                          point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
                          show.legend=FALSE)+theme_classic()+
             scale_fill_manual(values=c("gray85","skyblue","gray85"))+
-            labs(subtitle = expression(eta),x="",y="")+xlim(-5,5),
+            labs(subtitle = expression(eta),x="",y="")+xlim(-5,5)+
+            theme(plot.margin = unit(rep(0.5,4), "lines")),
           # Scale Constant
           ggplot(data=MCMCdata1,aes(x=scaleConst)) + 
             stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$scaleConst))),
                          point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
                          show.legend=FALSE)+
             theme_classic()+scale_fill_manual(values=c("skyblue","gray85"))+
-          labs(subtitle = "Scalling const.",x="",y="")+xlim(-2,1500)+theme_classic(),
+          labs(subtitle = "Scalling const.",x="",y="")+xlim(-2,1500)+theme_classic()+
+          theme(plot.margin = unit(rep(0.5,4), "lines")),
           # Future reward only model - \gamma
           ggplot(data=MCMCdata2,aes(x=gamma)) +
             stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.2$gamma))),
@@ -454,7 +457,7 @@ plot_grid(nrow=3,align = "v",byrow = FALSE,
                          show.legend=FALSE) +
             scale_fill_manual(values=c("gray85","skyblue","gray85"))+
             labs(title=labelsPlot.Scen[2],subtitle = expression(gamma),x="",y="")+
-            theme_classic(),
+            theme_classic()+theme(plot.margin = unit(rep(0.5,4), "lines")),
           # Scalling constant
           ggplot(data=MCMCdata2,aes(x=scaleConst)) +
             stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.2$scaleConst))),
@@ -462,7 +465,7 @@ plot_grid(nrow=3,align = "v",byrow = FALSE,
                          show.legend=FALSE) +
             scale_fill_manual(values=c("gray85","skyblue","gray85"))+
             labs(subtitle = "Scalling const.",x="",y="")+
-            theme_classic(),
+            theme_classic()+theme(plot.margin = unit(rep(0.5,4), "lines")),
           # Pseudo R^2
           panel.rsqr.all+labs(subtitle = expression(pseudo-R^2),x="",y=""),
           labels=c('a','b','c','d','e')
@@ -507,7 +510,7 @@ shows that, accounting for variation in the parameter estimates, the
 model with only future reward gives a better fit to the data, despite
 having one parameter less.
 
-```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panels: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities. Pseudo $R^2$ shown in the lower right corner corresponds to the fit of a model parameterized with the mode of the posterior distributions. Upper panels show prediction from a model including future and negative reward, lower panels froma  model with only future reward.",out.width='95%',fig.height=8}
+```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panels: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities. Pseudo $R^2$ shown in the lower right corner corresponds to the fit of a model parameterized with the mode of the posterior distributions. Upper panels show prediction from a model including future and negative reward, lower panels froma  model with only future reward.",out.width='100%',fig.height=6}
 
 source(here("manFigures.R"))
 ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
@@ -676,7 +679,7 @@ better.
 ```{=tex}
 \beginsupplement
 ```
-```{r nogamma, fig.cap="Observed and predicted probability of choosing a visitor for a model without future rewards. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panel: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities.",fig.pos = 'H', out.extra = "",out.width='95%',fig.height=8}
+```{r nogamma, fig.cap="Observed and predicted probability of choosing a visitor for a model without future rewards. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panel: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities.",fig.pos = 'H', out.extra = "",out.width='95%',fig.height=4}
 
 ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
           labels=c('a','b'),common.legend=FALSE,legend = "top")
