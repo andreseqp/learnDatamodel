@@ -64,7 +64,7 @@ mutualism}
 
 %%%% Abstract text to be placed here %%%%%%%%%%%%
 \begin{abstract}
-The same behaviour can be achieved by different mechanistic underpinnings. But the environmental conditions under which the behaviour is triggered might differ between these potential mechanisms. Thus, by analyzing the varitation of expression of a certain behavior across environmental gradients, it is possible to infer which mechanism is behind the behaviour of interest. To do this it is necessary to have clearcut predictions for the different candidate mechanisms. In here, we use experimental data on the behaviour of the cleaner fish \emph{Labroides} \emph{dimidiatus}, as well as enviromental variables from the location of fish, together with a computational model of the learning mechanisms. Using bayesian statistics, we fit key parameters of the computational model that determine the specific learning mechanism. We find that a model where cleaners estimate the long-term consequences of their actions, and use the estimate in their desicion making, explains better under which conditions the fish develop a preference for an ephemeral food source in the context of a biological market. We argue that the combination of computational models with data is powerful tool to infer the mechanistic underpinning behind behaviours of interest.
+While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings may yield similar performances, and Lloyd Morgan's cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. However, to do this it is necessary to have quantitative predictions for the different candidate mechanisms. Here, we use a set of computational models to get quantitative predictions from alternative learning mechanisms, and using Bayesian statistics fit the model parameters to performance data. We used experimental data on performance in an ephemeral reward task by wild-caught cleaner fish Labroides dimidiatus, as well as cleaner and client fish densities from the locations of capture. The task can in principle be solved by estimating future consequences of an action, or by perceiving the removal of the ephemeral reward as psychological punishment (negative reinforcement). We found that a model where cleaners only estimate the future consequences of their actions explains best which cleaner relative abundances cause the fish to develop a preference for an ephemeral food source. This model also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement model. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinning behind cognitive performance.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -80,22 +80,23 @@ The same behaviour can be achieved by different mechanistic underpinnings. But t
 \subsection{Introduction}\label{introduction}}
 
 Cooperation among individuals of the same or different species is
-ubiquitous in nature. Among individuals of different species it
-underlays the biological mechanism for fundamental ecological
-interactions such as pollination, nitrogen fixation or parasite removal
-\citep{begon_Ecology_2006}. When partners in these mutualistic interactions
-are able to choose their interaction partner, their investment and the
-return they obtain can be understood as a biological market
-\citep{hammerstein_Biological_2016, leimar_Cooperation_2010, noe_Biological_1994a, noe_Biological_1995a}. Thus, we expect supply
-and demand of the good and services being exchanged to determine the
-action of individuals, at least in an evolutionary time-scale. However,
-supply and demand conditions of a biological market, which typically
+ubiquitous in nature. Whenever such interactions involve some degree
+of partner choice, biological market theory predicts that the exchange
+rate of goods and/or services traded adjusts to the law of supply and demand
+\citep{noe_Biological_1995a}. While biological market models have largely focused
+on evolutionary time scales \citep{noe_Biological_1994a, johnstone_Mutualism_2008a}
+\(\color{red}{\text{Hoekstra xxxx}}\), supply and demand conditions, which typically
 depend on the abundance of the species involved, certainly vary in time
-and space. How do partners adjust their strategy in the face of this
-variation? In animals an obvious general candidate mechanism for the
-strategic adjustment is the cognitive machinery. However, it is not
-clear which specific cognitive mechanisms allow individual to adjust
-their behaviour to the varying market conditions.
+and space within ecological time scales. Therefore, natural selection should
+favour the ability to flexibly adjust decisions and behavioural output to
+current market conditions. Indeed, such adjustments have been repeatedly
+documented \citep{axen_Signalling_1996}. In animals, an obvious general candidate
+mechanism for the strategic adjustment is the cognitive machinery. However,
+it is not clear which cognitive mechanisms allow individuals to adjust their
+behaviour to the varying market conditions. As adjustments to changes in
+market conditions have been documented in a great variety of species with
+highly variable brain anatomies, the question arises to what extent mechanisms
+beyond basic associative learning may be involved.
 
 One example of strategic adjustment in a biological market is the marine
 cleaning mutualism involving the cleaner fish \emph{Labroides dimidiatus} and
@@ -118,10 +119,10 @@ interact with visitors \citep{triki_Marine_2021}. Such a preference may be
 linked to a client's value as a food patch; visitors are on average
 larger than residents \citep{bshary_Cleaner_2001a}, and size is positively
 correlated with parasite load \citep{grutter_Relationship_1995a}. However,
-early laboratory
-experiments showed that leaving causes service priority independent of
-client value \citep{bshary_Asymmetric_2002}. The experiments consisted of a
-simultaneous two-choice task, where cleaners had to decide which of two
+early laboratory experiments showed that leaving causes service
+priority independent of client value \citep{bshary_Asymmetric_2002}.
+The experiments consisted of asimultaneous two-choice task,
+where cleaners had to decide which of two
 Plexiglas plates, which offered equal amounts of food, to approach first
 and eat mashed prawn of it. One plate was made to behave like a
 resident, i.e.~it would remain until the cleaner had eaten off it. The
@@ -131,66 +132,91 @@ hence obtained the double amount of food \citep{bshary_Asymmetric_2002}.
 Adult cleaner fish outperform various primates as well as rats and
 pigeons in this original version of the biological market task
 \citep{salwiczek_Adult_2012, zentall_Early_2017}; only African grey
-parrots solve this task as well \citep{pepperberg_Can_2014}.
+parrots solve this task as well \citep{pepperberg_Can_2014}. As the correct
+solution must be learned, and primates are known to readily distinguish
+between one and two reward units if presented in more conventional ways
+\(\color{red}{\text{ref}}\), what makes the task difficult for most non-cleaners?
 
-Recent research has refined our view on partner choice and priority of
-access in the \emph{L. dimidiatus} cleaning mutualism, and as a consequence
-performance in the biological market task. First, details of the task
-presentation may matter; i.e.~what relevant information is encoded in
-the design of the two plates (colour versus size;
-\citep{wismer_Cuebased_2019}), or whether the information is in the colour of
+Recent research on the cognitive tool kit needed to solve an ephemeral
+reward task has used a broad approach as proposed by Shettleworth
+\citep{shettleworth_Cognition_2009},
+who defined cognition as includes all ways in which animals take in information
+through the senses, process, retain and decide to act on it. Indeed, perception
+of relevant cues is of major importance for individual performance;
+i.e.~what relevant information is encoded in the design of the two
+plates (colour versus size; \citep{wismer_Cuebased_2019}), or whether
+the information is in the colour of
 the food \citep{pretot_Comparative_2021, pretot_Comparing_2016}, and
 whether the food is visible or hidden/released only when the subjects
-made choices on a touch screen \citep{pretot_Factors_2016}. Second, it
-appears that cleaner and client densities in nature affect how cleaners
-perform in the original market task: when densities are low, cleaners
-are more likely to fail to complete the task \citep{triki_Biological_2019, triki_Decrease_2018, wismer_Variation_2014}. The apparent explanation
-for this failure is that visitor clients are less likely to exert their
-choice options (and hence wait for inspection if made to wait) when
-cleaner fish densities are low \citep{triki_Brain_2020}. This change in
-behaviour may be due to the fact that when cleaner densities are low,
-the cost of switching in terms of distance to swim and time invested
-increases. If visitors are not choosy, cleaners should not give them
-priority anymore. Interestingly, while cleaners from high-density areas
-have larger forebrains harbouring more cells than cleaners from
-low-density areas \citep{triki_Brain_2020}, on a local scale those
-individuals that perform in the market task in a way that corresponds to
-the locally optimal strategy (solving/failing the task when living in
-high/low density) have relatively larger forebrains \citep{triki_Brain_2020}.
-Taken together, empirical results clearly show major intra- and
-inter-specific variation in performance in the market task, warranting
-investigation of the underlying cognitive machinery, from perception to
-decision-making \citep{shettleworth_Cognition_2009}.
-
-One approach to identify candidate mechanisms underlying performance in
-a cognitive task is to develop proximate learning models and to evaluate
-their predictions in light of the behavioural data (e.g.
-\citep{dubois_Model_2021}). By varying the cognitive tool kit, one can assess
-which minimal kit is necessary to solve the task at hand. This approach
-has been used to analyse the market task \citep{prat_Role_2021, quinones_Reinforcement_2019}. Learning models showed that basic
-reinforcement learning does not suffice to solve the task, this is
-particularly so when models assume the more complex natural situation in
-which cleaners not only face resident-visitor pairs but also
+made choices on a touch screen \citep{pretot_Factors_2016}. However, identifying
+cues as salient is not the only challenge of the ephemeral reward task,
+as revealed by proximate learning models. Such models allow varying the
+cognitive tool kit and to evaluate which minimal kit is necessary to solve
+the task at hand (e.g. \citep{dubois_Model_2021}). Applied to the ephemeral
+reward task, learning models showed that basic reinforcement learning does
+not suffice to solve the task \citep{prat_Modelling_2022, quinones_Reinforcement_2019}.
+This is particularly so when models assume the more complex natural
+situation in which cleaners not only face resident-visitor pairs but also
 visitor-visitor and resident-resident pairs, as well only a resident or
 only a visitor. To be able to give visitors priority over residents,
-cleaners first need to be able to assess a client's value separately for
-the three possible forms of encounter (alone, paired with a fish with
-the same strategic option, paired with a fish with the alternative
-strategic option) \citep{quinones_Reinforcement_2019}. In addition, cleaners
-need to account for the future consequences of current decisions. In the
-model, this could be achieved in two non-mutually exclusive ways
-\citep{quinones_Reinforcement_2019}: through low temporal discounting of
-future effects and/or through perceiving a visitor client leaving as
-psychological punishment (i.e.~as a negative reinforcer). Given that a
-negative reinforcer is part of the ubiquitous learning mechanism termed
-operant conditioning \citep{thorndike_Animal_1898, skinner_Behavior_1938},
-this explanation can be
-considered the simpler one. Furthermore, accounting for the future
-effects of an action is considered an advanced cognitive ability
-\citep{suddendorf_Evolution_2007}. Here, we fitted our model to the empirical
-data on fish densities and cleaner fish performance in the market task
-with the aim to determine the likely mechanism used by cleaners to
-incorporate future consequences of current decisions.
+cleaners need to be able to assess a client's value separately for the
+three possible forms of encounter (alone, paired with a fish with the
+same strategic option, paired with a fish with the alternative strategic option)
+\citep{quinones_Reinforcement_2019}. The ability to keep such separate scores
+for the same stimulus has been termed configurational learning,
+or chunking, or segmentation (see references in \citep{prat_Modelling_2022}).
+
+To solve the ephemeral reward task, cleaners also need to account for
+the future consequences of current decisions. In the model by
+Quiñones et al. \citep{quinones_Reinforcement_2019}, this could be achieved in
+two non-mutually exclusive ways: through low temporal discounting of
+future effects, also termed `chaining' \citep{enquist_Power_2016}; and/or
+through perceiving a visitor client leaving as psychological punishment
+(i.e.~as a negative reinforcer). Given that a negative reinforcer is part
+of the ubiquitous learning mechanism termed operant conditioning
+\citep{thorndike_Animal_1898, skinner_Behavior_1938}, this explanation
+could be considered the simpler one. Furthermore, accounting for the
+future effects of an action is considered an advanced cognitive
+ability \citep{suddendorf_Evolution_2007}. Thus, standard logic of
+Lloyd Morgan's cannon demands that operant conditioning as the simpler
+explanation is to be accepted by default. Here, we explore the
+possibility that fitting a model in which the action of these two
+mechanisms, operant conditioning and chaining, depends
+on model parameters may reveal which process cleaners actually use.
+This is because one process may be better at predicting the observed
+variation in cleaner fish performance as a function of ecological conditions.
+
+Various repetitions of the ephemeral reward task in different years and
+with cleaners caught from various locations around Lizard Island,
+Great Barrier Reef, revealed that cleaner and client densities in
+nature affect how cleaners perform in the original market task:
+when relative densities are low, cleaners are more likely to fail to
+complete the task \citep{triki_Biological_2019, triki_Decrease_2018, wismer_Variation_2014}. The explanation for this pattern
+is twofold. First, low cleaner abundances implies low supply and high demand
+of cleaning services. Under this conditions, there will be less occasions under
+which failing to give priority to a visitor translates to an empty
+cleaning station. Secondly and also related to the state of the cleaning market,
+visitor clients are less likely to exert their choice options
+(and hence wait for inspection if made to wait) when
+cleaner fish densities are low \citep{triki_Brain_2020}. If visitors are not choosy,
+cleaners should not give them priority anymore. Thus, the underling
+cognitive machinery and ecological variables apparently interact to produce
+such variable performance. By fitting our model to the empirical data on
+fish densities and cleaner fish performance in the ephemeral reward task
+we aimed to address two questions. First, we aimed to determine the likely
+mechanism used by cleaners to incorporate future consequences of current
+decisions by testing whether operant conditioning, chaining, or a combination
+of both best explains performance. Second and related to the first
+question, we aimed to determine whether the two mechanisms differed
+with respect to the ecological conditions that are likely to cause high
+versus low performance in the ephemeral reward task. If that were the case,
+we would assess which mechanism would yield more appropriate performance
+patterns. Relying on the logic of biological market theory, we predicted
+that appropriate performance is to show low preference for visitors under high
+local client-to-cleaner ratio as visitor leaving rates should be low
+and any leaving visitor will be readily replaced by another client. In contrast,
+cleaners should show high performance if the local client-to-cleaner
+ratio favours clients.
 
 \hypertarget{methods}{%
 \subsection{Methods}\label{methods}}

@@ -6,6 +6,7 @@ library(ggplot2)
 library("RColorBrewer")
 library("patchwork") 
 library(ggpubr)
+library(ggdist)
 library(here)
 library(cowplot)
 source(here("loadData.R"))
@@ -207,23 +208,40 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
              shape=21,color="black")+sc+xlab("")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=axisSize),
-axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
+  theme(legend.position ="top",
+        axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),
+        axis.title.y = element_text(size=axislabSize))
 
 # Panel full model scatter
-scatter.obs.pred.both<-ggplot(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred))+
-  geom_point(data = fieldatabyLocSamps.both,aes(x=probvisitor.pred,y=probVisi.data),
-             color='grey')+
-  geom_point(size=4)+ylim(0.4,0.9)+xlim(0.4,0.9)+
+scatter.obs.pred.both<-ggplot(data=fieldatabyLocSamps.both,
+                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
-  ggtitle("")+
-  theme_classic()+
-  theme(plot.title = element_text(hjust = 0.5),
-      axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
-      axis.text = element_text(size=14))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
-  geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.both.McFadden,4)))), 
-            parse = TRUE,size=3)
+  geom_point(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred),
+             shape=15,size=2)+
+  ylim(0.45,0.85)+xlim(0.45,0.85)+
+  guides(color=guide_legend(title="Location"))+
+  scale_color_manual(values = multDiscrPallet[1:12])+
+  theme_classic()+theme(legend.position ="none",#c(.9, .4),
+        axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),
+        axis.title.y = element_text(size=axislabSize),
+        legend.key.size = unit(0.25,'cm'))
+  
+  # ggplot(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred))+
+  # geom_point(data = fieldatabyLocSamps.both,aes(x=probvisitor.pred,y=probVisi.data),
+  #            color='grey')+
+  # geom_point(size=4)+ylim(0.4,0.9)+xlim(0.4,0.9)+
+  # geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
+  # ggtitle("")+
+  # theme_classic()+
+  # theme(plot.title = element_text(hjust = 0.5),
+  #     axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
+  #     axis.text = element_text(size=14))+
+  # geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
+  # geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.both.McFadden,4)))), 
+  #           parse = TRUE,size=3)
 
 # Panel future reward contour
 cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
@@ -234,23 +252,42 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=axisSize),
-        axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
+  theme(legend.position ="none",
+    axis.text = element_text(size=axisSize),
+    axis.title.x = element_text(size=axislabSize),
+    axis.title.y = element_text(size=axislabSize))
 
 # Panel future reward scatter
-scatter.obs.pred.gam<-ggplot(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred))+
-  geom_point(data = fieldatabyLocSamps.gam,aes(x=probvisitor.pred,y=probVisi.data),
-             color='grey')+
-  geom_point(size=4)+ylim(0.45,0.9)+xlim(0.45,0.9)+
+scatter.obs.pred.gam<-ggplot(data=fieldatabyLocSamps.gam,
+                             aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
-  ggtitle("")+
+  geom_point(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred),
+             shape=15,size=2)+
+  ylim(0.45,0.85)+xlim(0.45,0.85)+
+  guides(color=guide_legend(title="Location"))+
+  scale_color_manual(values = multDiscrPallet[1:12])+
   theme_classic()+
-  theme(plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
-        axis.text = element_text(size=14))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
-  geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.gam.McFadden,4)))), 
-            parse = TRUE,size=3)
+  theme(legend.position ="none",
+        axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),
+        axis.title.y = element_text(size=axislabSize))
+
+# ggplot(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred))+
+#   # geom_point(data = fieldatabyLocSamps.gam,aes(x=probvisitor.pred,y=probVisi.data),
+#   #            color='grey')+
+#   stat_halfeye(data = fieldatabyLocSamps.gam,aes(x=probvisitor.pred,y=as.factor(probVisi.data)),
+#              color='grey')+
+#   geom_point(size=4)+ylim(0.45,0.9)+xlim(0.45,0.9)+
+#   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
+#   ggtitle("")+
+#   theme_classic()+
+#   theme(plot.title = element_text(hjust = 0.5),
+#         axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
+#         axis.text = element_text(size=14))+
+#   geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
+#   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.gam.McFadden,4)))), 
+#             parse = TRUE,size=3)
 
 # Panel negative reward contour
 cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
@@ -261,25 +298,46 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(axis.text = element_text(size=axisSize),
-        axis.title.x = element_text(size=axislabSize),axis.title.y = element_text(size=axislabSize))
+  theme(legend.position = "top",
+    axis.text = element_text(size=axisSize),
+    axis.title.x = element_text(size=axislabSize),
+    axis.title.y = element_text(size=axislabSize))
 
 # Panel negative reward scatter
-scatter.obs.pred.Nrew<-ggplot(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred))+
-  geom_point(data = fieldatabyLocSamps.gam,aes(x=probvisitor.pred,y=probVisi.data),
-             color='grey')+
-  geom_point(size=4)+ylim(0.45,0.9)+xlim(0.45,0.9)+
+scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
+                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
-  ggtitle("")+
+  geom_point(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred),
+             shape=15,size=2)+
+  ylim(0.45,0.85)+xlim(0.45,0.85)+
+  guides(color=guide_legend(title="Location"))+
+  scale_color_manual(values = multDiscrPallet[1:12])+
   theme_classic()+
-  theme(plot.title = element_text(hjust = 0.5),
-        axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
-        axis.text = element_text(size=axisSize))+
-  geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
-  geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.Nrew.McFadden,4)))), 
-            parse = TRUE,size=3)
+  theme(legend.position ="none",#c(.9, .4),
+        axis.text = element_text(size=axisSize),
+        axis.title.x = element_text(size=axislabSize),
+        axis.title.y = element_text(size=axislabSize))
+  
+  
+# ggplot(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred))+
+#   geom_point(data = fieldatabyLocSamps.gam,aes(x=probvisitor.pred,y=probVisi.data),
+#              color='grey')+
+#   geom_point(size=4)+ylim(0.45,0.9)+xlim(0.45,0.9)+
+#   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
+#   ggtitle("")+
+#   theme_classic()+
+#   theme(plot.title = element_text(hjust = 0.5),
+#         axis.title.x = element_text(size=axisSize),axis.title.y = element_text(size=axislabSize),
+#         axis.text = element_text(size=axisSize))+
+#   geom_text(x = 0.8, y = 0.85, label = expression(y==x), parse = TRUE,size=3)+
+#   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.Nrew.McFadden,4)))), 
+#             parse = TRUE,size=3)
 
 # ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
 #           labels=c('a','b'),common.legend=FALSE,legend = "top")
-
+# 
+# ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
+#           cont.obs.pred.gam,scatter.obs.pred.gam,
+#           labels=c('a','b','c','d'))
 

@@ -1,83 +1,51 @@
 ---
-title: Combination of field and experimental data together with computational models 
+title: Combination of field and experimental data together with computational models
   reveal cognitive mechanisms behind cleaner fish behaviour
-#Cognitive and ecological aspects determine cleaner performance
 author:
-  - name: Andrés E. Quiñones 
-    affiliation: "1"
-  - name: Zegni Triki
-    affiliation: "2"
-  - name: Redouan Bshary
-    affiliation: "1"
-address:
-  - code: "1"
-    address: Institute of Biology, University of Neuchâtel, Neuchâtel, Switzerland
-  - code: "2"
-    address: Department of Zoology, Stockholm University, Stockholm, Sweden
-
-corresp_author_name:  "AE. Quiñones"
-corresp_author_email: "andreseqp@gmail.com"
-
-subject:
-  - "Behavioural ecology"
-  - "Cognitive ecology"
-  - "Animal behaviour"
-
-keywords:
-  - learning   
-  - cleaners
-  - behaviour
-  - bayesian statisitics
-  - mutualism
-
-abstract: |
-  While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings may yield similar performances, and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. However, to do this it is necessary to have quantitative predictions for the different candidate mechanisms. Here, we use a set of computational models to get quantitative predictions from alternative learning mechanisms, and using Bayesian statistics fit the model parameters to performance data. We used experimental data on performance in an ephemeral reward task by wild-caught cleaner fish Labroides dimidiatus, as well as cleaner and client fish densities from the locations of capture. The task can in principle be solved by estimating future consequences of an action, or by perceiving the removal of the ephemeral reward as psychological punishment (negative reinforcement). We found that a model where cleaners only estimate the future consequences of their actions explains best which cleaner relative abundances cause the fish to develop a preference for an ephemeral food source. This model also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement model.  We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinning behind cognitive performance. 
-
-## Remove this if not required
-ethics: |
-  The Animal Ethics Committee of the Queensland government (DAFF)
-  approved the project (CA 2016/05/970 and CA 2017/05/1063).
-  
-data_accessibility: |
-  Please provide details on the data availability.
-
-author_contributions: |
-  AQ and RB designed the study. ZT collected the data. AQ developed the model and 
-  fitted the model parameters to the data. AQ, RB and ZT wrote the manuscript. 
-
-## Remove this if not required
-conflict_of_interest: |
-  The authors declate no conflict of interests.
-
-## Remove this if not required
-funding: |
-  This work was supported by the Swiss National Science Foundation (grants
-  number: 31003A_153067/1 and 310030B_173334/1 to R.B.).
-
-
-## Remove this if not required
-acknowledgements: |
-  ZT and RB kindly thank the staff of Lizard Island Research Station, Dominique
-  Roche, Sharon Wismer, Olivia Rey,Sandra Ann Binning, Elena Levorato and William McNeely for their
-  field support. AQ thanks Florian Hartig for statistical advice.
-
+- Andrés E. Quiñones^[Institute of Biology, University of Neuchâtel, Neuchâtel, Switzerland
+  - andresqp@gmail.com]
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  word_document: default
+  pdf_document: default
+fig_caption: yes
+fontsize: 12pt
+header-includes:
+- \usepackage{float}
+- \usepackage{setspace}\doublespacing
+- \linespread{2}
+- \usepackage{lineno}
+- \linenumbers
+- \newcommand{\beginsupplement}{ \setcounter{table}{0} \renewcommand{\thetable}{S\arabic{table}}
+  \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+keep_tex: yes
+linespread: 2
 bibliography: Cleanerlearning.bib
-
-## change to true to add optional line numbering
-lineno: true
-
-header-includes: |
-  ```{=latex}
-  \usepackage{float}
-  \usepackage{booktabs}
-  \newcommand{\beginsupplement}{ \setcounter{table}{0}     \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
-  ```
-site: bookdown::bookdown_site
-output: 
-  bookdown::pdf_book:
-    base_format: rticles::rsos_article
+style: M:\Zotero\styles\behavioral-ecology-and-sociobiology.csl
+spacing: double
+abstract: "While it is generally straightforward to quantify individual performance
+  in cognitive experiments, identifying the underlying cognitive processes remains
+  a major challenge. Often, different mechanistic underpinnings may yield similar
+  performances, and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation.
+  Alternatively, when the different mechanisms interact with environmental conditions,
+  variation in performance across environments might allow to statistically infer
+  the mechanism responsible. However, to do this it is necessary to have quantitative
+  predictions for the different candidate mechanisms. Here, we use a set of computational
+  models to get quantitative predictions from alternative learning mechanisms, and
+  using Bayesian statistics fit the model parameters to performance data. We used
+  experimental data on performance in an ephemeral reward task by wild-caught cleaner
+  fish Labroides dimidiatus, as well as cleaner and client fish densities from the
+  locations of capture. The task can in principle be solved by estimating future consequences
+  of an action, or by perceiving the removal of the ephemeral reward as psychological
+  punishment (negative reinforcement). We found that a model where cleaners only estimate
+  the future consequences of their actions explains best which cleaner relative abundances
+  cause the fish to develop a preference for an ephemeral food source. This model
+  also yields performances that can be considered the result of locally optimal decision-rules,
+  in contrast to the negative reinforcement model.  We argue that the combination
+  of computational models with data is a powerful tool to infer the mechanistic underpinning
+  behind cognitive performance. \n"
+keywords: learning, behaviour, cleaners, bayesian statisitics
 ---
-
 
 ## Introduction
 
@@ -97,7 +65,7 @@ depend on the abundance of the species involved, certainly vary in time
 and space within ecological time scales. Therefore, natural selection should 
 favour the ability to flexibly adjust decisions and behavioural output to 
 current market conditions. Indeed, such adjustments have been repeatedly 
-documented [@axen_Signalling_1996]. In animals, an obvious general candidate 
+documented [@axen_signalling_1996]. In animals, an obvious general candidate 
 mechanism for the strategic adjustment is the cognitive machinery. However, 
 it is not clear which cognitive mechanisms allow individuals to adjust their 
 behaviour to the varying market conditions. As adjustments to changes in 
@@ -146,8 +114,7 @@ between one and two reward units if presented in more conventional ways
 $\color{red}{\text{ref}}$, what makes the task difficult for most non-cleaners?
 
 Recent research on the cognitive tool kit needed to solve an ephemeral 
-reward task has used a broad approach as proposed by Shettleworth 
-[@shettleworth_Cognition_2009], 
+reward task has used a broad approach as proposed by @shettleworth_Cognition_2009, 
 who defined cognition as includes all ways in which animals take in information 
 through the senses, process, retain and decide to act on it. Indeed, perception 
 of relevant cues is of major importance for individual performance; 
@@ -172,11 +139,11 @@ three possible forms of encounter (alone, paired with a fish with the
 same strategic option, paired with a fish with the alternative strategic option) 
 [@quinones_Reinforcement_2019]. The ability to keep such separate scores 
 for the same stimulus has been termed configurational learning, 
-or chunking, or segmentation (see references in [@prat_Modelling_2022]). 
+or chunking, or segmentation (see references in @prat_Modelling_2022). 
 
 To solve the ephemeral reward task, cleaners also need to account for 
 the future consequences of current decisions. In the model by 
-Quiñones et al. [@quinones_Reinforcement_2019], this could be achieved in 
+Quiñones et al. @quinones_Reinforcement_2019, this could be achieved in 
 two non-mutually exclusive ways: through low temporal discounting of 
 future effects, also termed ‘chaining’ [@enquist_Power_2016]; and/or 
 through perceiving a visitor client leaving as psychological punishment 
@@ -231,45 +198,36 @@ ratio favours clients.
 
 ### Overview
 
-To test the relative validity of chaining versus negative reinforcement as 
-mechanisms to account for future consequences of current choices, 
-we combined empirical from Triki *et. al* 
-[@triki_Biological_2019;@triki_Brain_2020]. with the computational 
-model analysed in Quiñones et al.[@quinones_Reinforcement_2019]. In order to 
-compare the explanatory power of the different hypothesis, we estimate the 
-parameter values of three versions of the model that best fit the data. 
-Particularly, we fit the parameter that determines the how important 
-future rewards are ($\gamma$), the magnitude of the negative reward 
-($\eta$) and a scaling constant that translates absolute to relative 
-abundances (see following sections for details). We obtained model 
-predictions using a set of stochastic individual-based
-simulations. Thus, each parameter combination of the model yields not one 
-prediction for the data set, but a distribution of them. Thus, for the 
-fitting procedure, we use one of the most common algorithms in bayesian inference,
-the Markov Chain Monte Carlo (MCMC). MCMC is a stochastic algorithm that allows
-to sample from the posterior distribution of model parameter values. The posterior
-distribution represents the most likely parameter values given the data. 
-Due to the stochastic nature of MCMC, which repeatedly samples parameter values
-and evaluates their likelihood, the distribution of likelihoods from the 
-stochastic model is also explored. This makes MCMC and bayesian inference
-particularly suitable for the computational models we evaluate. Bellow we
+We used the data from [@triki_Biological_2019] to fit the parameters of
+the model analysed in [@quinones_Reinforcement_2019]. For the bayesian
+fitting procedure we used Markov Chain Monte Carlo (MCMC) with a
+Metropolis sampler to estimate the posterior distribution of the model
+parameters. The data consist a of the number of times that a set of
+cleaners chose to feed of a visitor client plate in the context of the
+market task. This set of cleaners were collected in different locations
+and in each one of those locations environmental variables were
+measured. These environmental variables recorded from each location are
+used as input for the computational model. Given these inputs, the
+computational model produces a time series of choices in the market
+task. In the model the preference for the two options changes as the
+algorithm learns based on the reward that the two options provide. Thus,
+we run the model for 10000 steps and use the last 3000 steps as the
+preference developed in the model for visitors given the environmental
+variables. We use this preference as the predicted probability in a
+binomial distribution to calculate the likelihood that the number of
+visitor choices obtained from each cleaner is generated by the model. We
+sum over all the cleaners the log-likehoods and use the total for the
+acceptance of new parameters in the MCMC.
 
 ### The model
 
 The model consist of a set individual-based simulations where
 individuals face a series of choices between two options. Individuals in
 the model represent cleaners, and the options they face simulate the
-natural conditions of a cleaning market. Cleaners experience a series 
-of discrete time points in which they face different ‘states’, which 
-are defined by the number and type of clients inviting for service. 
-There are six possible states: zero clients, one resident, one visitor, 
-two residents, two visitors, and a mix of one resident and one visitor. 
-The probability of each state is largely determined by the relative 
-abundance of cleaners, residents and visitors, but to some degree by a 
-cleaner’s choices when it faces the resident-visitor combination. 
-This is because residents are those clients that stay in the
-cleaning queue when they are not given priority and hence would 
-still be available in the next time point; while visitors leave
+natural conditions of a cleaning market. Thus, individuals in the model
+choose to prioritize different clients. These clients are classified as
+resident and visitors. Residents are those clients that stay in the
+cleaning queue when they are not given priority; while visitors leave
 the queue (with a certain probability) after they are not given
 priority. Individuals obtain a fixed reward from cleaning a client
 regardless of the type. Every time individuals face and make a choice
@@ -278,25 +236,9 @@ based on the difference between the expectation of reward and the actual
 reward the individual obtains (prediction error)
 [@sutton_Reinforcement_2018; @rescorla_Theory_1972]; and it is carried
 in the direction that would lead to more reward being obtained, given
-the new information. In the long run, the probability of choosing a visitor 
-over a resident converges in the model. To which probability the model 
-will converge depends on the relative abundance of cleaners, visitors 
-and resident; as well as on the probability of visitors leaving the station
-when unattended. Further details of the model implementation can be
-found in the paper [@quinones_Reinforcement_2019]. 
-
-The model shows that only agents that calculate rewards separately for 
-the different states (termed ‘fully aware agents’) can potentially 
-prioritise visitors of residents in nature, and hence also solve the 
-ephemeral reward task. This is because pooling rewards for the two 
-clients from all states by ‘partially aware agents’ 
-(that only recognize the two clients as different) cancels out 
-all differences (see [@quinones_Reinforcementet_2020]. However, 
-such chunking by fully aware agents is not enough to develop a 
-preference for visitors. In addition, agents need to find a means 
-to incorporate future consequences of current choices. In the model, 
-this could be achieved with either of two parameters that could 
-also work together.  First, $\gamma$ measures how
+the new information. Further details of the model implementation can be
+found in the paper [@quinones_Reinforcement_2019]. The model analysis
+points to the relevance of two parameters. First, $\gamma$ measures how
 much individuals include future rewards in their decision updates. If
 $\gamma=0$, individuals only use the immediate reward obtained from a
 cleaning interaction. As $\gamma$ increases individuals include more the
@@ -305,132 +247,10 @@ and using for decision making the future expected rewards in action.
 Second, $\eta$ measures how much individuals include in their reward the
 fleeing behaviour of visitor clients as a negative component. Both of
 these parameters allow individuals to use in their estimates the future
-effects of their choices. 
-
-The A further model analysis contrast the effect of these two 
-parameters against variation in the relative abundance of cleaners 
-and the two client types. Assuming certainty that visitors leave, 
-independently of relative abundance, the two parameters yield different 
-predictions when relative client abundance is very high. Under such 
-conditions, the analysis shows that under very high client (relative) 
-abundance the presence of future rewards ($\gamma>0$) no longer favours 
-the preference for the ephemeral clients, while the preference persists 
-when the negative reward mediated by client behaviour ($\eta>0$) is 
-implemented. Thus, the analysis suggests that future reward as an 
-explanation for cleaner ability to prefer visitors is supported. 
-At first sight, empirical data seem to support future rewards as 
-the mechanism used by cleaners, as the statistical analysis  by 
-Triki *et al.* [@triki_Biological_2019] data revealed that low 
-cleaner-to-client ratios predict low preference for visitors and hence 
-low performance in the ephemeral reward task. However, low cleaner-to-client 
-ratios may also lead to low probabilities of visitors leaving, which would 
-cause low preferences for visitors independently of the underlying 
-mechanism [@quinones_Reinforcement_2019]. Furthermore, a combination 
-of future and negative rewards, could still be yield a better explanation 
-for the data than any single factor. 
-
-### Empirical data
-
-The empirical data were collected between 2010 and 2018 always during 
-the austral winter months June to August at Lizard Island 
-($14.6682° S, 145.4604° E$), Great Barrier Reef, Australia. 
-They consist of three sets: fish densities from a total of five study 
-reef sites (Corner Beach, Horseshoe, Mermaid Cove, Northern Horseshoe, 
-and The Crest), natural observations of cleaners to quantify the probability 
-of visitors leaving if initially ignored in favour of another client, and the 
-performance of individuals caught from these sites in the ephemeral reward test. 
-In total, we have twelve site/year data sets for fish densities and 
-corresponding performance in the test. Thus, some sites were sampled more 
-than once. Due to major environmental perturbations during the study period 
-($\color{red}{\text{refs}}$), fish densities changed significantly even 
-within sites [@triki_Decrease_2018;@triki_Fluctuations_2019]. To estimate 
-the population density of cleaner fish and their clients at a given site in 
-a given year, Triki *et al.* [@triki_Biological_2019] used a series of ten 
-transects of $30m$ each. Observers swam along the transect lines placed on 
-the reef and first counted the visible large-bodied adult fish 
-(species with total length TL > $10cm$) on a width of $5m$, and then on the 
-return individuals of small-bodied fish species (TL < $10 cm$) on a width 
-of $1 m$. We included cleaner fish in the $5 m$ transect. Based on the 
-classification by Bshary [@bshary_Cleaner_2001a] and Wismer *et al.* 
-[@wismer_Variation_2014], all visitor client species ($n = 124$) were 
-large-bodied. Resident clients comprised all small-bodied species 
-($n = 30$) but also some large-bodied ones ($n = 15$). Overall, 
-large-bodied species are highly correlated with being a visitor, 
-and small-bodied species are a good correlate of residents. Based on the 
-transect data, Triki *et al.* [@triki_Biological_2019;@triki_Brain_2020] 
-estimated cleaner fish, small-bodied client, large-bodied client and total 
-client fish densities per $100 m^2$. LASSO analyses revealed that cleaner and
-large-bodied client densities were highly correlated, and only the former 
-was hence kept in the analyses as representative of both [@triki_Biological_2019]. 
-Cleaner densities, in interaction with visitor client leaving probability, 
-explained best individual performance in the ephemeral reward task 
-[@triki_Biological_2019], while cleaner-to-client ratio was not a significant 
-factor. This creates a certain mismatch with the model by Quiñones *et al.* 
-[@quinones_Reinforcement_2020], which focused on abundance of cleaners relative 
-to overall client abundance in order to capture the characteristics 
-of the market. Importantly, relative abundances of clients define not only 
-the probability of interactions with residents and visitors, but also affect 
-how often the cleaning station is empty (e.g. there are no clients to be cleaned). 
-The higher the relative abundance of cleaners is, the higher is the probability 
-of cleaning stations being empty at a given time point. How often the 
-cleaning stations are empty in turns influences the value that cleaners can 
-expect from their choices. The emptier the cleaning stations are, the more 
-beneficial it is to prioritize a client that will not stay. On the other hand, 
-situations where cleaners have to choose will be rare if cleaner relative 
-abundance is high, which reduces the total value of prioritizing visitors 
-over residents and makes it more difficult to learn a preference for visitors. 
-Given the model structure, we used the empirical data to calculate relative 
-abundances of cleaners, residents and visitors for the current analyses. 
-To incorporate the empirical finding that absolute densities matter, we 
-introduced a new scaling constant (see section on model fitting). To collect 
-data on the visitor clients’ probability of leaving if not serviced 
-immediately, eight cleaners per site/year were each filmed for $30 min$. 
-From the videos, all events in which a visitor client was made to wait in 
-favour of another (visitor or resident) client were identified, and noted 
-whether or not the visitor left [@triki_Biological_2019;@triki_Brain_2020]. 
-A total of 120 cleaners (10 individuals per 12 site/year) were tested in the 
-ephemeral reward task [@triki_Biological_2019;@triki_Brain_2020]. Authors 
-housed all captured cleaners individually in glass aquaria 
-($62 cm × 27 cm × 37 cm$) and provided them with PVC pipes ($10 cm × 1 cm$) 
-as shelters. The task consisted of exposing the cleaner fish to substitute 
-models of client fish in the form of two *Plexiglas* plates offering the 
-same amount of food (one item of mashed prawn).  The two plates differed 
-in colour and pattern (horizontal green stripes or vertical pink stripes) 
-but had equal size ($10 cm × 7 cm$). Importantly, the two plates played 
-different roles as either a visitor (ephemeral food source) or 
-resident (permanent food source). That is, if a cleaner inspected the 
-resident plate first, the experimenter withdrew the visitor plate out of 
-the aquarium as a consequence.  Choosing first the visitor plate, 
-however, granted access to both plates. The equal size of the plates 
-forced cleaner fish to learn to give service priority to the visitor plate 
-based solely on the behaviour-cue of the plates rather than size-cue 
-[@wismer_Cuebased_2019]. Triki *et al.* [@triki_Biological_2019;@triki_Brain_2020] 
-tested the fish for a maximum of 200 trials with 20 trials a day, 10 trials 
-in the morning and 10 trials in the afternoon. They randomized and 
-counterbalanced the plates’ spatial location (i.e. left or right) 
-between trials. Similarly, they counterbalanced the plates’ decoration 
-(colour and pattern) and the plates’ role (visitor or resident) between the 
-tested fish. The data was originally collected to assess which variables are 
-good predictors of the capacity to solve the ephemeral food task. Thus, previous 
-analysis  use specific statistical criteria to classify individual cleaners'
-performance as successful or failure [@triki_Biological_2019. Because the model 
-predicts the preference of cleaners given the set of environmental variable, 
-we instead use the raw data of individuals cleaners' decisions.
-We, thus, use 20 choices from each cleaner as the preference they develop 
-for the visitor plate. Which these 20 choices vary for each cleaner depending 
-on the performance that was originally assessed. For cleaners that did not 
-succeed, the 20 choices correspond to the last two sessions. Cleaners that 
-succeeded in solving the task were tested on a reversal task. That is, the 
-pattern in plates was switched to the opposite role they played in the 
-initial test. For those cleaner, we used the last session before they succeeded 
-in the initial, and the last session of the reversal, completing the 20 choices.
-We did not distinguish between individuals that reached the criterion early 
-or late during the 200 trials. 
-
-
-Statistical analysis
-
-The analysis contrast the effect of these two parameters against variation
+effects of their choices. The model analysis by Quiñones *et al*
+[@quinones_Reinforcement_2019] shows that without either of them, learning
+individuals cannot develop a preference for the visitor client. The
+analysis contrast the effect of these two parameters against variation
 in the relative abundance of the two client types. The analysis shows
 that under very high client (relative) abundance the presence of future
 rewards ($\gamma>0$) no longer favours the preference for the ephemeral
@@ -447,10 +267,43 @@ seen in the data. For other parameter values used for the model
 simulations and the MCMC see Table \ref{tab:param}
 
 
+### Data explanation
+
+*Insert here brief description of the data and data collection*
+
+In order to capture with the model the relationship between the
+characteristics of the market (environment) and the cleaner's
+performance we need to translate the absolute abundances of the data to
+to  a measure of relative abundances that captures client visitation patterns.
+This is because in the model, relative abundances
+of clients define not only the probability of residents and visitors,
+but also how often the cleaning station is empty (e.g. there are no
+clients to be cleaned). The more cleaners there are, the more options
+are available for the clients and hence the higher is the probability of
+empty cleaning stations. How often the cleaning stations are empty in
+turns influences the value that cleaners can expect from their choices.
+The emptier the cleaning stations are, the more beneficial it is to
+prioritize a client that will not stay. However, the frequency of empty
+spots in the cleaning station does not only depend on cleaner abundances 
+but also on the frequency with which clients visit the
+station. The client visitation frequency will likely vary among
+different clients depending on parasite abundances and loads. These are
+variables for which we do not have field estimates. Thus, we computed a
+measure of relative cleaner abundance for each site relative to absolute
+abundances and multiplied by a scaling constant that changes the range
+of the variable. This scaling constant is meant to capture variation in the market 
+conditions driven partly by cleaner abundance. We fit the value of the 
+scaling constant as part of the
+statistical inference. As for the client abundances for residents and
+visitors we computed a relative measure with respect to the total client
+abundance, and weighted that by the rescaled relative absence of
+cleaners (1-relative cleaner abundance). Thus, all three measures of
+relative abundance sum up to 1, and can be used in the model as a proxy
+for the probability of having different options in the cleaning station.
 
 ## Results
 
-```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black point) and the 65\\% (light blue) and 95\\% (grey)  highest posterior density interval for the three paramteres. On the left (panels a, c and c) posterior distributions for a model with   all three parameters; while on the right (b and d) a model without negative reward. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='100%',fig.height=6}
+```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black point) and the 65\\% (light blue) and 95\\% (grey)  highest posterior density interval for the three paramteres. On the left (panels a, c and c) posterior distributions for a model with   all three parameters; while on the right (b and d) a model without negative reward. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='100%',fig.height=7}
 library(data.table)
 library(coda)
 library(ggplot2)
@@ -648,12 +501,12 @@ shows that, accounting for variation in the parameter estimates, the
 model with only future reward gives a better fit to the data, despite
 having one parameter less.
 
-```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panels: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities. Pseudo $R^2$ shown in the lower right corner corresponds to the fit of a model parameterized with the mode of the posterior distributions. Upper panels show prediction from a model including future and negative reward, lower panels froma  model with only future reward.",out.width='100%',fig.height=5}
+```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panels: scatter plot of the observed and predicted probabilities of choosing a visitor for 12 locations. Line correspond to a perfect match between observed and predicted probabilities. Pseudo $R^2$ shown in the lower right corner corresponds to the fit of a model parameterized with the mode of the posterior distributions. Upper panels show prediction from a model including future and negative reward, lower panels froma  model with only future reward.",out.width='100%',fig.height=6}
 
 source(here("manFigures.R"))
 ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
 cont.obs.pred.gam,scatter.obs.pred.gam,
-          labels=c('a','b','c','d'),common.legend = T)
+          labels=c('a','b','c','d'),common.legend=TRUE,legend = "top")
 ```
 
 Figure \ref{fig:pred} shows predictions from the two models. On the
