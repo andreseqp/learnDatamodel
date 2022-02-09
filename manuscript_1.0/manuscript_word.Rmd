@@ -1,6 +1,6 @@
 ---
-title: Combination of field and experimental data together with computational models
-  reveal cognitive mechanisms behind cleaner fish behaviour
+title: Field and experimental data together with computational models
+  reveal key cognitive mechanisms behind cleaner fish behaviour
 author:
 - Andrés E. Quiñones^[Institute of Biology, University of Neuchâtel, Neuchâtel, Switzerland
   - andresqp@gmail.com]
