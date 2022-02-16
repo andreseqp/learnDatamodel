@@ -1114,8 +1114,8 @@ int main(int argc, char* argv[]){
 	//sim_param["MCMC"] = 0;
 	//sim_param["data"] = "clean"; // "loc", "clean"
 	//sim_param["nRep"] = 30 ;
-	//sim_param["folder"]       = "M:/Projects/Clean.ActCrit/Simulations/ABCtest_/";
-	//sim_param["dataFile"] = "M:/Projects/Clean.ActCrit/Data/data_ABC_cleaner_abs_threa1.5.txt";
+	//sim_param["folder"] = "M:/Projects/LearnDataModel/Simulations/test_/";
+	//sim_param["dataFile"] = "M:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
 	//sim_param["Group"] = true;
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
@@ -1255,7 +1255,8 @@ int main(int argc, char* argv[]){
 				}
 			}
 			for (int j = 0; j < emp_data_loc.size(); ++j)
-				emp_data_loc[j].marketPred = average_prediction[j] / sim_param["nRep"];
+				emp_data_loc[j].marketPred = 
+				  average_prediction[j] / double(sim_param["nRep"]);
 			printRoundFile(roundOut, emp_data_loc);
 			roundOut.close();
 		}
@@ -1273,7 +1274,8 @@ int main(int argc, char* argv[]){
 				}
 			}
 			for (int j = 0; j < emp_data_clean.size(); ++j) 
-				emp_data_clean[j].marketPred = average_prediction[j]/sim_param["nRep"];
+				emp_data_clean[j].marketPred = 
+				  average_prediction[j]/double(sim_param["nRep"]);
 			printRoundFile(roundOut, emp_data_clean);
 			roundOut.close();
 		}

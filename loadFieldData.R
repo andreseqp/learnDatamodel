@@ -25,6 +25,13 @@ fieldData.site<-fieldData[,lapply(.SD,max),by=site_year,
 ## Load the experimental data
 fieldData.cleaner<-data.table(read_xlsx(here("Data","market_raw_data.xlsx"),sheet = "round_data"))
 
+fieldData.cleaner[,unique(site_year)]
+
+# Fix mistake in location code name
+fieldData.cleaner[site_year=="NHS2017",site_year:="NHS 2017"]
+
+
+
 # Choose data from the last 20 experimental choices
 fieldData.cleaner[,use_sims:=ifelse(is.na(use_sims),0,1)]
 fieldData.cleaner[,use_sims:=as.logical(use_sims)]
@@ -32,6 +39,7 @@ fieldData.cleaner[,use_sims:=as.logical(use_sims)]
 fieldData.filt<-fieldData.cleaner[use_sims==T,]
 fieldData.filt[,score_visitor:=as.numeric(score_visitor)]
 fieldData.filt[,stage:=as.factor(stage)]
+
 
 str(fieldData.filt)
 
@@ -48,8 +56,7 @@ names(fieldData.sum)[1]<-"site.year"
 fieldData.sum[,unique(site.year)]
 fieldData.site$site_year
 
-# Fix mistake in location code name
-fieldData.sum[site.year=="NHS2017",site.year:="NHS 2017"]
+
 
 # Get environmental variables from field data
 fieldData.sum[,abund.cleaners:=
@@ -88,9 +95,12 @@ setorder(fieldData.sum,site.year)
 fieldData.sum[,`:=`(highDens=NULL,visPref=NULL,competence=as.integer(competence))]
 
 # Print dataset with both sources of information with competence grouping
-fwrite(fieldData.sum,here("data",paste0("data_ABC_cleaner_abs_threa",threashold,".txt")),
+fwrite(fieldData.sum,here("data",paste0("data_cleaner_abs_threa",threashold,".txt")),
        row.names = FALSE,sep = "\t")
 
 # Print dataset with both sources of information without competence grouping
-fwrite(fieldData.sum,here("data","data_ABC_cleaner_abs.txt"),
+fieldData.sum[,competence:=NULL]
+fwrite(fieldData.sum,here("data","data_ABC_cleaner_absolute.txt"),
        row.names = FALSE,sep = "\t")
+
+## 

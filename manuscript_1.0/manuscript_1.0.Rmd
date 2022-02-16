@@ -250,33 +250,33 @@ local cleaner-to-client ratio.
 
 ## Methods
 
-### Overview
+<!-- ### Overview -->
 
-In this study, we combined empirical data from Triki *et. al* 
-[@triki_Biological_2019;@triki_Brain_2020] and the computational 
-model analysed in Quiñones *et al.*[@quinones_Reinforcement_2019] 
-to test the relative validity of chaining versus operant conditioning as 
-mechanisms to account for future consequences of cleaner fish desicion-making.
-In order to compare the explanatory power of the different hypotheses, 
-we estimated the parameter values of three versions of 
-the model that best fit the empirical data. 
-Particularly, we fitted the parameter that determines how important 
-future reward is ($\gamma$), the magnitude of the negative reward 
-($\eta$) and a scaling constant that translates cleaner fish absolute 
-to relative population abundances (see following sections for details). 
-We obtained the model predictions using a set of stochastic individual-based
-simulations. Thus, each parameter combination of the model yielded not one 
-but a distribution of predictions. For the 
-fitting procedure, we used the bayesian inference algorithm: 
-Markov Chain Monte Carlo (MCMC). MCMC is a stochastic algorithm that allows
-to sample from the posterior distribution of model parameter values. The posterior
-distribution represents the most likely parameter values given the data. 
-Due to the stochastic nature of MCMC, which repeatedly samples parameter values
-and evaluates their likelihood, the distribution of likelihoods from the 
-stochastic model is also explored. This makes MCMC and bayesian inference
-particularly suitable for the computational models we evaluate. Bellow, 
-we explain first the computational model and the data collection, and later 
-how the MCMC was used to estimate parameter values.
+<!-- In this study, we combined empirical data from Triki *et. al*  -->
+<!-- [@triki_Biological_2019;@triki_Brain_2020] and the computational  -->
+<!-- model analysed in Quiñones *et al.*[@quinones_Reinforcement_2019]  -->
+<!-- to test the relative validity of chaining versus operant conditioning as  -->
+<!-- mechanisms to account for future consequences of cleaner fish desicion-making. -->
+<!-- In order to compare the explanatory power of the different hypotheses,  -->
+<!-- we estimated the parameter values of three versions of  -->
+<!-- the model that best fit the empirical data.  -->
+<!-- Particularly, we fitted the parameter that determines how important  -->
+<!-- future reward is ($\gamma$), the magnitude of the negative reward  -->
+<!-- ($\eta$) and a scaling constant that translates cleaner fish absolute  -->
+<!-- to relative population abundances (see following sections for details).  -->
+<!-- We obtained the model predictions using a set of stochastic individual-based -->
+<!-- simulations. Thus, each parameter combination of the model yielded not one  -->
+<!-- but a distribution of predictions. For the  -->
+<!-- fitting procedure, we used the bayesian inference algorithm:  -->
+<!-- Markov Chain Monte Carlo (MCMC). MCMC is a stochastic algorithm that allows -->
+<!-- to sample from the posterior distribution of model parameter values. The posterior -->
+<!-- distribution represents the most likely parameter values given the data.  -->
+<!-- Due to the stochastic nature of MCMC, which repeatedly samples parameter values -->
+<!-- and evaluates their likelihood, the distribution of likelihoods from the  -->
+<!-- stochastic model is also explored. This makes MCMC and bayesian inference -->
+<!-- particularly suitable for the computational models we evaluate. Bellow,  -->
+<!-- we explain first the computational model and the data collection, and later  -->
+<!-- how the MCMC was used to estimate parameter values. -->
 
 ### The model
 
@@ -524,24 +524,24 @@ as well as the fitting algorithm in *c++*, the diagnostics and visualization
 in R [@rcoreteam_Language_2021]. All codes are accessible at 
 $\color{red}{\text{include citation}}$
 
-In order to compare the fit that the three alternative models give we use the 
+To compare the fit of the three alternative models, we used the 
 distribution of pseudo $R^2$ proposed by Mcfadden [@mcfadden_Conditional_1974].
 Mcfadden's pseudo $R^2$ is a standard measure of fit for logistic regression. 
 In that context, $pseudo-R^2$ uses the log-likelihood of the data given 
 the model, relative to the log-likelihood of the data given a 
-model without covariates, as a measure of fit. Given that our 
-model is not a logistic regression, we measure the $pseudo-R^2$ in
+model without covariates, as a measure of fit. Our 
+model is not a logistic regression, therefore we measured the $pseudo-R^2$ in
 relation to the log-likelihood of a model
 with parameters $\gamma$ and $\eta$ set to zero. This in practice
 amounts to a model that has neutral preference between the two options. 
-Pseudo $R^2$ was calculated for all the samples of the posterior gotten from
-the MCMC. Thus, we use these distributions of pseudo $R^2$'s as a measure of
+We computed the pseudo $R^2$ for all the samples of the posterior from
+the MCMC. Thus, we used these distributions of pseudo $R^2$'s as a measure of
 fit. 
 
 
 ## Results
 
-```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black point) and the 65\\% (light blue) and 95\\% (grey)  highest posterior density interval for the three paramteres. On the left (panels a, c and c) posterior distributions for a model with all three parameters; while on the right (b and d) a model without negative reward. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='100%',fig.height=6}
+```{r post, fig.cap="Posterior distributions for parameter values $\\gamma$, $\\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black dot) and the 65\\% (light blue shade) and 95\\% (grey shade)  highest posterior density interval for the three paramteres. On the left, panels a, b and c show posterior distributions for a model with all three parameters; while on the right, d and e, show a model with only chaining. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.",out.width='100%',fig.height=6}
 library(data.table)
 library(coda)
 library(ggplot2)
@@ -558,7 +558,7 @@ scen3<-"MCMCclean_Nrew_sca_"
 
 # NLables names for the three scenarios
 labels.Scen<-c("both","gam","Nrew")
-labelsPlot.Scen<-c("Full \n model","Future \n reward","Negative \n reward")
+labelsPlot.Scen<-c("FM","C","OC")
 
 ## Load files --------------------------------------------------------------
 
@@ -647,92 +647,93 @@ panel.rsqr.all<-
   ggplot(data=loglikehoods.all[is.finite(lglikelihood)],
                   aes(y=model,x=Rsqrd,fill=model))+
   stat_halfeye(alpha=0.5,point_size=3)+
-  theme_classic()+xlim(-0.6,0.2)+
+  theme_classic()+xlim(-0.5,0.25)+
   scale_fill_manual(values=c("#1b9e77","#d95f02","#7570b3"),
   name = "Model", labels = labelsPlot.Scen)+
-  geom_vline(xintercept = 0,color="black",size=1)+
-  theme(legend.position = c(.3, .75),legend.key.size = unit(0.25,'cm'),
-        axis.text.y = element_blank())
+  scale_y_discrete(labels=labelsPlot.Scen)+
+  geom_vline(xintercept = 0,color="black",size=0.5)+
+  theme(legend.position = 'none')
+          # c(.32, .65)
+        # ,legend.key.size = unit(0.22,'cm'),
+        # axis.text.y = element_blank(),
+        # legend.text = element_text(size=7))
 
-plot_grid(nrow=3,align = "v",byrow = FALSE,
-          # Full model - \gamma
-          ggplot(data=MCMCdata1,aes(x=gamma)) + 
-            stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$gamma))),
-                         point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
-                         show.legend=FALSE) + 
-            labs(title=labelsPlot.Scen[1],subtitle = expression(gamma),x="",y="")+
-            theme_classic()+scale_fill_manual(values=c("gray85","skyblue","gray85"))+
-            theme(plot.margin = unit(rep(0.5,4), "lines")),
-          # \eta
-          ggplot(data=MCMCdata1,aes(x=negReward)) + 
-            stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$negReward))),
-                         point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
-                         show.legend=FALSE)+theme_classic()+
-            scale_fill_manual(values=c("gray85","skyblue","gray85"))+
-            labs(subtitle = expression(eta),x="",y="")+xlim(-5,5)+
-            theme(plot.margin = unit(rep(0.5,4), "lines")),
-          # Scale Constant
-          ggplot(data=MCMCdata1,aes(x=scaleConst)) + 
-            stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$scaleConst))),
-                         point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
-                         show.legend=FALSE)+
-            theme_classic()+scale_fill_manual(values=c("skyblue","gray85"))+
-          labs(subtitle = "Scalling const.",x="",y="")+xlim(-2,1500)+theme_classic()+
-          theme(plot.margin = unit(rep(0.5,4), "lines")),
-          # Future reward only model - \gamma
-          ggplot(data=MCMCdata2,aes(x=gamma)) +
-            stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.2$gamma))),
-                         point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
-                         show.legend=FALSE) +
-            scale_fill_manual(values=c("gray85","skyblue","gray85"))+
-            labs(title=labelsPlot.Scen[2],subtitle = expression(gamma),x="",y="")+
-            theme_classic()+theme(plot.margin = unit(rep(0.5,4), "lines")),
-          # Scalling constant
-          ggplot(data=MCMCdata2,aes(x=scaleConst)) +
-            stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.2$scaleConst))),
-                         point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
-                         show.legend=FALSE) +
-            scale_fill_manual(values=c("gray85","skyblue","gray85"))+
-            labs(subtitle = "Scalling const.",x="",y="")+
-            theme_classic()+theme(plot.margin = unit(rep(0.5,4), "lines")),
-          # Pseudo R^2
-          panel.rsqr.all+labs(subtitle = expression(pseudo-R^2),x="",y=""),
-          labels=c('a','b','c','d','e')
-)
+gam.both.post<-ggplot(data=MCMCdata1,aes(x=gamma)) + 
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$gamma))),
+               point_interval = mode_hdi, .width = c(.66, .95),
+               point_size=3,show.legend=FALSE) + 
+  labs(title=labelsPlot.Scen[1],
+       subtitle = expression(gamma),x="",y="")+
+  theme_classic()+
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))
+nrew.both.post<-ggplot(data=MCMCdata1,aes(x=negReward)) + 
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$negReward))),
+               point_interval = mode_hdi, 
+               .width = c(.66, .95),point_size=3,
+               show.legend=FALSE)+theme_classic()+
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+  labs(title="",subtitle = expression(eta),x="",y="")+
+  xlim(-2,2)
+gam.gam.post<-ggplot(data=MCMCdata2,aes(x=gamma)) +
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.2$gamma))),
+               point_interval = mode_hdi, .width = c(.66, .95),
+               point_size=3,
+               show.legend=FALSE) +
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+  labs(title=labelsPlot.Scen[2],
+       subtitle = expression(gamma),x="",y="")+
+  theme_classic()
+nrew.nrew.post<-ggplot(data=MCMCdata3,aes(x=negReward)) +
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.3$negReward))),
+               point_interval = mode_hdi, .width = c(.66, .95),
+               point_size=3,
+               show.legend=FALSE) +
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+  labs(title=labelsPlot.Scen[3],
+       subtitle = expression(gamma),x="",y="")+
+  theme_classic()+xlim(-2,2)
+
+first.col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
+          gam.both.post,gam.gam.post,nrew.nrew.post,           
+          labels=c('a','c','d'))
+second.col<-plot_grid(nrow = 2,align = "v",byrow = TRUE,
+          nrew.both.post,rsqr.both,rel_heights = c(1,2),
+          labels = c('b','e'))
+plot_grid(ncol = 2,first.col,second.col)
 
 
 ```
 
-Figure \ref{fig:post} panels a,c and e show the posterior distributions
-of the parameter values of the full model, which includes both future
-and negative reward. Posterior distributions show the probability
+Figure \ref{fig:post} panels a,b and c show the posterior distributions
+of the parameter values of the full model, which includes both chaining
+and operant conditioning (negative reward). Posterior distributions show the probability
 density (y axis) of the estimated parameter values (x axis). Notably,
 the bulk of the posterior distribution for the parameter tuning negative
-reward ($\eta$ panel e) is around zero. Thus, the shape of the posterior
+reward ($\eta$ panel b) was around zero. Thus, the shape of the posterior
 and its credible intervals suggest the absence of negative reward to be
 well supported by the data. As for $\gamma$, the confidence intervals
 also includes zero, but the mode of the posterior is around 0.5. Thus,
-we run the analysis setting $\eta$ to zero. Figure \ref{fig:post} panels
-b and d, show the posterior distributions of the two parameters
+we ran the analysis setting $\eta$ to zero. Figure \ref{fig:post} panels
+d and e, show the posterior distributions of the two parameters
 estimated. Not surprisingly, under a model without negative reward, the
-distribution of $\gamma$ shifts to higher values. Under the new model,
-the estimates of $\gamma$ do not include zero and the distribution is
-centered around $0.5$. In panel f of figure \ref{fig:post} 
+distribution of $\gamma$ shifted to higher values. Under the new model,
+the estimates of $\gamma$ did not include zero and the distribution was
+centred around $0.5$. In panel f of figure \ref{fig:post} 
 we show the distribution of $pseudo-R^2$ calculated using 
 samples from the posterior distributions shown before, 
 as well as from a model with negative reward but without
-future reward. Note, $pseudo-R^2$ can have negative values, that is when
+future reward. Note, $pseudo-R^2$ can have negative values, which is when
 the log-likelihood of the model is lower than that of a model that
 triggers neutral preferences. Even though, the peak of the three
-$pseudo-R^2$ distributions is not very different, the model with only
-future reward produces a distribution of $pseudo-R^2$ where more values
-are positive (to the right of black line in Fig. \ref{fig:post} f). This
+$pseudo-R^2$ distributions was not very different, the model with only
+future reward produced a distribution of $pseudo-R^2$ where more values
+were positive (to the right of black line in Fig. \ref{fig:post} f). This
 shows that, accounting for variation in the parameter estimates, the
 model with only future reward gives a better fit to the data, despite
 having one parameter less.
 
 
-```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taking from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour denotes different locations (see Empirical data section). Black line correspond to a perfect match between observed and predicted probabilities. Upper panels show prediction from a model including future and negative reward, lower panels from a  model with only future reward.",out.width='100%',fig.height=5}
+```{r pred, fig.cap="Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour coding denotes different reef sites/year of the data collection (see Empirical data section). Black line corresponds to a perfect match between observed and predicted probabilities. Upper panels show prediction from a model including chaining and operant conditioning, lower panels from a  model with only chaining.",out.width='100%',fig.height=5}
 
 source(here("manFigures.R"))
 ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
@@ -742,118 +743,131 @@ cont.obs.pred.gam,scatter.obs.pred.gam,
 
 ```
 
-Figure \ref{fig:pred} shows predictions from the two models. On the
+Figure \ref{fig:pred} shows predictions from the two models, 
+one including chaining and operant conditioning (upper panels) and 
+one with only chaining (lower panels). On the
 left, the colour coded contour shows the prediction of the model for
-combinations of cleaner abundance (x axis) and visitor leaving
+combinations of cleaner fish abundance (x axis) and visitor leaving
 probability (y axis). Predictions were generated by running the model
 using the mode of the posterior distributions as the parameter values,
-and varying systematically cleaner abundance and visitor leaving
-probability. Colour of the points on top of the contour show the average
+and varying systematically cleaner fish abundance and visitor leaving
+probability. Colour of the dots on top of the contour show the average
 frequency with which cleaner fish chose the visitor plate in their last
-20 experimental trials. Each point corresponds to a location with a
-combination of cleaner abundance and visitor leaving probability. Panels
+20 experimental trials. Each dot corresponds to a reef-site/year of 
+data collection with a combination of cleaner fish abundance 
+and visitor leaving probability. Panels
 on the right show how close the observed values for the probability of
-choosing the visitor (y axis) are from the predictions of the models (x
+choosing the visitor (y axis) were from the predictions of the models (x
 axis). The black line represents the perfect fit between observed and
 predicted values. Bars show the variation in predicted values using 100 
 samples from the posterior distribution. Despite having one more 
 parameter varying, the full model
-gives a lower fit to the data than the model without negative reward.
+gave a lower fit to the data than the model without negative reward.
 In the supplementary material, we also show predictions from 
 model with only negative reward, excluding future rewards ($\gamma=0$,
 Fig. \ref{fig:nogamma}), provides a lower fit than either of the ones
 presented in the main text.
 
-The main reason for negative and future reward to give different
-predictions is the way that cleaner's relative abundance influences the
+The main reason for chaining and operant conditioning to give different
+predictions is the way that cleaner fish relative abundance influences the
 preference for the visitor clients. Visitor leaving probability has a
 similar positive effect on the probability of choosing the visitor
 clients on all three models (Fig. \ref{fig:pred}, \ref{fig:nogamma}). In
-contrast, cleaner's relative abundance has a different effect in the
-model with only future reward, compared to the other two. In the model
-with only future reward only intermediate cleaner abundance triggers a
+contrast, cleaner fish relative abundance has a different effect in the
+model with only chaining, compared to the other two models, 
+full model and only operant conditioning. In the model
+with only chaining, only intermediate cleaner fish abundance triggers a
 preference for the visitor clients (Fig. \ref{fig:pred} c). In models
 with negative reward, both intermediate and low cleaner abundance
-trigger a preference for the visitor. (Fig. \ref{fig:pred} a,
+triggered a preference for the visitor. (Fig. \ref{fig:pred} a,
 \ref{fig:nogamma}).
 
 ## Discussion
 
-We asked which if two potential cognitive mechanisms 
-– chaining of events, negative reinforcement, or a combination of both – 
-is the more likely mechanism to explain intra-specific variation in cleaner 
-performance in the ephemeral reward task as a function of ecological 
-conditions in the wild. To evaluate the merits of the alternative mechanisms, 
-we considered performance in the task to depend on decision-rules that 
-cleaners had developed in their natural environment: individuals that 
-solved the task did so because they already had a general preference for 
-visitors, and applied this rule once being familiar with the task.  
-While all three models capture well the positive relation between visitor 
+In this study, our main aim was to unravel which of two potential 
+cognitive mechanisms, chaining of events, operant conditioning, 
+or their combination, best explains wild-caught cleaner fish 
+performance in the ephemeral reward task, while accounting for their
+ecological conditions. To evaluate the merits of each of these two mechanisms
+separately and combined, we considered cleaner fish performance 
+in the lab test to have its origin from the these fish apply 
+in their natural environment. That is, individuals that 
+solved the task already had a preference for 
+visitors clients, and generalized this rule to the lab conditions 
+once being familiar with the task.
+
+While all three models captured well the positive relation between visitor 
 leaving behaviour and cleaner performance in
 the market task [@triki_Biological_2019], only the chaining mechanism 
-predicts that cleaner performance in the task should be low if their 
-local abundance in the wild relative to clients is low. Indeed, such low 
-performance is predicted regardless of the visitor leaving
-probability. In contrast, a model with negative reward predicts the
-highest performance in the ephemeral reward task when relative 
-cleaner abundance is low, particularly
+predicted that cleaner fish performance in the task should be low in 
+habitats with low cleaner-to-client ratios, regardless of the 
+visitor leaving probability. In contrast, models including 
+negative reward predicted the highest performance in the ephemeral 
+reward task when relative cleaner abundance is low, particularly 
 together with high probability of visitor leaving (Fig. \ref{fig:pred}).
-Low cleaner abundances mean the market has an excess of demand for
-cleaning services. In the model, this translates to a cleaning station
-that is frequently full. Thus, when visitors leave, it's likely that the
-cleaner will have access to another client in the next step. Therefore, 
+Low relative cleaner fish abundances mean the market has an excess of demand for
+cleaning services. In the models, this translates to a cleaning station
+that is frequently full. Thus, when a visitors leaves, it is likely that the
+cleaner fish will have access to another client in the next step. Therefore, 
 there will not be much difference in future reward between choosing 
 a visitor and a resident, and cleaners will not develop a preference for the
 visitor in these conditions. On the other hand, the effect of negative reward 
-would be opposite as in a full station, cleaners will get more often the
-heterotypic (resident-visitor) option and will develop a preference for
-the visitor faster. Note that when cleaner abundance is high situations
-with a resident and a visitor will be so rare that neither mechanism
-will be very efficient in generating a preference for visitors. When
-such choice arises it is still be best to choose the visitor; however,
+on cleaner fish preference is the opposite, as in a busy cleaning station, to
+that of chaining. cleaner fish will get more often the resident-visitor
+state and will develop a preference for the visitor faster. 
+At high cleaner fish abundances, the resident-visitor state
+becomes so rare that neither mechanism is very efficient 
+at generating a preference for visitors. When facing the resident 
+visitor choice it is still be best to choose the visitor; however,
 the learning machinery will not be able to develop this preference
-efficiently. Overall, estimation of future reward is then the cognitive
-mechanism that allows cleaners to adaptively respond to the
-ecological conditions of the biological market.
+efficiently. Overall, the models suggest that chaining is the cognitive
+mechanism that allows cleaner fish to adaptively adjust to their 
+biological market ecological conditions.
 
 Our results support chaining as the more plausible mechanism behind the 
-inter-specific variation in cleaners' performance, which is also 
-the mechanism that allows them to respond more adaptively. This could
-suggest chaining to be under positive selection. In the standard ephemeral
-reward task, however, food amount and quality are equal between the 
-two plates. An given that models resemble this, choosing visitors over 
-residents in low cleaner abundances does not diminish the 
-amount of food/reward in the the models. 
-On the other hand, a cleaner committed to visitors might find more difficult 
-to include in the decision making other variables, like parasite load 
-and/or mucus quality, that do predict the amount of food in the field 
-[@roche_Client_2021]. In nature and in laboratory experiments, cleaners prefer 
-higher quality mucus and more food in the absence of market effects 
-(i.e. in simultaneous 2-choice options, 
-[@triki_Fluctuations_2019;@grutter_Cleaner_2004]), and they use size as a 
-proxy for food availability [@wismer_Cuebased_2019;@grutter_Does_2005]. 
+inter-specific variation in cleaners' performance. This suggest
+that chaining could be under positive selection. In the standard ephemeral
+reward task, however, food amount and quality are equal in the 
+two Plexiglas plates. Since our computational models simulate this aspect of
+the task, choosing visitors over residents at low cleaner fish abundances 
+does not diminish the amount of food/reward in the models. 
+On the other hand, a cleaner fish committed to visitors might find it more difficult 
+to include in its decision making other variables, like parasite load 
+and/or mucus quality [@roche_Client_2021]. Indeed, in the absence of 
+market effects, both field observations and aboratory experiments also 
+using simultaneous two choice options, show that cleaner fish base their 
+decision-making on other cues such as the mucus quality and the amount of food.  
+[@triki_Fluctuations_2019;@grutter_Cleaner_2004], as well as client size 
+as a proxy for food quantity [@wismer_Cuebased_2019;@grutter_Does_2005]. 
 How important this limitation is will determine whether chaining yields a higher
 fitness for cleaners.
 
-Individual cleaners that performed in the laboratory test according to what 
-is best at their site of capture (low performance when living at low densities, 
-high performance when living at high densities) had larger forebrains 
-harbouring more cells than individuals whose performance mismatched locally 
-optimal decision-rules [@triki_Brain_2020]. Triki *et al.*  refer to the 
-former as socially competent cleaners. Social competence refers to the 
-ability to optimise social behaviour depending on the available social 
-information [@taborsky_Social_2012a;
+Previous research showed that cleaner fish living at high population 
+densities and giving service priority to the visitor plate in the 
+ephemeral reward task, as well as cleaner fish living at low 
+densities but denying service priority to the visitor plate possess 
+larger forebrains; a key teleost brain region associated with 
+behavioral flexibility and social intelligence. Those failing to 
+show optimized decision-rules given their local ecological 
+conditions had relatively smaller forebrains  [@triki_Brain_2020]. 
+Triki *et al.*  refer to the former as socially competent cleaner fish,
+while the second group as socially incompetent cleaner fish. 
+Social competence is the ability to optimise social behaviour 
+to the available social information [@taborsky_Social_2012a;
 @bshary_Cooperation_2015;@varela_Correlated_2020]. Our analyses yielded no 
 evidence that the difference in social competence with respect to the local 
-market conditions and associated brain morphology are due to the mechanism 
+ecological conditions and associated brain morphology, 
+found by Triki *et al* [@triki_Brain_2020], are due to the mechanism 
 used to incorporate future consequences. It could have been conceivable that 
-high performing individuals from low-density sites might use negative 
-reinforcement instead of chaining, but in that case negative reinforcement 
-should have explained part of the data. Configurational learning or 
-chunking [@sutherland_Configural_1989;@miller_Magical_1956], the second component 
-necessary to solve the ephemeral reward task [@quinones_Reinforcement_2019], was 
-not varied in the models analized here. However, while chunking tendencies 
-should vary to allow individuals to adapt to local conditions 
+high performing individuals from low population densities reef sites 
+might use negative reinforcement instead of chaining, but in that 
+case negative reinforcement should have explained at least 
+part of the data. Configurational learning or 
+chunking [@sutherland_Configural_1989;@miller_Magical_1956], 
+the second component necessary to solve the ephemeral 
+reward task [@quinones_Reinforcement_2019], was 
+not varied in the models we analized here. However, while chunking tendencies 
+should vary to allow individuals to adapt to their local conditions 
 [@prat_Modelling_2022;@kolodny_Evolution_2014], systematic differences 
 in individual chunking tendencies would not explain how socially 
 competent decisions vary as a function of relative abundance. 
@@ -862,38 +876,40 @@ mechanisms may cause variation in social competence that
 translates into site-specific variation in performance in the 
 ephemeral reward task. 
 
-The model is inspired by the general processes of associative learning
-where short term rewards are translated to decision making; thus, it 
+Our models are inspired by the general processes of associative learning
+where short term rewards are translated into decision making; thus, it 
 ignores alternative channels of information that could be relevant in 
 market-like situations. For example, the model does not investigate whether 
-cleaners actually assess the frequency of client visits or a mean frequency 
+cleaner fish actually assess the frequency of client visits or a mean frequency 
 of visitors leaving. The updating learning mechanism for the development 
-of preferences works on a trial by trial basis. In the model, cleaners 
-do not need to assess the actual state of the market, *i.e.* their density, 
-the density of residents and visitors, and client visitation rate as an 
-indicator of demand. They only need to assess short-term consequences of 
-own decisions on food intake and chain them. Also, for the sake of 
-simplicity, the model ignores the process by which cleaners discriminate 
+of preferences works on a trial-by-trial basis. In the model, cleaner fish 
+do not need to assess the actual state of the market, *i.e.* their abundance, 
+the abundance of residents and visitors, and client visitation rate as an 
+indicator of demand. They only need to assess short-term consequences of their
+own decisions on food intake, and chain them. Also, for the sake of 
+simplicity, the model ignores the process by which cleaner fish discriminate 
 residents and visitor clients. A model that accounts for this discrimination
-probably involves the development of preferences for morphological or 
+probably would involve the development of preferences for morphological or 
 behavioural features that are statistically associated with visitors 
-or residents. For example, visitors are on average larger larger 
-than residents [@bshary_Cleaner_2001a], and are less likely to chase 
-cleaners in response to the latter cheating by taking a bite of 
-mucus [@bshary_Asymmetric_2002]. Given these associations, chaining might 
-produce the decision-rule “chose the larger client and/or less aggressive 
-client”, which does not help in the standard ephemeral reward task. 
+or residents. For example, visitors are on average larger 
+than residents in body size [@bshary_Cleaner_2001a], and contrary to 
+resindents, are less likely to chase a cleaner fish that fails to cooperate
+and intead cheats its client by taking a bite of mucus 
+[@bshary_Asymmetric_2002]. Given these associations, chaining might 
+produce the decision-rule “choose the larger client and/or the less aggressive 
+client”, which is not a useful rule in the standard ephemeral reward task. 
 
 
 In conclusion, our study shows that variation in cognitive performance as 
-a function of ecological factors may set the stage for the use of 
+a function of the local ecological conditions may set the stage for the use of 
 mechanistic modelling to identify the cognitive processes underlying 
 learning in animals. The combination overcomes the limitations 
 of the general philosophy in animal cognition to apply the logic of 
-Lloyd Morgen's canon (Occam's razor). Excluding basic 
-reinforcement learning explanations (operant and/or classical conditioning) 
-as a potential explanation in experiments
-often warrants animals solving the task on the first possible occasion.
+Lloyd Morgen's canon (Occam's razor). Cognitive experiments with the 
+aim of excluding basic reinforcement learning as a potential 
+explanation (operant and/or classical conditioning) of performance 
+often employ one trial experiments requiring animals to solve the 
+task on the first possible occasion. 
 For example, any theory of mind task needs to be solved in the first
 trial in order to exclude fast conditioning [@heyes_Theory_1998].
 Similarly, subjects need to solve a social learning task on the first
@@ -908,11 +924,12 @@ of the repeated exposure but because a (rather qualitative) analysis of
 the spread of potato washing across individuals did not follow the
 prediction based on imitation learning (see also
 [@hirata_SweetPotato_2001]). In our case, the number of trials it took
-cleaners to learn the solution to the market task would never allow to
-exclude an important role of negative reinforcement based on the data
-alone. However, fitting model predictions to our data set revealed that
-a more complex mechanism (estimation of future reward) fits the data
-better.
+cleaners to learn the solution to the ephemeral rewards task 
+would never allow to exclude an important role of 
+negative reinforcement based on the data
+alone. However, fitting model predictions to our comprehensive empirical 
+data set revealed that a more complex mechanism, estimation of future reward,
+fits the data better.
 
 
 \newpage
@@ -923,7 +940,7 @@ better.
 ```{=tex}
 \beginsupplement
 ```
-```{r nogamma, fig.cap="Observed and predicted probability of choosing a visitor for a model without future rewards. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 locations, as well as the corresponding relative cleaner abundance (x axis) and frequency of visitors leaving the station (y axis). Right-hand side panel: Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taking from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour denotes different locations (see Empirical data section). Black line correspond to a perfect match between observed and predicted probabilities.",fig.pos = 'H', out.extra = "",out.width='95%',fig.height=4}
+```{r nogamma, fig.cap="Observed and predicted probability of choosing a visitor for a model without chaining. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors leaving the station if being made to wait (y axis). Right-hand side panel: Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor and their observed values for 12 reef sited. Circles show the mean prediction for each location from 100 samples taking from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour denotes different locations (see Empirical data section). Black line correspond to a perfect match between observed and predicted probabilities.",fig.pos = 'H', out.extra = "",out.width='95%',fig.height=4}
 
 ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
           labels=c('a','b'),common.legend=FALSE)

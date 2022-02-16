@@ -6,58 +6,53 @@ source(here("loadData.R"))
 
 simsDir<-"Simulations"
 
-exedir<-'/./ActCrit.exe'
-
 fileName<-"parameters.json"
-
-scenario<-"MCMCclean_gam_nRew_sca_group_"
 
 
 # MCMC fit - Generate json parameter files for -------------------------------------
 
-scenario<-"MCMCclean_gam_sca_group"
+# name of the scenariofor which parameter files will be produces
+# format used for the name: MCMCclean_*parameter1_paramerter2_parameter3
+scenario<-"MCMCclean_nRew_sca"
 
-# For running MCMC with model generated data
-
-# filesList<-list.files(here("Simulations",scenario),full.names = TRUE)
-# 
-# fake.data.pred<-fread(grep("round",filesList,value = TRUE))
-# 
-# fake.data.pred<-fake.data.pred[,.(site_year,CleanerID,
-#                                   score_visitor=sapply(visitorChoices_pred,
-#                                                        rbinom,n = 1,size = 20),
-#                                   rel.abund.cleaners,rel.abund.visitors,
-#                                   rel.abund.residents,prob.Vis.Leav)]
-# 
-# fake.data.pred<-fake.data.pred[fakeData,on=.(site_year=site.year,CleanerID=cleaner_ID)]
-# 
-# fake.data.pred<-fake.data.pred[,.(site_year,CleanerID,score_visitor,abund.cleaners,
-#                                   abund.visitors,abund.residents,prob.Vis.Leav),]
-# 
-# fwrite(fake.data.pred,file = here("Simulations",scenario,"data_MCMC_fake.txt"),
-#        row.names = FALSE,sep = "\t")
-# 
-# scenario<-"MCMCfakedata2"
 # for MCMC
-param_mcmc<-list(totRounds=10000,ResReward=1,VisReward=1,
-                 ResProbLeav=0,scenario=0, 
-                 #nature, experiment, marketExperiment, ExtendedMarket
-                 inbr=0,outbr=0,forRat=0.0,
-                 seed=1, propfullPrint = 0.7,sdPert=c(0.05,0.05,0.3,2,200),
-                 chain_length=100000,
-                 init=c(0.05,0.05,0,0,30),# alphaA,AlphaC, Gamma, NegRew, scalConst
-                 pertScen = c(FALSE,FALSE,TRUE,FALSE,TRUE), 
-                 MCMC =1, data="clean",nRep=1,
-                 Group = TRUE,
-                 dataFile = here("Data","data_ABC_cleaner_abs_threa1.5.txt"),
+param_mcmc<-list(totRounds=10000, # Number of rounds in the learning model
+                 ResReward=1,VisReward=1, # Magnitude of reward for resdents and visitors
+                 ResProbLeav=0, # Prob. of resindet leaving the station if unattended
+                 scenario=0, # scenario of how the clients reach the station
+                 #nature 0, experiment 1, marketExperiment 2, ExtendedMarket 3
+                 inbr=0,outbr=0, # probability of clients seeking similar/ different,
+                 # clients, respectively, in the station
+                 forRat=0.0, # Rate at which cleaners forget what they have learned
+                 seed=1,  # Seed for the random number generator
+                 propfullPrint = 0.7, #Proportion of rounds used to calculate predictions
+                 sdPert=c(0.05,0.05,0.3,4,300), # Width of the perturbation kernel for each parameter
+                 # alphaA,AlphaC, Gamma, NegRew, scalConst
+                 chain_length=100000, # Chain length
+                 init=c(0.05,0.05,0,0,30), # Initial values for each of the parameters
+                 # alphaA,AlphaC, Gamma, NegRew, scalConst
+                 pertScen = c(FALSE,FALSE,FALSE,TRUE,TRUE), # boolean controlling which
+                 # parameter is perturbed
+                 MCMC =1, # run chain=1, run prediction for one parameter set = 0
+                 data="clean", # use all cleaner data = 1, use data by reef sites
+                 nRep=1, # number of replicate simulations
+                 Group = FALSE, # grouped data according to social competence
+                 # from triki et al. 2020
+                 dataFile = here("Data","data_cleaner_abs_threa1.5.txt"),
+                 # location of the data file
                  # here("Simulations",
                  #                 paste0(scenario,"_"),"data_MCMC_fake.txt"))
-                 ##here("Data","data_ABC_site_20.txt")
-                 folderL=paste0(here(simsDir),"/",scenario,"_/"))
+                 folderL=paste0(here(simsDir),"/",scenario,"_/")
+                 # Local folder
+                 )
 
+# Make folder
 check_create.dir(here(simsDir),param = rep(scenario,1),
                  values = c(""))
 
+
+# Loop to make parameter files ------------------------------------------------
+# and give different starting values
 
 for(seed in 1:5){
   param_mcmc$folder<-param_mcmc$folderL
@@ -94,27 +89,32 @@ for(seed in 1:5){
 #   gsub("\\","/",paste(param$folder,fileName,sep="\\"),fixed=TRUE)
 #   ,sep = " "))
 
+# Predicted values -------------------------------------------------------------
 
-
-# For predictions on the observed values ---------------------------------------
+# Run the learnin model with parameters estimated through the MCMC
 
 scenario<-"MCMCclean_gam_sca_group"
 
+# Load MCMC data
 MCMCdata<-loadMCMCrun(paste0(scenario,"_"))
+# get the posterior of gamma
 densGamma<-lapply(c("gamma","gamma.1"),function(x)density(MCMCdata[,get(x)]))
 names(densGamma)<-c("gamma","gamma.1")
+# compute the mode of the posterior
 modeGamma<-lapply(c(1,2),function(id)
   densGamma[[id]]$x[densGamma[[id]]$y==max(densGamma[[id]]$y)])
 names(modeGamma)<-c("gamma","gamma.1")
+# get the posterior of eta
 densNR<-lapply(c("negReward","negReward.1"),function(x)density(MCMCdata[,get(x)]))
 names(densNR)<-c("NR","NR.1")
 modeNegrew<-lapply(c(1,2),function(id)
   densNR[[id]]$x[densNR[[id]]$y==max(densNR[[id]]$y)])
 names(modeNegrew)<-c("NR","NR.1")
+# get the posterior of scaling constant
 densScal<-density(MCMCdata$scaleConst)
 modescal<-densScal$x[densScal$y==max(densScal$y)]
 
-
+# parameter files 
 param_pred<-list(totRounds=10000,ResReward=1,VisReward=1,
             ResProbLeav=0,scenario=0, inbr=0,outbr=0,forRat=0.0,
             seed=1, propfullPrint = 0.7,sdPert=c(0.05,0.05,0.1,0.05,1),
@@ -128,7 +128,7 @@ param_pred<-list(totRounds=10000,ResReward=1,VisReward=1,
             # folderL=paste0(here(simsDir),"/",scenario,"_/","samplesPost_/"))
             folderL=paste0(here(simsDir),"/",scenario,"_/"))
 
-
+# create dir
 check_create.dir(here(simsDir,paste0(scenario,"_")),param = rep("samplesPost",1),
                  values = c(""))
 
@@ -172,8 +172,10 @@ for(i in 1:nsamples){
   }
 }
 
-# Baseline parameter values
 # For the countour plots ------------------------------------------------------
+# To generate the contour plots, predictions need to b obtained varying 
+# systematically the values of cleaner abundance and visitor leaving probability
+
 param<-list(totRounds=10000,ResReward=1,VisReward=1,
             ResProb=c(0.2),
             VisProb=c(0.2),
@@ -190,20 +192,7 @@ param.1<-param
 param.1$negativeRew<- -0#modeNegrew$NR.1
 param.1$gammaRange<- I(c(modeGamma$gamma.1))
 
-# clustfolderAnd="/hpcfs/home/a.quinones/Cleaner/AbundLvp_/"
-# 
-# clustfolderNeu=paste0("/home/ubuntu/AC/",scenario,"_/")
-# 
-# folderSims<-paste0("e:/NeuchSims/AC/",paste0(scenario,"_"))
-# 
-# setwd(paste("./",simsDir,sep=""))
-# 
-# fieldData<-fread(here("Data","data_ABC_cleaner_absolute.txt"))
-# 
-# range(fieldData.sum$rel.abund.cleaners)
-# range(fieldData.sum$prob.Vis.Leav)
-
-# Arrays with the values of external parameters
+# Arrays with the values of cleaner abundance and visitor leaving probability
 rangLeav<-seq(0.02,0.4,length.out = 10)
 rangAbund<-seq(0.05,0.9,length=10)
 # rangScen<-c(0)
@@ -257,48 +246,9 @@ for (i in 1:length(rangLeav)) {
     else{
       write(outParam,paste(param$folderL,fileName,sep = ""))
       write(outParam.1,paste(param.1$folderL,fileName.1,sep = ""))
-      # jobfile(param$folderL,listfolders[i],jobid = j)
     }
-    # Uncomment for running simulations directly through R:
-    # system(paste(exedir,
-    #   gsub("\\","/",paste(param$folder,fileName,sep="\\"),fixed=TRUE)
-    #   ,sep = " "))
+    
   }
 }
 # 
-for (k in 1:90) print(y)
-
-
-
-## Automatically produce job files ---------------------------------------------
-
-jobfile<-function(folder,jobname,timelim="10:00:00",
-                  part="short",jobid=""){
-  bashafile<-list(line0="#!/bin/bash",
-                  jobname="#SBATCH --job-name=",
-                  partit="#SBATCH -p ",nodes="#SBATCH -N 1",
-                  cpus="#SBATCH --cpus-per-task=1", mem="#SBATCH --mem=2000",
-                  time="#SBATCH --time=",
-                  mailu="#SBATCH --mail-user=a.quinones@uniandes.edu.co",
-                  mailt="#SBATCH --mail-type=END",
-                  outp= paste0("#SBATCH -o ","/hpcfs/home/a.quinones/Cleaner/AbundLvp_/",
-                               jobname,"/TEST_job.o%j"),
-                  gethost="host=`/bin/hostname`",
-                  getdate="date=/bin/date",
-                  exec=paste0("/hpcfs/home/a.quinones/Cleaner/./cleaner ",
-                              "/hpcfs/home/a.quinones/Cleaner/AbundLvp_/",
-                              jobname,"/parameters",jobid,".json"),
-                  printhost="echo \"Run  at: \"$host",
-                  printdate="echo  \"Run  on: \"$date")
-  
-  bashafile$jobname<-paste0(bashafile$jobname,jobname)
-  bashafile$time<-paste0(bashafile$time,timelim)
-  bashafile$partit<-paste0(bashafile$partit,part)
-  if(file.exists(paste0(folder,"jobfile",jobid,".sh"))){
-    unlink(paste0(folder,"jobfile",jobid,".sh"))
-  }
-  conJobfile<-lapply(bashafile, write, 
-                     file=file(paste0(folder,"jobfile",jobid,".sh"),"wb"), append=T)
-}
-
 
