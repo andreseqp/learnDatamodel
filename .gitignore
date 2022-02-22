@@ -12,6 +12,7 @@
 *.pdf
 *.log
 *.docx
+*.TMP
 messages.txt
 BaseLine.png
 Simulations/*

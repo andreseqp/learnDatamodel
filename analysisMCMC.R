@@ -8,6 +8,7 @@ library(coda)
 library(ggplot2)
 library(cowplot)
 library(ggdist)
+library(ggpubr)
 source(here("../R_files/posPlots.R"))
 source(here("loadData.R"))
 library("jsonlite")
@@ -19,7 +20,7 @@ scen3<-"MCMCclean_Nrew_sca_"
 
 # NLables names for the three scenarios
 labels.Scen<-c("both","gam","Nrew")
-labelsPlot.Scen<-c("Full model","Future reward","Negative reward")
+labelsPlot.Scen<-c("Full model","Chaining","Penalty")
 
 ## Load files --------------------------------------------------------------
 
@@ -47,16 +48,10 @@ mcmcList.2<-mcmc.list(do.call(list,lapply(unique(MCMCdata2$seed), function(repli
 })))
 
 
-mcmcList.2<-mcmc.list(do.call(list,lapply(unique(MCMCdata2$seed), function(repli){
-  rundata<-MCMCdata2[seed==repli]
-  mcmcRun<-mcmc(rundata[,.(gamma,scaleConst)],thin = thinning)#
-  return(mcmcRun)
-})))
-
 
 mcmcList.3<-mcmc.list(do.call(list,lapply(unique(MCMCdata3$seed), function(repli){
   rundata<-MCMCdata3[seed==repli]
-  mcmcRun<-mcmc(rundata[,.(negReward,scaleConst)],thin = 100)#
+  mcmcRun<-mcmc(rundata[,.(negReward,scaleConst)],thin =thinning)#
   return(mcmcRun)
 })))
 
@@ -66,97 +61,99 @@ mcmcList.3<-mcmc.list(do.call(list,lapply(unique(MCMCdata3$seed), function(repli
 
 
 
-# ABC.gamma.time.short<-dcast(MCMCdata1,iteration~seed,value.var = c("gamma"))
-# ABC.nRew.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "negReward")
-# ABC.sca.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "scaleConst")
-# ABC.logLike.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "fit")
-# 
-# par(plt=posPlot(numploty = 4,idploty = 4,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1),las=1)
-# matplot(y=ABC.gamma.time.short[,c(2,3,4)],
-#         x=ABC.gamma.time.short[,iteration],
-#         type="l",lty=1,col=2:5,ylab = "",
-#         xlab="",xaxt="n",lwd=0.1)
-# 
-# mtext(text =  expression(gamma),cex=3,side = 2,line = 3)
-# 
-# par(plt=posPlot(numploty = 4,idploty = 4,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1),
-#     las=1,new=TRUE)
-# densGamma<-density(MCMCdata1$gamma)
-# plot(densGamma,yaxt="n",ylab="",xlab="",cex.axis=0.7)
-# axis(4)
-# modeGam<-densGamma$x[densGamma$y==max(densGamma$y)]
-# lines(x = rep(modeGam,2),y = range(densGamma$y))
-# meanGam<-mean(MCMCdata1$gamma)
-# lines(x = rep(meanGam,2),y = range(densGamma$y),col="red")
-# medianGam<-median(MCMCdata1$gamma)
-# lines(x = rep(medianGam,2),y = range(densGamma$y),col="green")
-# 
-# lines(x = rep(parsOrigin$init[3],2),y = range(densGamma$y),col="blue")
-# 
-# par(plt=posPlot(numploty = 4,idploty = 3,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1),las=1,new=TRUE)
-# matplot(y=ABC.nRew.time.short[,c(2,3,4)],
-#         x=ABC.nRew.time.short[,iteration],
-#         type="l",lty=1,col=2:5,ylab = "",
-#         xlab="",xaxt="n",lwd=0.1)
-# mtext(text = expression(eta),line = 3,cex = 3,side = 2)
-# 
-# par(plt=posPlot(numploty = 4,idploty = 3,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1), las=1,new=TRUE)
-# densnegReward<-density(MCMCdata1$negReward)
-# plot(densnegReward,yaxt="n",ylab="",xlab="",cex.axis=0.7,
-#      main="",xlim=c(-5,5))
-# axis(4)
-# 
-# modenegReward<-densnegReward$x[densnegReward$y==max(densnegReward$y)]
-# lines(x = rep(modenegReward,2),y = range(densnegReward$y))
-# meannegReward<-mean(MCMCdata1$negReward)
-# lines(x = rep(meannegReward,2),y = range(densnegReward$y),col="red")
-# mediannegReward<-median(MCMCdata1$negReward)
-# lines(x = rep(mediannegReward,2),y = range(densnegReward$y),col="green")
-# 
-# lines(x = rep(parsOrigin$init[4],2),y = range(densGamma$y),col="blue")
-# 
-# par(plt=posPlot(numploty = 4,idploty = 2,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1),las=1,new=TRUE)
-# matplot(y=ABC.sca.time.short[,c(2,3,4)],
-#         x=ABC.sca.time.short[,iteration],
-#         type="l",lty=1,col=2:5,ylab = "",
-#         xlab="",xaxt="n",lwd=0.1)
-# mtext(text = "Scale const." ,line = 3,cex = 1,side = 2,las=0)
-# par(plt=posPlot(numploty = 4,idploty = 2,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
-#     mfrow=c(1,1),
-#     las=1,new=TRUE)
-# densScal<-density(MCMCdata1$scaleConst)
-# plot(densScal,yaxt="n",ylab="",xlab="",cex.axis=0.7,
-#      main="")
-# axis(4)
-# 
-# modeScal<-densScal$x[densScal$y==max(densScal$y)]
-# lines(x = rep(modeScal,2),y = range(densScal$y))
-# meanScal<-mean(MCMCdata1$scaleConst)
-# lines(x = rep(meanScal,2),y = range(densScal$y),col="red")
-# medianScal<-median(MCMCdata1$scaleConst)
-# lines(x = rep(medianScal,2),y = range(densScal$y),col="green")
-# 
-# lines(x = rep(parsOrigin$init[5],2),y = range(densGamma$y),col="blue")
-# 
-# legend("right",legend = c("mode","mean","median"),col = c("black","red","green"),
-#        lty=1,lwd=2,cex=0.8)
-# 
-# 
-# par(plt=posPlot(numploty = 4,idploty = 1,)-c(0.05,0.05,0.05,0.05),mfrow=c(1,1),las=1,new=TRUE)
-# matplot(y=ABC.logLike.time.short[,c(2,3,4)],
-#         x=ABC.logLike.time.short[,iteration],
-#         type="l",lty=1,col=2:5,ylab = "",
-#         xlab="",xaxt="n",lwd=0.1)
-# axis(1)
-# mtext(text = "loglikelihood" ,line = 3,cex = 1,side = 2,las=0)
-# mtext(text = "iteration" ,line = 2,cex = 1,side = 1,las=0)
-# 
-# modeGam;modenegReward;modeScal
+ABC.gamma.time.short<-dcast(MCMCdata1,iteration~seed,value.var = c("gamma"))
+ABC.nRew.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "negReward")
+ABC.sca.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "scaleConst")
+ABC.logLike.time.short<-dcast(MCMCdata1,iteration~seed,value.var = "fit")
+
+
+
+par(plt=posPlot(numploty = 4,idploty = 4,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
+    mfrow=c(1,1),las=1)
+matplot(y=ABC.gamma.time.short[,c(2,3,4)],
+        x=ABC.gamma.time.short[,iteration],
+        type="l",lty=1,col=2:5,ylab = "",
+        xlab="",xaxt="n",lwd=0.1)
+
+mtext(text =  expression(gamma),cex=3,side = 2,line = 3)
+
+par(plt=posPlot(numploty = 4,idploty = 4,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
+    mfrow=c(1,1),
+    las=1,new=TRUE)
+densGamma<-density(MCMCdata1$gamma)
+plot(densGamma,yaxt="n",ylab="",xlab="",cex.axis=0.7)
+axis(4)
+modeGam<-densGamma$x[densGamma$y==max(densGamma$y)]
+lines(x = rep(modeGam,2),y = range(densGamma$y))
+meanGam<-mean(MCMCdata1$gamma)
+lines(x = rep(meanGam,2),y = range(densGamma$y),col="red")
+medianGam<-median(MCMCdata1$gamma)
+lines(x = rep(medianGam,2),y = range(densGamma$y),col="green")
+
+lines(x = rep(parsOrigin$init[3],2),y = range(densGamma$y),col="blue")
+
+par(plt=posPlot(numploty = 4,idploty = 3,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
+    mfrow=c(1,1),las=1,new=TRUE)
+matplot(y=ABC.nRew.time.short[,c(2,3,4)],
+        x=ABC.nRew.time.short[,iteration],
+        type="l",lty=1,col=2:5,ylab = "",
+        xlab="",xaxt="n",lwd=0.1)
+mtext(text = expression(eta),line = 3,cex = 3,side = 2)
+
+par(plt=posPlot(numploty = 4,idploty = 3,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
+    mfrow=c(1,1), las=1,new=TRUE)
+densnegReward<-density(MCMCdata1$negReward)
+plot(densnegReward,yaxt="n",ylab="",xlab="",cex.axis=0.7,
+     main="",xlim=c(-5,5))
+axis(4)
+
+modenegReward<-densnegReward$x[densnegReward$y==max(densnegReward$y)]
+lines(x = rep(modenegReward,2),y = range(densnegReward$y))
+meannegReward<-mean(MCMCdata1$negReward)
+lines(x = rep(meannegReward,2),y = range(densnegReward$y),col="red")
+mediannegReward<-median(MCMCdata1$negReward)
+lines(x = rep(mediannegReward,2),y = range(densnegReward$y),col="green")
+
+lines(x = rep(parsOrigin$init[4],2),y = range(densGamma$y),col="blue")
+
+par(plt=posPlot(numploty = 4,idploty = 2,numplotx = 2,idplotx = 1)-c(0.05,0.05,0,0),
+    mfrow=c(1,1),las=1,new=TRUE)
+matplot(y=ABC.sca.time.short[,c(2,3,4)],
+        x=ABC.sca.time.short[,iteration],
+        type="l",lty=1,col=2:5,ylab = "",
+        xlab="",xaxt="n",lwd=0.1)
+mtext(text = "Scale const." ,line = 3,cex = 1,side = 2,las=0)
+par(plt=posPlot(numploty = 4,idploty = 2,numplotx = 2,idplotx = 2)-c(0.05,0.05,0,0),
+    mfrow=c(1,1),
+    las=1,new=TRUE)
+densScal<-density(MCMCdata1$scaleConst)
+plot(densScal,yaxt="n",ylab="",xlab="",cex.axis=0.7,
+     main="")
+axis(4)
+
+modeScal<-densScal$x[densScal$y==max(densScal$y)]
+lines(x = rep(modeScal,2),y = range(densScal$y))
+meanScal<-mean(MCMCdata1$scaleConst)
+lines(x = rep(meanScal,2),y = range(densScal$y),col="red")
+medianScal<-median(MCMCdata1$scaleConst)
+lines(x = rep(medianScal,2),y = range(densScal$y),col="green")
+
+lines(x = rep(parsOrigin$init[5],2),y = range(densGamma$y),col="blue")
+
+legend("right",legend = c("mode","mean","median"),col = c("black","red","green"),
+       lty=1,lwd=2,cex=0.8)
+
+
+par(plt=posPlot(numploty = 4,idploty = 1,)-c(0.05,0.05,0.05,0.05),mfrow=c(1,1),las=1,new=TRUE)
+matplot(y=ABC.logLike.time.short[,c(2,3,4)],
+        x=ABC.logLike.time.short[,iteration],
+        type="l",lty=1,col=2:5,ylab = "",ylim = c(-2000,0),
+        xlab="",xaxt="n",lwd=0.1)
+axis(1)
+mtext(text = "loglikelihood" ,line = 3,cex = 1,side = 2,las=0)
+mtext(text = "iteration" ,line = 2,cex = 1,side = 1,las=0)
+
+modeGam;modenegReward;modeScal
 # 
 # 
 # plot(data=MCMCdata3,gamma~negReward,type="p",cex=0.2)
@@ -175,12 +172,11 @@ cuts.1<-lapply(MCMCdata1[,.(gamma,negReward,scaleConst)],
                  mode_hdci(x,.width = intervals)$ymax)  
 })
 
-mode_hdci(MCMCdata1$scaleConst,.width = intervals)
 
 cuts.2<-lapply(MCMCdata2[,.(gamma,scaleConst)],
                function(x){
-                 c(mode_hdi(x,.width = intervals[c(2,1)])$ymin,
-                   mode_hdi(x,.width = intervals)$ymax)  
+                 c(mode_hdci(x,.width = intervals[c(2,1)])$ymin,
+                   mode_hdci(x,.width = intervals)$ymax)  
                })
 
 cuts.3<-lapply(MCMCdata3[,.(negReward,scaleConst)],
@@ -199,7 +195,7 @@ loglikehoods.all<-data.table(lglikelihood=c(MCMCdata1$fit,MCMCdata2$fit,
                                       ))
 
 # Read field data to calculate null log-likelihood
-fieldData<-fread(here("Data","data_ABC_cleaner_abs.txt"))
+fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
 
 nullLikehood<-sum(dbinom(x=fieldData[,score_visitor],
                          size = 20,prob = 0.5,log = TRUE))
@@ -241,7 +237,7 @@ plot_grid(nrow=3,align = "v",byrow = FALSE,
             stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$scaleConst))),
                          point_interval = mode_hdi, .width = c(.66, .95),point_size=3,
                          show.legend=FALSE)+
-            theme_classic()+scale_fill_manual(values=c("skyblue","gray85"))+
+            theme_classic()+scale_fill_manual(values=c("gray85","skyblue","gray85"))+
           labs(subtitle = "Scalling const.",x="",y="")+xlim(-2,1500)+theme_classic(),
           # Future reward only model - \gamma
           ggplot(data=MCMCdata2,aes(x=gamma)) +
@@ -446,16 +442,25 @@ hist(ABC.mcmc[,2],breaks = 100)
 sumMCMClist$statistics[,1]
 effectiveSize(mcmcList.2)
 par(plt=posPlot())
-plot(mcmcList.2)
+plot(mcmcList.1,density = FALSE,mfrow=c(2,3))
 raftery.diag(mcmcList.2)
 geweke.plot(mcmcList.2)
-gelman.plot(mcmcList.2)
+diag<-gelman.plot(mcmcList.1,mfrow=c(1,3))
+
+
+
+library(BayesianTools)
+library(bayesplot)
+
+
+correlationPlot(data.frame(mcmcList.1[[1]]))
+
 autocorr(mcmcList.2)
-mcmc_acf(mcmcList.2, pars = c("gamma","gamma.1","scaleConst"), 
+mcmc_acf(mcmcList.2, pars = c("gamma","negReward","scaleConst"), 
          lags = 100)
 rejectionRate(mcmcList.2)
 
-denplot(mcmcList.2,collapse = FALSE)
+densplot(mcmcList.1,collapse = FALSE)
 densplot(mcmcList.2[[1]][,1])
 densplot(mcmcList.2[[1]][,2])
 densplot(mcmcList.2[[1]][,3])

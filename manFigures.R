@@ -302,7 +302,7 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
   ylab("Probability of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
-  theme(legend.position = "top",
+  theme(legend.position = "none",
     axis.text = element_text(size=axisSize),
     axis.title.x = element_text(size=axislabSize),
     axis.title.y = element_text(size=axislabSize))
@@ -320,7 +320,7 @@ scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
   guides(color=guide_legend(title="Location"))+
   scale_color_manual(values = multDiscrPallet[1:12],
                      name = "Location")+
-  theme_classic()+theme(legend.position ="top",#c(.9, .4),
+  theme_classic()+theme(legend.position ="none",#c(.9, .4),
                       axis.text = element_text(size=axisSize),
                       axis.title.x = element_text(size=axislabSize),
                       axis.title.y = element_text(size=axislabSize),

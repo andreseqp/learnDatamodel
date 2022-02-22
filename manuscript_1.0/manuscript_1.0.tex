@@ -79,7 +79,7 @@ mutualism}
 
 %%%% Abstract text to be placed here %%%%%%%%%%%%
 \begin{abstract}
-While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings yield similar performances, and Lloyd Morgan's cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. However, to do this it is necessary to have quantitative predictions for the different candidate mechanisms. Here, we use a set of computational models to get quantitative predictions from alternative learning mechanisms, and using Bayesian statistics fit the model parameters to performance data. We used experimental data on performance in an ephemeral reward task by wild-caught cleaner fish \emph{Labroides dimidiatus}, as well as cleaner and client fish densities from the locations of capture. The task can in principle be solved by estimating future consequences of an action, or by perceiving the removal of the ephemeral reward as psychological punishment (negative reinforcement). We found that a model where cleaners only estimate the future consequences of their actions explains best which cleaner relative abundances cause the fish to develop a preference for an ephemeral food source. This model also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement model. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinning behind cognitive performance.
+While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings yield similar performances, and Lloyd Morgan's cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. However, to do this it is necessary to have quantitative predictions for the different candidate mechanisms. Here, we use a set of computational models to get quantitative predictions from alternative learning mechanisms, and using Bayesian statistics fit the model parameters to performance data. We used experimental data on performance in an ephemeral reward task by wild-caught cleaner fish \emph{Labroides dimidiatus}, as well as cleaner and client fish densities from the locations of capture. The task can in principle be solved by estimating future consequences of an action, or by perceiving the removal of the ephemeral reward as psychological punishment (negative reinforcement). We found that a model where cleaners only estimate the future consequences of their actions explains best which cleaner fish relative abundances cause the fish to develop a preference for an ephemeral food source. This model also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement model. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinning behind cognitive performance.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -139,7 +139,7 @@ to prioritize visitor over resident clients in a lab-based paradigm,
 they used Plexiglas plates of different colours and shapes offering same
 amount of food as surrogates for visitor and resident clients.
 One plate is made to behave like a resident, i.e.~it remains until
-the cleaner had eaten off it. The other plate was made to behave
+the cleaner fish had eaten off it. The other plate was made to behave
 like a visitor, i.e.~it is removed if not inspected first.
 Cleaners learned to prefer the visitor plate and
 hence obtained the double amount of food \citep{bshary_Asymmetric_2002}.
@@ -339,7 +339,7 @@ same amount of food (one item of mashed prawn). The two plates differed
 in colour and pattern (horizontal green stripes or vertical pink stripes)
 but had equal size (\(10 cm \times 7 cm\)). Importantly, the two plates played
 different roles as either a visitor (ephemeral food source) or
-resident (permanent food source). That is, if a cleaner inspected the
+resident (permanent food source). That is, if a cleaner fish inspected the
 resident plate first, the experimenter withdrew the visitor plate out of
 the aquarium as a consequence. Choosing first the visitor plate,
 however, granted access to both plates. The equal size of the plates
@@ -361,12 +361,12 @@ cleaner fish preferences for the visitor plate, even if they do not reach
 the learning criterion within 200 trials. To do so, we first extracted the
 trial-by-trial outcomes from the last two session (20 trials) of those who
 never reached the learning criterion for visitor plate
-\(\color{red}{\text{(N = XX cleaner fish)}}\).
+(\(N = 45\) cleaner fish).
 For those who reached the learning criterion at some point during the
 test and passed to a reversal phase, we extracted the trials-by-trial
 outcomes from the last session (10 trials) before passing to reversal
 and the last 10 trials they were exposed to in the test
-\(\color{red}{\text{(N = XX cleaner fish)}}\).
+(\(N = 75\) cleaner fish).
 
 \hypertarget{statistical-analysis}{%
 \subsubsection{Statistical analysis}\label{statistical-analysis}}
@@ -375,12 +375,10 @@ The aim of the analyses is to fit the key model parameters
 \(\gamma\) and \(\eta\), to the empirical data from Triki \emph{et al.}
 \citep{triki_Biological_2019, triki_Brain_2020} to test whether each or
 a combination of these effects is a better explanation for the pattern
-seen in the data. We used the
-ecological variables: cleaners, visitor clients,
-resident clients abundances and
-visitor clients leaving probability, as input to the models.
-As response variable we used cleaners' preference for visitor
-over residents in the ephemeral reward task.
+seen in the data. We used the ecological variables: cleaners, visitor clients,
+resident clients abundances and visitor clients leaving probability,\\
+as input to the models. As response variable we used cleaners'
+preference for visitor over residents in the ephemeral reward task.
 Finally, we used the preference for visitors resulting from the
 model simulations as the prediction for the response variable.
 We kept all other parameter values used for the model simulations constant,
@@ -389,9 +387,9 @@ see Table \ref{tab:param}.
 To capture with the model the relationship between the ecological
 variables and cleaner fish preferences for visitors we need to scale
 the absolute population densities of cleaner fish from the empirical data
-to a measure of relative abundances that captures
-client visitation patterns. This is because in the model, relative
-abundances of clients define not only the probability of residents and visitors,
+to a measure of relative abundances that captures client visitation patterns.
+This is because in the model, relative abundances of clients
+define not only the probability of residents and visitors,
 but also how often the cleaning station is empty (e.g.~there are no
 clients to be cleaned). The frequency with which clients visit the station
 is another variable, which in nature may vary among different client species
@@ -402,7 +400,7 @@ cleaner fish abundance for each reef site relative to
 absolute abundances and multiplied it
 by a scaling constant that changes the range of the variable. This scaling
 constant is hence meant to capture variation in the market conditions driven
-partly by cleaner abundance. We fitted the value of the scaling constant as
+partly by cleaner fish abundance. We fitted the value of the scaling constant as
 part of the statistical inference. As for the visitor and resident
 abundances we computed a relative measure with respect to the
 total client abundance, and weighted that by the rescaled relative absence
@@ -440,7 +438,7 @@ the old one, we ran the model again to sample the likelihood
 distribution of the parameter set. We then started
 the cycle again by proposing a new set of parameters, and repeated
 the process for \(1e^5\) steps. We ran 5 independent chains,
-discarded the first \(100\) samples of each chain as burn in,
+discarded the first \(1000\) samples of each chain as burn in,
 and after that we kept 1 in every 100 samples to avoid autocorrelation.
 The collection of parameters sets kept in
 all chains approximates the posterior distribution. We coded the model
@@ -465,14 +463,16 @@ fit.
 \hypertarget{results}{%
 \subsection{Results}\label{results}}
 
-\begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_1.0_files/figure-latex/post-1} 
 
-}
 
-\caption{Posterior distributions for parameter values $\gamma$, $\eta$ and the scaling constant. We show the kernel density estimates, below the mode (black dot) and the 65\% (light blue shade) and 95\% (grey shade)  highest posterior density interval for the three paramteres. On the left, panels a, b and c show posterior distributions for a model with all three parameters; while on the right, d and e, show a model with only chaining. Panel f shows a measure of fit for both models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.}\label{fig:post}
-\end{figure}
+
+
+
+
+
+
+
 
 Figure \ref{fig:post} panels a,b and c show the posterior distributions
 of the parameter values of the full model, which includes both chaining
@@ -502,14 +502,24 @@ shows that, accounting for variation in the parameter estimates, the
 model with only future reward gives a better fit to the data, despite
 having one parameter less.
 
-\begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{manuscript_1.0_files/figure-latex/pred-1} 
 
-}
 
-\caption{Observed and predicted probability of choosing a visitor. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour coding denotes different reef sites/year of the data collection (see Empirical data section). Black line corresponds to a perfect match between observed and predicted probabilities. Upper panels show prediction from a model including chaining and operant conditioning, lower panels from a  model with only chaining.}\label{fig:pred}
-\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Figure \ref{fig:pred} shows predictions from the two models,
 one including chaining and operant conditioning (upper panels) and
@@ -566,13 +576,13 @@ visitors clients, and generalized this rule to the lab conditions
 once being familiar with the task.
 
 While all three models captured well the positive relation between visitor
-leaving behaviour and cleaner performance in
+leaving behaviour and cleaner fish performance in
 the market task \citep{triki_Biological_2019}, only the chaining mechanism
 predicted that cleaner fish performance in the task should be low in
 habitats with low cleaner-to-client ratios, regardless of the
 visitor leaving probability. In contrast, models including
 negative reward predicted the highest performance in the ephemeral
-reward task when relative cleaner abundance is low, particularly
+reward task when relative cleaner fish abundance is low, particularly
 together with high probability of visitor leaving (Fig. \ref{fig:pred}).
 Low relative cleaner fish abundances mean the market has an excess of demand for
 cleaning services. In the models, this translates to a cleaning station
@@ -594,7 +604,7 @@ mechanism that allows cleaner fish to adaptively adjust to their
 biological market ecological conditions.
 
 Our results support chaining as the more plausible mechanism behind the
-inter-specific variation in cleaners' performance. This suggest
+intra-specific variation in cleaners' performance. This suggest
 that chaining could be under positive selection. In the standard ephemeral
 reward task, however, food amount and quality are equal in the
 two Plexiglas plates. Since our computational models simulate this aspect of
@@ -603,7 +613,7 @@ does not diminish the amount of food/reward in the models.
 On the other hand, a cleaner fish committed to visitors might find it more difficult
 to include in its decision making other variables, like parasite load
 and/or mucus quality \citep{roche_Client_2021}. Indeed, in the absence of
-market effects, both field observations and aboratory experiments also
+market effects, both field observations and laboratory experiments also
 using simultaneous two choice options, show that cleaner fish base their
 decision-making on other cues such as the mucus quality and the amount of food.\\
 \citep{triki_Fluctuations_2019, grutter_Cleaner_2004}, as well as client size
@@ -616,7 +626,7 @@ densities and giving service priority to the visitor plate in the
 ephemeral reward task, as well as cleaner fish living at low
 densities but denying service priority to the visitor plate possess
 larger forebrains; a key teleost brain region associated with
-behavioral flexibility and social intelligence. Those failing to
+behavioural flexibility and social intelligence. Those failing to
 show optimized decision-rules given their local ecological
 conditions had relatively smaller forebrains \citep{triki_Brain_2020}.
 Triki \emph{et al.} refer to the former as socially competent cleaner fish,
@@ -705,13 +715,52 @@ fits the data better.
 
 \beginsupplement
 
-\begin{figure}[H]
 
-{\centering \includegraphics[width=0.95\linewidth,]{manuscript_1.0_files/figure-latex/nogamma-1} 
+
+
+
+
+
+
+
+
+
+\begin{figure}
+
+{\centering \includegraphics{manuscript_1.0_files/figure-latex/rawdata-1} 
 
 }
 
-\caption{Observed and predicted probability of choosing a visitor for a model without chaining. Left-hand side panel: color contour shows the prediction of the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors leaving the station if being made to wait (y axis). Right-hand side panel: Right-hand side panels: Variation of the predicted probabilites  of choosing a visitor and their observed values for 12 reef sited. Circles show the mean prediction for each location from 100 samples taking from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval taken from those posterior samples. Squares show the predictions used for panel on the righ-hand side. Colour denotes different locations (see Empirical data section). Black line correspond to a perfect match between observed and predicted probabilities.}\label{fig:nogamma}
+\caption{Relation between the response variable used in this study and the
+criteria used in previous studies to assess performance in the ephemeral reward
+task. In the x axis, we classified the performance of cleaner fish according to
+whether they developed a preference for the visitor in the initial round,
+in the initial and reversal, or none of them. In the y axis, we add the choices
+of two experimental sessions: panel on the left uses one session from the initial
+round and one from the reversal round when possible
+(as described in the main text); panel on the right uses two sessions from the
+initial round for all fish.}\label{fig:rawdata}
+\end{figure}
+
+
+
+
+
+
+
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.95\linewidth,]{manuscript_1.0_files/figure-latex/scaConst-1} 
+
+}
+
+\caption{Posterior distributions for scaling constant for the three model
+(``Full model'', chaining only'' and ``penalty only''). We show the kernel
+density estimates, below the mode (black dot) and the 65\% (light blue shade)
+and 95\% (grey shade) highest posterior density interval. On the top,
+panel a shows the posterior distribution from the full model; panel b from
+the model with only chaining; and panel c from a model with only penalty.}\label{fig:scaConst}
 \end{figure}
 
 \begin{longtable}[]{@{}rc@{}}
@@ -735,6 +784,46 @@ Number of chains & 5 \\
 Chain lenght & \(1^5\) \\
 \bottomrule
 \end{longtable}
+
+
+
+
+
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+
+\begin{figure}
+
+{\centering \includegraphics{manuscript_1.0_files/figure-latex/diagnosticsfull-1} 
+
+}
+
+\caption{MCMC convergence diagnostics for the full model.
+On the left trace-plots, on the right changes along the chain of the
+Gelman and Rubin's shrink factor \citep{brooks_General_1998}.}\label{fig:diagnosticsfull}
+\end{figure}
+
+
+
+
+
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+
+\begin{figure}
+
+{\centering \includegraphics{manuscript_1.0_files/figure-latex/diaggam-1} 
+
+}
+
+\caption{MCMC convergence diagnostics for the chaining model.
+On the left trace-plots, on the right changes along the chain of the
+Gelman and Rubin's shrink factor \citep{brooks_General_1998}}\label{fig:diaggam}
+\end{figure}
 
 \ethics{The Animal Ethics Committee of the Queensland government (DAFF)
 approved the project (CA 2016/05/970 and CA 2017/05/1063).}

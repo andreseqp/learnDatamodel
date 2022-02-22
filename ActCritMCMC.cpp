@@ -1092,39 +1092,39 @@ int main(int argc, char* argv[]){
 	// Only for debugging 
 	// input parameters provided by a JSON file with the following
 	// structure:
-	//json sim_param;
-	//sim_param["totRounds"]    = 5000;
-	//sim_param["ResReward"]    = 1;
-	//sim_param["VisReward"]    = 1;
-	//sim_param["ResProbLeav"]  = 0;
-	//sim_param["scenario"]  = 0;
-	//sim_param["inbr"]         = 0;
-	//sim_param["outbr"]        = 0;
-	//sim_param["seed"]         = 3;
-	//sim_param["forRat"]       = 0.0;
-	//sim_param["propfullPrint"]       = 0.7;
-	//sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10}; 
-	//// alphaA, alphaC, Gamma, NegRew,scaleConst
-	//sim_param["chain_length"] = 100;
-	//sim_param["init"]       = {0.05, 0.05 , 0.93,0.02, 58};
-	//sim_param["init2"] =	{ 0.05, 0.05 , 0.93,0.02, 58 };
-	// //alphaA, alphaC, gamma, NegRew, scaleConst
-	//sim_param["pertScen"] = {false,false,true,true,true};
-	////enum perturnScen {all,  bothFut, justGam, justNegRew};
-	//sim_param["MCMC"] = 0;
-	//sim_param["data"] = "clean"; // "loc", "clean"
-	//sim_param["nRep"] = 30 ;
-	//sim_param["folder"] = "M:/Projects/LearnDataModel/Simulations/test_/";
-	//sim_param["dataFile"] = "M:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
-	//sim_param["Group"] = true;
+	json sim_param;
+	sim_param["totRounds"]    = 5000;
+	sim_param["ResReward"]    = 1;
+	sim_param["VisReward"]    = 1;
+	sim_param["ResProbLeav"]  = 0;
+	sim_param["scenario"]  = 0;
+	sim_param["inbr"]         = 0;
+	sim_param["outbr"]        = 0;
+	sim_param["seed"]         = 3;
+	sim_param["forRat"]       = 0.0;
+	sim_param["propfullPrint"]       = 0.7;
+	sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10}; 
+	// alphaA, alphaC, Gamma, NegRew,scaleConst
+	sim_param["chain_length"] = 100;
+	sim_param["init"]       = {0.05, 0.05 , 0.93,0.02, 58};
+	sim_param["init2"] =	{ 0.05, 0.05 , 0.93,0.02, 58 };
+	 //alphaA, alphaC, gamma, NegRew, scaleConst
+	sim_param["pertScen"] = {false,false,true,true,true};
+	//enum perturnScen {all,  bothFut, justGam, justNegRew};
+	sim_param["MCMC"] = 0;
+	sim_param["data"] = "clean"; // "loc", "clean"
+	sim_param["nRep"] = 30 ;
+	sim_param["folder"] = "M:/Projects/LearnDataModel/Simulations/test_/";
+	sim_param["dataFile"] = "M:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
+	sim_param["Group"] = false;
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
 	
 
 	// reading of parameters: 
-	ifstream parameters(argv[1]);
+	/*ifstream parameters(argv[1]);
 	if (parameters.fail()) { cout << "JSON file failed" << endl; }
-	json sim_param = nlohmann::json::parse(parameters);
+	json sim_param = nlohmann::json::parse(parameters);*/
 	
 	// Set random seed
 	rnd::set_seed(sim_param["seed"]);
@@ -1213,8 +1213,8 @@ int main(int argc, char* argv[]){
 				new_loglike = -INFINITY, ratio = 1;
 			}*/ 
 			ratio = exp(new_loglike - curr_loglike);
-			if(ratio==INFINITY) 
-				wait_for_return();
+			// if(ratio==INFINITY) 
+				// wait_for_return();
 			// better fit is larger, so ratio is > 1, so accept all.
 			if (rnd::uniform() < ratio) {
 				focal_param = new_param;
