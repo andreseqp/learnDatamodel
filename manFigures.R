@@ -16,35 +16,35 @@ source(here("aesth_par.R"))
 source(here("../R_files/posPlots.R"))
 
 # Folder where the three models are
-scenario<-"MCMCclean_gam_Nrew_sca"
-scenario2<-"MCMCclean_gam_sca"
-scenario3<-"MCMCclean_Nrew_sca"
+# scen1<-"MCMCclean_gam_Nrew_sca"
+# scen2<-"MCMCclean_gam_sca"
+# scen3<-"MCMCclean_Nrew_sca"
 
 # Get file with the predictions using the mode of the posterior
-predfileMode.both<-grep(".txt",grep("round",list.files(here("Simulations",paste0(scenario,"_"))),value = T),
-                    value = T)
-predfileMode.gam<-grep(".txt",grep("round",list.files(here("Simulations",paste0(scenario2,"_"))),value = T),
-                   value = T)
-predfileMode.Nrew<-grep(".txt",grep("round",list.files(here("Simulations",paste0(scenario3,"_"))),value = T),
-                       value = T)
+predfileMode.both<-grep(".txt",grep("round",list.files(here("Simulations",
+                    scen1)),value = T),value = T)
+predfileMode.gam<-grep(".txt",grep("round",list.files(here("Simulations",
+                    scen2)),value = T),value = T)
+predfileMode.Nrew<-grep(".txt",grep("round",list.files(here("Simulations",
+                    scen3)),value = T),value = T)
 
 # Get predictions from sampling the posterior 
 predfileSamples.both<-grep(".txt",grep("round",list.files(here("Simulations",
-                                  paste0(scenario,"_"),"samplesPost_"),
+                                  scen1,"samplesPost_"),
                                   full.names = TRUE),value = T), value = T)
 predfileSamples.gam<-grep(".txt",grep("round",list.files(here("Simulations",
-                                paste0(scenario2,"_"),"samplesPost_"),
+                                scen2,"samplesPost_"),
                                 full.names = TRUE),value = T),value = T)
 predfileSamples.Nrew<-grep(".txt",grep("round",list.files(here("Simulations",
-                                paste0(scenario3,"_"),"samplesPost_"),
+                                scen3,"samplesPost_"),
                                full.names = TRUE),value = T),value = T)
 
 # Load predictions with the mode of the posterior
-predictDataMode.both<-fread(here("Simulations",paste0(scenario,"_"),
+predictDataMode.both<-fread(here("Simulations",scen1,
                       predfileMode.both))
-predictDataMode.gam<-fread(here("Simulations",paste0(scenario2,"_"),
+predictDataMode.gam<-fread(here("Simulations",scen2,
                              predfileMode.gam))
-predictDataMode.Nrew<-fread(here("Simulations",paste0(scenario3,"_"),
+predictDataMode.Nrew<-fread(here("Simulations",scen3,
                                 predfileMode.Nrew))
 
 # Load predictions with the samples from the posterior
@@ -100,7 +100,7 @@ sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0,0.8))
 ## Load data for the contour plot using the mode of the posterior --------------
 
 # Full model
-simsDir.both<-here("Simulations",paste0(scenario,"_"))
+simsDir.both<-here("Simulations",scen1)
 
 FIAlastQuarData<-do.call(rbind,lapply(
   getFilelist(simsDir.both,fullNam = TRUE)$p1,file2lastProp,0.70,outPar="Vlp",
@@ -123,7 +123,7 @@ FIAinterpData.both<-AbundLeavData2interp(FIAlastQuarData,
 
 # Only Gamma
 
-simsDir.gam<-here("Simulations",paste0(scenario2,"_"))
+simsDir.gam<-here("Simulations",scen2)
 
 FIAlastQuarData<-do.call(rbind,lapply(
   getFilelist(simsDir.gam,fullNam = TRUE)$p1,file2lastProp,0.70,outPar="Vlp",
@@ -143,7 +143,7 @@ FIAinterpData.gam<-AbundLeavData2interp(FIAlastQuarData,
 
 # Only eta
 
-simsDir.Nrew<-here("Simulations",paste0(scenario3,"_"))
+simsDir.Nrew<-here("Simulations",scen3)
 
 FIAlastQuarData<-do.call(rbind,lapply(
   getFilelist(simsDir.Nrew,fullNam = TRUE)$p1,file2lastProp,0.70,outPar="Vlp",
@@ -206,8 +206,8 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.both,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("")+
-  ylab("Probability of visitor leaving")+
-  labs(fill="")+#Probability \n of choosing \n a visitor
+  ylab("")+
+  labs(fill="Probability \n of choosing \n a visitor")+#
   theme(legend.position ="top",
         axis.text = element_text(size=axisSize),
         axis.title.x = element_text(size=axislabSize),
@@ -253,7 +253,7 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.gam,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
-  ylab("Probability of visitor leaving")+
+  ylab("")+
   labs(fill="Probability \n of choosing \n a visitor")+
   theme(legend.position ="none",
     axis.text = element_text(size=axisSize),
@@ -300,7 +300,7 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.gam,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
-  ylab("Probability of visitor leaving")+
+  ylab("")+
   labs(fill="Probability \n of choosing \n a visitor")+
   theme(legend.position = "none",
     axis.text = element_text(size=axisSize),

@@ -1,8 +1,7 @@
-# ----------- Aesthetic paramters ------------------#
+# ----------- Aesthetic parameters ------------------#
 
 # Define Colours -------------------------------------------------------
 
-library("wesanderson")
 
 colours <- c(rgb(red = .0, green = 0, blue = 0.8, alpha = 0.5),
              rgb(red = .8, green = 0.8, blue = 0, alpha = 0.5))
