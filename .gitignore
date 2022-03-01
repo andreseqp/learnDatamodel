@@ -14,6 +14,6 @@
 *.docx
 *.TMP
 messages.txt
-BaseLine.png
+*.png
 Simulations/*
-manuscript_1.0/manuscript_word_cache/*
+manuscript_1.0/manuscript_*

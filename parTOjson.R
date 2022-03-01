@@ -13,8 +13,8 @@ fileName<-"parameters.json"
 
 # MCMC fit - Generate json parameter files for -------------------------------------
 
-# name of the scenariofor which parameter files will be produces
-# format used for the name: MCMCclean_*parameter1_paramerter2_parameter3
+# name of the scenario for which parameter files will be produces
+# format used for the name: MCMCclean_*parameter1_paramerter2_parameter3.....
 scenario<-"MCMCclean_gam_nRew_sca2"
 
 # for MCMC
@@ -99,6 +99,8 @@ for(seed in 1:5){
 # Predicted values -------------------------------------------------------------
 
 # Run the learning model with parameters estimated through the MCMC
+
+## Using the mode of the marginal posterior distributions
 
 scenario<-"MCMCclean_Nrew_sca"
 

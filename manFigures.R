@@ -206,7 +206,7 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.both,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("")+
-  ylab("")+
+  ylab("Prob. of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+#
   theme(legend.position ="top",
         axis.text = element_text(size=axisSize),
@@ -343,17 +343,9 @@ scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
 #   geom_text(x = 0.8, y = 0.5, label = deparse(bquote(R^2==.(round(rsqr.Nrew.McFadden,4)))), 
 #             parse = TRUE,size=3)
 
-# ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
-#           labels=c('a','b'),common.legend=FALSE,legend = "top")
-# 
 # ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
 #           cont.obs.pred.gam,scatter.obs.pred.gam,
-#           labels=c('a','b','c','d'))
-
-# ggarrange(cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
-#           labels=c('a','b'),common.legend=FALSE,legend = "top")
-# 
-# ggarrange(cont.obs.pred.both,scatter.obs.pred.both,
-#           cont.obs.pred.gam,scatter.obs.pred.gam,
-#           labels=c('a','b','c','d'))
+#           cont.obs.pred.Nrew,scatter.obs.pred.Nrew,
+#           labels=c('a','b','c','d','e','f'),common.legend = F,
+#           heights=c(1.4,1,1),nrow = 3,ncol = 2)
 
