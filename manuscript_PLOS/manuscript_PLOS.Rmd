@@ -444,7 +444,7 @@ The collection of parameters sets kept in
 all chains approximates the posterior distribution. We coded the model 
 as well as the fitting algorithm in *c++*, the diagnostics and visualization 
 in R [@rcoreteam_Language_2021]. All codes are accessible at 
-<https://github.com/andreseqp/learnDatamodel>
+<DOI: 10.5281/zenodo.6338073>
 
 To compare the fit of the three alternative models, we used the 
 distribution of pseudo $R^2$ proposed by Mcfadden [@mcfadden_Conditional_1974].
