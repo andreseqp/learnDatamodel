@@ -64,36 +64,19 @@ for(seed in 1:5){
   param_mcmc$init<-c(0.05,0.05,runif(1,max = 0.6),runif(1,max = 2,min = 0),
                      runif(1,max = 300,min = 5))
   param_mcmc$init[3:4]<-param_mcmc$init[3:4]*param_mcmc$pertScen[3:4]
-  ##runif(1,max = 50,min = 5))
   param_mcmc$seed <- seed
   fileName<-paste("parametersMCMC_",seed,".json",sep="")
   outParam<-toJSON(param_mcmc,auto_unbox = TRUE,pretty = TRUE)
   if(file.exists(paste(param_mcmc$folderL,fileName,sep = ''))){
     currFile<-fromJSON(paste(param_mcmc$folderL,fileName,sep = ''))
     if(sum(unlist(currFile)!=unlist(param_mcmc))>0){
-      # warning("You are erasing old files!! n\ Check first!!!",immediate. = TRUE)
-      # print("OLD value")
-      # print(unlist(currFile)[unlist(currFile)!=unlist(param)])
-      # print("NEW value")
-      # print(unlist(param)[unlist(currFile)!=unlist(param)])
-      # ans<-readline("Want to continue?")
-      # if(substr(ans, 1, 1) == "y"){
       write(outParam,paste(param_mcmc$folderL,fileName,sep = "/"))
-      # jobfile(param$folderL,listfolders[i],jobid = j)
-      # }
-      # else{
-      #   jobfile(param$folderL,listfolders[i])
-      # }
+      
     }
   }else{
     write(outParam,paste(param_mcmc$folderL,fileName,sep = ""))
-    # jobfile(param$folderL,listfolders[i],jobid = j)
   }
 }
-# Uncomment for running simulations directly through R:
-# system(paste(exedir,
-#   gsub("\\","/",paste(param$folder,fileName,sep="\\"),fixed=TRUE)
-#   ,sep = " "))
 
 # Predicted values -------------------------------------------------------------
 
@@ -153,7 +136,7 @@ param_pred_samp$folder<-param_pred_samp$folderL
 
 ## Use modes for predictions
 param_pred$init[c(3,4,5)]<- c(modeGamma$gamma,modeNegrew$NR,modescal)
-                              # modeNegrew$NR,modescal)
+                            
 
 nsamples<-100
 
@@ -178,23 +161,10 @@ for(i in 1:nsamples){
   if(file.exists(paste(param_pred_samp$folderL,fileName,sep = ''))){
     currFile<-fromJSON(paste(param_pred_samp$folderL,fileName,sep = ''))
     if(sum(unlist(currFile)!=unlist(param_pred_samp))>0){
-      # warning("You are erasing old files!! n\ Check first!!!",immediate. = TRUE)
-      # print("OLD value")
-      # print(unlist(currFile)[unlist(currFile)!=unlist(param)])
-      # print("NEW value")
-      # print(unlist(param)[unlist(currFile)!=unlist(param)])
-      # ans<-readline("Want to continue?")
-      # if(substr(ans, 1, 1) == "y"){
       write(outParam.pred,paste(param_pred_samp$folderL,fileName,sep = "/"))
-      # jobfile(param$folderL,listfolders[i],jobid = j)
-      # }
-      # else{
-      #   jobfile(param$folderL,listfolders[i])
-      # }
     }
   }else{
     write(outParam.pred,paste(param_pred_samp$folderL,fileName,sep = ""))
-    # jobfile(param$folderL,listfolders[i],jobid = j)
   }
 }
 
@@ -205,18 +175,14 @@ for(i in 1:nsamples){
 param<-list(totRounds=10000,ResReward=1,VisReward=1,
             ResProb=c(0.2),
             VisProb=c(0.2),
-            ResProbLeav=0,VisProbLeav=1,negativeRew=-modeNegrew$NR,#,#sumMCMClist$statistics[,1][2],
+            ResProbLeav=0,VisProbLeav=1,negativeRew=-modeNegrew$NR,
             scenario=0,
             inbr=0,outbr=0,trainingRep=10,forRat=0.0,
-            alphaT=0.05,printGen=1,seed=1, gammaRange=I(c(modeGamma$gamma)),#c(0,sumMCMClist$statistics[,1][1])),#,
+            alphaT=0.05,printGen=1,seed=1, gammaRange=I(c(modeGamma$gamma)),
             netaRange=I(c(1)),alphaThRange=I(c(0.05)),numlearn=1,
             propfullPrint = 0.7,
             alphaThNch=0.05,
             folderL=paste0(here(simsDir),scenario,"_/"))
-
-# param.1<-param
-# param.1$negativeRew<- -0#modeNegrew$NR.1
-# param.1$gammaRange<- I(c(modeGamma$gamma.1))
 
 # Arrays with the values of cleaner abundance and visitor leaving probability
 rangLeav<-seq(0.02,0.4,length.out = 10)
@@ -241,39 +207,20 @@ for (i in 1:length(rangLeav)) {
     param$negativeRew<-param$negativeRew*param_pred$pertScen[4]
     param$gammaRange<-I(c(param$gammaRange*param_pred$pertScen[3]))
     param$folderL<-paste0(here("Simulations",paste0(scenario,"_"),listfolders[i]),"/")
-    param$folder<-param$folderL #paste0(folderSims,"/",listfolders[i],"/") 
-    # param.1$folderL<-paste0(here("Simulations",paste0(scenario,"_"),listfolders[i]),"/")
-    # param.1$folder<-param.1$folderL #paste0(folderSims,"/",listfolders[i],"/") 
-    #paste0(clustfolderNeu,listfolders[i],"/")
-    param$ResProb<-c((1-rangAbund[j])/2)#;param.1$ResProb<-c((1-rangAbund[j])/2)
-    param$VisProb<-c((1-rangAbund[j])/2)#;param.1$VisProb<-c((1-rangAbund[j])/2)
-    param$VisProbLeav<-rangLeav[i]#;param.1$VisProbLeav<-rangLeav[i]
+    param$folder<-param$folderL 
+    param$ResProb<-c((1-rangAbund[j])/2)
+    param$VisProb<-c((1-rangAbund[j])/2)
+    param$VisProbLeav<-rangLeav[i]
     outParam<-toJSON(param,auto_unbox = TRUE,pretty = TRUE)
-    # outParam.1<-toJSON(param.1,auto_unbox = TRUE,pretty = TRUE)
     fileName<-paste("parameters_contour_",j,".json",sep="")
-    # fileName.1<-paste("parameters_1_",j,".json",sep="")
     if(file.exists(paste(param$folderL,fileName,sep = ''))){
       currFile<-fromJSON(paste(param$folderL,fileName,sep = ''))
       if(sum(unlist(currFile)!=unlist(param))>0){
-        # warning("You are erasing old files!! n\ Check first!!!",immediate. = TRUE)
-        # print("OLD value")
-        # print(unlist(currFile)[unlist(currFile)!=unlist(param)])
-        # print("NEW value")
-        # print(unlist(param)[unlist(currFile)!=unlist(param)])
-        # ans<-readline("Want to continue?")
-        # if(substr(ans, 1, 1) == "y"){
         write(outParam,paste(param$folderL,fileName,sep = "/"))
-        # write(outParam.1,paste(param.1$folderL,fileName.1,sep = "/"))
-          # jobfile(param$folderL,listfolders[i],jobid = j)
-        # }
-        # else{
-        #   jobfile(param$folderL,listfolders[i])
-        # }
       }
     }
     else{
       write(outParam,paste(param$folderL,fileName,sep = ""))
-      # write(outParam.1,paste(param.1$folderL,fileName.1,sep = ""))
     }
     
   }

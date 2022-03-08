@@ -231,8 +231,7 @@
 \setcounter{secnumdepth}{0}
 
 \newcommand{\getAff}[1]{
-  \getIndex{#1}{Institute of Biology, University of Neuchatel,Department
-of Zoology, Stockholm University}
+  \getIndex{#1}{a,b}
 }
 
 \begin{document}
@@ -249,17 +248,15 @@ market} % Please use "sentence case" for title and headings (capitalize only the
 \newline
 % Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
 \\
-Andrés E. Quiñones\textsuperscript{\getAff{Institute of Biology,
-University of Neuchatel}}\textsuperscript{*},
-Zegni Triki\textsuperscript{\getAff{Department of Zoology, Stockholm
-University}},
+Andrés E. Quiñones\textsuperscript{\getAff{a}}\textsuperscript{*},
+Zegni Triki\textsuperscript{\getAff{b}},
 Redouan Bshary\textsuperscript{\getAff{Institute of Biology, University
 of Neuchatel}}\\
 \bigskip
-\textbf{\getAff{Institute of Biology, University of Neuchatel}}Institute
-of Biology, Rue Emile-Argand 11, 2000-CH Neuchatel, Switzerland\\
-\textbf{\getAff{Department of Zoology, Stockholm University}}Department
-of Zoology, Svante Arrheniusväg 18 B, 106 91 Stockholm, Sweden,\\
+\textbf{\getAff{a}}Institute of Biology,University of Neuchatel ,Rue
+Emile-Argand 11, 2000-CH Neuchatel, Switzerland\\
+\textbf{\getAff{b}}Department of Zoology, Stockholm University, Svante
+Arrheniusväg 18 B, 106 91 Stockholm, Sweden,\\
 \bigskip
 * Corresponding author: andresqp@gmail.com\\
 \end{flushleft}
@@ -396,12 +393,12 @@ Furthermore, adult cleaner fish outperformed various primates as well as
 rats and pigeons in this original version of the ephemeral reward task
 {[}13,14{]}; yet the African grey parrots solve this task as well
 {[}15{]}. This between variation in performance, and primates' known
-cognitive abilities \(\color{red}{\text{ref}}\), shows that performance
-in the task cannot be readily explained by classifying species as having
-high and low cognitive abilities. Instead, this between species
-variation suggests that solving the ephemeral reward task requires a set
-of cognitive mechanisms that are not present in all the tested taxa, or
-were not used under the experimental set-up.
+cognitive abilities {[}\textbf{reader\_Evolution\_2001?}{]}, shows that
+performance in the task cannot be readily explained by classifying
+species as having high and low cognitive abilities. Instead, this
+between species variation suggests that solving the ephemeral reward
+task requires a set of cognitive mechanisms that are not present in all
+the tested taxa, or were not used under the experimental set-up.
 
 Recent research on the cognitive abilities needed to solve the ephemeral
 reward task has used a broad approach as proposed by Shettleworth
@@ -697,7 +694,7 @@ autocorrelation. The collection of parameters sets kept in all chains
 approximates the posterior distribution. We coded the model as well as
 the fitting algorithm in \emph{c++}, the diagnostics and visualization
 in R {[}32{]}. All codes are accessible at
-\(\color{red}{\text{include citation}}\)
+\url{https://github.com/andreseqp/learnDatamodel}
 
 To compare the fit of the three alternative models, we used the
 distribution of pseudo \(R^2\) proposed by Mcfadden {[}33{]}. Mcfadden's

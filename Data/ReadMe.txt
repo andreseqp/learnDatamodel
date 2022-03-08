@@ -1,4 +1,6 @@
-Data for Quiñones, Triki and Bshary entitled: " "
+Data for Quiñones, Triki and Bshary entitled: "Field and experimental data 
+together with computational models reveal how cleaner fish adjust 
+decisions  in a biological market"
 
 Please refer to the manuscript for context, data collection methods and statistical analyses.
 

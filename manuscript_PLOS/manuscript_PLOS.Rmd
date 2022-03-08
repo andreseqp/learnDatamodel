@@ -4,19 +4,19 @@ title: Field and experimental data together with computational
 author:
   - name: Andrés E. Quiñones 
     email: andresqp@gmail.com
-    affiliation: Institute of Biology, University of Neuchatel
+    affiliation: a
     corresponding: andresqp@gmail.com
   - name: Zegni Triki
     email: zegni.triki@gmail.com
-    affiliation: Department of Zoology, Stockholm University
+    affiliation: b
   - name: Redouan Bshary
     email: redouan.bshary@unine.ch
     affiliation: Institute of Biology, University of Neuchatel
 address:
-  - code: Institute of Biology, University of Neuchatel
-    address: Institute of Biology, Rue Emile-Argand 11, 2000-CH Neuchatel, Switzerland
-  - code: Department of Zoology, Stockholm University
-    address: Department of Zoology, Svante Arrheniusväg 18 B,  106 91 Stockholm, Sweden,
+  - code: a
+    address: Institute of Biology, University of Neuchatel, Rue Emile-Argand 11, 2000-CH Neuchatel, Switzerland
+  - code: b
+    address: Department of Zoology, Stockholm University, Svante Arrheniusväg 18 B,  106 91 Stockholm, Sweden,
 abstract: |
   While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings yield similar performances, and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. We illustrate this point by fitting computational models to experimental data on performance by wild-caught cleaner fish *Labroides dimidiatus* in an ephemeral reward task, as well as cleaner and client fish densities from the locations of capture. Using Bayesian statistics to fit the model parameters to performance data revealed that cleaner fish most likely estimate future consequences of an action, while it appears unlikely that the removal of the ephemeral reward acts as psychological punishment (negative reinforcement). Incorporating future consequences also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement mechanism. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinnings of cognitive performance. 
   
@@ -128,7 +128,7 @@ pigeons in this original version of the ephemeral reward task
 [@salwiczek_Adult_2012; @zentall_Early_2017]; yet the African grey
 parrots solve this task as well [@pepperberg_Can_2014]. 
 This between variation in performance, and primates' known cognitive abilities
-$\color{red}{\text{ref}}$, shows that performance in the task
+[@reader_Evolution_2001], shows that performance in the task
 cannot be readily explained by classifying species as having high and 
 low cognitive abilities. Instead, this between species variation suggests
 that solving the ephemeral reward task requires a set of cognitive 
@@ -444,7 +444,7 @@ The collection of parameters sets kept in
 all chains approximates the posterior distribution. We coded the model 
 as well as the fitting algorithm in *c++*, the diagnostics and visualization 
 in R [@rcoreteam_Language_2021]. All codes are accessible at 
-$\color{red}{\text{include citation}}$
+<https://github.com/andreseqp/learnDatamodel>
 
 To compare the fit of the three alternative models, we used the 
 distribution of pseudo $R^2$ proposed by Mcfadden [@mcfadden_Conditional_1974].

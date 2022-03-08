@@ -1,6 +1,14 @@
-# Reproducibility 
+# Field and experimental data together with computational models reveal how cleaner fish adjust decisions  in a biological market
 
-## Compiling 
+Code, data and manuscript accompanying the publications
+
+Quiñones, A.E. Triki, Z. Bshary. R. 
+Field and experimental data together with computational models reveal 
+how cleaner fish adjust decisions  in a biological market. 
+
+## Reproducibility 
+
+### Compiling 
 Code for the simulation model as well as the Markov Chain Monte Carlo (MCMC)
 is written in C++ language. The files contained at the project folder: 
 *random.cpp*, *utils.cpp*, *utils.h*, *random.h* and *json.hpp*, 
@@ -25,7 +33,7 @@ parameters of the models and the MCMC. In that same, file following the comments
 it is possible to generate parameter values for generating the predictions
 used to produce Figure 2. 
 
-## Running MCMCs
+### Running MCMCs
 The executable files compiled in section 1, get the parameter files as input. 
 With the settings used as default, the executable for the MCMC
 runs one chain for each parameter files that gets as input,
@@ -36,13 +44,13 @@ parameter generating file (*parTOjson.R*) this files can be systematically
 generated to produce the data corresponding to the contour plots 
 (Figure 2, left hand side panels). 
 
-## Visualization
+### Visualization
 Description and analysis of the results are embedded in R chunks in the 
 Rmd file *manuscript_1.0.Rmd*. These R chunks source other R files contained
 in the repository. Bellow a short description of the files necessary for the 
 analysis and their role.
 
-## Description of relevant files
+### Description of relevant files
 *ActCrit.cpp*: c++ code of the learning model. Used to generate the predictions
   visualized as contour plots Figure 2, left panels.
 *ActCritMCMC.cpp*: c++ code of the bayesian analysis, the code runs the 
