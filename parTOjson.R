@@ -10,12 +10,12 @@ clusterHome<-"/home/ubuntu"
 
 fileName<-"parameters.json"
 
-
-# MCMC fit - Generate json parameter files for -------------------------------------
-
 # name of the scenario for which parameter files will be produces
 # format used for the name: MCMCclean_*parameter1_paramerter2_parameter3.....
-scenario<-"MCMCclean_gam_nRew_sca2"
+scenario<-"MCMCclean_gam_sca"
+
+
+# MCMC fit - Generate json parameter files for -------------------------------------
 
 # for MCMC
 param_mcmc<-list(totRounds=10000, # Number of rounds in the learning model
@@ -33,10 +33,9 @@ param_mcmc<-list(totRounds=10000, # Number of rounds in the learning model
                  chain_length=100000, # Chain length
                  init=c(0.05,0.05,0,0,30), # Initial values for each of the parameters
                  # alphaA,AlphaC, Gamma, NegRew, scalConst
-                 pertScen = c(FALSE,FALSE,TRUE,TRUE,TRUE), # boolean controlling which
+                 pertScen = c(FALSE,FALSE,FALSE,TRUE,TRUE), # boolean controlling which
                  # parameter is perturbed
                  MCMC =1, # run chain=1, run prediction for one parameter set = 0
-                 data="clean", # use all cleaner data = 1, use data by reef sites
                  nRep=1, # number of replicate simulations
                  Group = FALSE, # grouped data according to social competence
                  # from triki et al. 2020
@@ -102,7 +101,7 @@ for(seed in 1:5){
 
 ## Using the mode of the marginal posterior distributions
 
-scenario<-"MCMCclean_Nrew_sca"
+scenario<-"MCMCclean_nRew_sca"
 
 
 # Load MCMC data
@@ -124,46 +123,61 @@ names(modeNegrew)<-c("NR")
 densScal<-density(MCMCdata$scaleConst)
 modescal<-densScal$x[densScal$y==max(densScal$y)]
 
-# parameter files 
+# parameter file 
 param_pred<-list(totRounds=10000,ResReward=1,VisReward=1,
             ResProbLeav=0,scenario=0, inbr=0,outbr=0,forRat=0.0,
             seed=1, propfullPrint = 0.7,sdPert=c(0.05,0.05,0.1,0.05,1),
             chain_length=0,
             init=c(0.05,0.05,0,0,35),# alphaA,AlphaC, Gamma, NegRew, scalConst
             init2=c(0.05,0.05,0,0,35),
-            pertScen = c(FALSE,FALSE,FALSE,FALSE,TRUE), 	
-            MCMC =0, data="clean",nRep=30,
+            pertScen = c(FALSE,FALSE,FALSE,TRUE,TRUE), 	
+            MCMC =0, 
+            nRep=30, # number of replicates to run
             dataFile = here("Data","data_cleaner_abs_threa1.5.txt"),
             Group = FALSE,
-            folderL=paste0(here(simsDir),"/",scenario,"_/","samplesPost_/"))
-            # folderL=paste0(here(simsDir),"/",scenario,"_/"))
+            folderL=paste0(here(simsDir),"/",scenario,"_/"))
+
+
 
 # create dir
 check_create.dir(here(simsDir,paste0(scenario,"_")),param = rep("samplesPost",1),
                  values = c(""))
 
+# Change is running on cluster
 param_pred$folder<-param_pred$folderL
+
+# For samples from the posterior
+param_pred_samp<-param_pred
+param_pred_samp$folderL<-paste0(here(simsDir),"/",scenario,"_/","samplesPost_/")
+param_pred_samp$folder<-param_pred_samp$folderL
+
 ## Use modes for predictions
-param_pred$init[c(3,4,5)]<- c(modeGamma$gamma,0,modescal)
+param_pred$init[c(3,4,5)]<- c(modeGamma$gamma,modeNegrew$NR,modescal)
                               # modeNegrew$NR,modescal)
-param_pred$init2[c(3,4,5)]<- c(modeGamma$gamma,0,modescal)
-                               # modeNegrew$NR,modescal)
-# c(runif(1,max = 1),runif(1,max = 1),
-#                            runif(1,max = 500,min = 1))
-sumMCMC$statistics[,1]
+
 nsamples<-100
 
-postSamp<-MCMCdata[round(runif(nsamples,min = 1,max=dim(MCMCdata)[1]),
-                              digits = 0),]
+# Get samples
+postSamp<-MCMCdata[sample(x = 1:dim(MCMCdata)[1],
+                          size = nsamples,replace = FALSE),]
 
+# Print file using the mode
+fileName<-"parameters_pred_1.json"
+outParam.pred<-toJSON(param_prep,auto_unbox = TRUE,pretty = TRUE)
+write(outParam.pred,paste(param_pred$folderL,fileName,sep = ""))
+
+
+# print file using the samples
 for(i in 1:nsamples){
-  param_pred$init[c(3,4,5)]<- c(postSamp[i,.(gamma,negReward,scaleConst)])
+  param_pred_samp$init[c(3,4,5)]<- as.numeric(postSamp[i,
+                                        .(gamma,negReward,scaleConst)])
+  param_pred_samp$init[3:4]<-param_pred_samp$init[3:4]*param_pred_samp$pertScen[3:4]
   # param_pred$seed<- i
   fileName<-paste("parameters_pred_",i,".json",sep="")
-  outParam.pred<-toJSON(param_pred,auto_unbox = TRUE,pretty = TRUE)
-  if(file.exists(paste(param_pred$folderL,fileName,sep = ''))){
-    currFile<-fromJSON(paste(param_pred$folderL,fileName,sep = ''))
-    if(sum(unlist(currFile)!=unlist(param_pred))>0){
+  outParam.pred<-toJSON(param_pred_samp,auto_unbox = TRUE,pretty = TRUE)
+  if(file.exists(paste(param_pred_samp$folderL,fileName,sep = ''))){
+    currFile<-fromJSON(paste(param_pred_samp$folderL,fileName,sep = ''))
+    if(sum(unlist(currFile)!=unlist(param_pred_samp))>0){
       # warning("You are erasing old files!! n\ Check first!!!",immediate. = TRUE)
       # print("OLD value")
       # print(unlist(currFile)[unlist(currFile)!=unlist(param)])
@@ -171,7 +185,7 @@ for(i in 1:nsamples){
       # print(unlist(param)[unlist(currFile)!=unlist(param)])
       # ans<-readline("Want to continue?")
       # if(substr(ans, 1, 1) == "y"){
-      write(outParam.pred,paste(param_pred$folderL,fileName,sep = "/"))
+      write(outParam.pred,paste(param_pred_samp$folderL,fileName,sep = "/"))
       # jobfile(param$folderL,listfolders[i],jobid = j)
       # }
       # else{
@@ -179,7 +193,7 @@ for(i in 1:nsamples){
       # }
     }
   }else{
-    write(outParam.pred,paste(param_pred$folderL,fileName,sep = ""))
+    write(outParam.pred,paste(param_pred_samp$folderL,fileName,sep = ""))
     # jobfile(param$folderL,listfolders[i],jobid = j)
   }
 }
@@ -191,7 +205,7 @@ for(i in 1:nsamples){
 param<-list(totRounds=10000,ResReward=1,VisReward=1,
             ResProb=c(0.2),
             VisProb=c(0.2),
-            ResProbLeav=0,VisProbLeav=1,negativeRew=0,#modeNegrew$NR,#sumMCMClist$statistics[,1][2],
+            ResProbLeav=0,VisProbLeav=1,negativeRew=-modeNegrew$NR,#,#sumMCMClist$statistics[,1][2],
             scenario=0,
             inbr=0,outbr=0,trainingRep=10,forRat=0.0,
             alphaT=0.05,printGen=1,seed=1, gammaRange=I(c(modeGamma$gamma)),#c(0,sumMCMClist$statistics[,1][1])),#,
@@ -224,6 +238,8 @@ listfolders<-check_create.dir(here("Simulations",paste0(scenario,"_")),
 
 for (i in 1:length(rangLeav)) {
   for(j in 1:length(rangAbund)){
+    param$negativeRew<-param$negativeRew*param_pred$pertScen[4]
+    param$gammaRange<-I(c(param$gammaRange*param_pred$pertScen[3]))
     param$folderL<-paste0(here("Simulations",paste0(scenario,"_"),listfolders[i]),"/")
     param$folder<-param$folderL #paste0(folderSims,"/",listfolders[i],"/") 
     # param.1$folderL<-paste0(here("Simulations",paste0(scenario,"_"),listfolders[i]),"/")
@@ -261,6 +277,5 @@ for (i in 1:length(rangLeav)) {
     }
     
   }
-}
-# 
+}# 
 

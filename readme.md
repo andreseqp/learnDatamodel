@@ -37,13 +37,13 @@ generated to produce the data corresponding to the contour plots
 (Figure 2, left hand side panels). 
 
 ## Visualization
-Description and analysis of the resuts are embebbed in R chunks in the 
+Description and analysis of the results are embedded in R chunks in the 
 Rmd file *manuscript_1.0.Rmd*. These R chunks source other R files contained
 in the repository. Bellow a short description of the files necessary for the 
 analysis and their role.
 
-## Description of relevan files
-*ActCrit.cpp*: c++ code of the learning model. Used to generate thre predictions
+## Description of relevant files
+*ActCrit.cpp*: c++ code of the learning model. Used to generate the predictions
   visualized as contour plots Figure 2, left panels.
 *ActCritMCMC.cpp*: c++ code of the bayesian analysis, the code runs the 
   Monte Carlo Markov Chains. It also generates the predictions for each data 
@@ -55,15 +55,15 @@ analysis and their role.
 *data2interp.R*: Definition of function used in the interpolation that 
   generates contour plots in Fig. 2. 
 *json.hpp*: Header file necessary to use json files in the c++ code.
-*loadData.R*: Define accesory functions used to load simulation output.
+*loadData.R*: Define accessory functions used to load simulation output.
 *loadFiledData.R*: Loads the two sources of data (field and experimental),
   extracts the preference for the visitor clients (according to the
-  criteri, see Statistical analysis in the main text) and exports the data 
+  criteria, see Statistical analysis in the main text) and exports the data 
   file that is used by the executables. It also uses the raw data to produce 
   Fig S. 1.
-*manFigures.R*: Loads data from the chains and predictions. Computes the 
-  interpolation to generate the countor plots. It produces Fig. 2.
 *parTOjson.R*: generate different types of json files with the parameter values.
+*predictions.R*: Loads data from the chains and predictions. Computes the 
+  interpolation to generate the contour plots. It produces Fig. 2.
 *random.cpp*, *random.h*, *utils.cpp*, *utils.h*: Headers and cpp files 
   necessary to compile the executables. They define convenient functions and
   random number generators. 
