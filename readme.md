@@ -6,6 +6,9 @@ Quiñones, A.E. Triki, Z. Bshary. R.
 Field and experimental data together with computational models reveal 
 how cleaner fish adjust decisions  in a biological market. 
 
+![image](https://user-images.githubusercontent.com/36297302/157276290-33cd37e3-7bc1-4ad0-8147-ff60596163c2.png)
+
+
 ## Reproducibility 
 
 ### Compiling 
