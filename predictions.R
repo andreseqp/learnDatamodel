@@ -216,7 +216,8 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
 # Panel full model scatter
 scatter.obs.pred.both<-ggplot(data=fieldatabyLocSamps.both,
                               aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+                        fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("")+
   geom_point(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+
@@ -251,7 +252,8 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
 # Panel future reward scatter
 scatter.obs.pred.gam<-ggplot(data=fieldatabyLocSamps.gam,
                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+                        fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
   geom_point(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+
@@ -285,7 +287,8 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
 
 scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
                               aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2)+
+  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+                        fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
   geom_point(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+
@@ -301,4 +304,5 @@ scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
                       legend.key.size = unit(0.1,'cm'))+
   guides(colour=guide_legend(ncol=3,title="",override.aes = list(size=1)))
   
-  
+
+

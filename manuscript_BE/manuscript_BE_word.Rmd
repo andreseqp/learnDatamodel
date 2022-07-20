@@ -1,41 +1,53 @@
 ---
-title: Field and experimental data together with computational 
-  models reveal how cleaner fish adjust decisions  in a biological market
-author: 
-  - name: Andrés E. Quiñones 
-    email: andresqp@gmail.com
-    affiliation: a
-    corresponding: andresqp@gmail.com
-  - name: Zegni Triki
-    email: zegni.triki@gmail.com
-    affiliation: b
-  - name: Redouan Bshary
-    email: redouan.bshary@unine.ch
-    affiliation: a
-address:
-  - code: a
-    address: Institute of Biology, University of Neuchatel, Neuchatel, Switzerland
-  - code: b
-    address: Department of Zoology, Stockholm University, Stockholm, Sweden
+title: | 
+  Title: Field and experimental data together with computational models reveal how cleaner fish adjust decisions  in a biological market
+# author:
+# - Andrés E. Quiñones^[Institute of Biology, University of Neuchâtel, Neuchâtel, Switzerland - andresqp@gmail.com]
+# - Zegni Triki^[Department of Zoology, Stockholm University, Stockholm, Sweden]
+# - Redouan Bshary^[Institute of Biology, University of Neuchâtel, Neuchâtel, Switzerland]
+subtitle: |
+  Abbreviated title: Cleaner fish cognitive mechanisms in a biological market
+# date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  word_document
+   # pdf_document:
+    # latex_engine: xelatex
+    # template: template.latex
+fig_caption: yes
+fontsize: 12pt
+keep_tex: yes
+bibliography: Cleanerlearning.bib
+style: M:\Zotero\styles\behavioral-ecology.csl
+spacing: double
 abstract: |
   While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings yield similar performances, and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. We illustrate this point by fitting computational models to experimental data on performance by wild-caught cleaner fish *Labroides dimidiatus* in an ephemeral reward task, as well as cleaner and client fish densities from the locations of capture. Using Bayesian statistics to fit the model parameters to performance data revealed that cleaner fish most likely estimate future consequences of an action, while it appears unlikely that the removal of the ephemeral reward acts as psychological punishment (negative reinforcement). Incorporating future consequences also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement mechanism. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinnings of cognitive performance. 
-  
-author_summary: |
-  Performance in behavioural experiments is often used to assess the cognitive abilities of animals. However, animals can get to the same outcome in alternative ways. Thus, the outcome of the experiments does not tell us how animals achieve their performance.  In order to overcome this limitation, we used a set of computational models, which provide predictions on how alternative cognitive mechanisms perform in the face of varying environmental conditions, and compare their predictions to performance data from individuals that experienced different conditions throughout their life. Our study system is the cleaner fish *Labroides dimidiatus*, a coral reef fish that feeds off ectoparasites and dead tissue from the skin of other reef fishes. Cleaner fish often have to choose among alternative clients seeking their cleaning service, and the optimal choice is often hard to achieve. Our performance experiments mimic the natural choices the cleaner fish make. The combination of experiments and computational models points to cleaner fish abilities to account for the future effect of their choices by estimating the long term expected value of those choices. Estimating long term value is a mechanism involved in human foresight. 
 
-bibliography: Cleanerlearning.bib
 header-includes: |
   ```{=latex}
   \usepackage{float}
+  \usepackage{graphicx}
   \usepackage{booktabs}
+  \linespread{2}
+  \usepackage{lineno}
+  \linenumbers
+  \usepackage{setspace}\doublespacing
   \newcommand{\beginsupplement}{ \setcounter{table}{0}     \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+  \providecommand{\keywords}[1]{\textbf{\textit{Keywords---}} #1}
   ```
-output: rticles::plos_article
-# plos.csl can be download and used locally
-csl: http://www.zotero.org/styles/plos
+editor_options:
+  markdown:
+    wrap: 80
 ---
 
-_Text based on plos sample manuscript, see <https://journals.plos.org/ploscompbiol/s/latex>_
+## Lay summary
+  
+  Cleaner fish, reef fish that feed of ectoparasites of other fishes, often choose among alternative clients. For the cleaner fish is better to choose certain clients, a choice that favours obtaining food in the future. Thus, cleaners must "look" into the future to make the right choice. By combining a learning model with data, we show that cleaners estimate the long-term value of their actions rather than using simpler heuristics. Estimating long-term value is a mechanism involved in human foresight.  
+
+
+**keywords:** learning, behavior, cleaners, bayesian statisitics, behavioral mechanisms
+
+
+\newpage
 
 ## Introduction
 
@@ -45,15 +57,15 @@ library(here)
 source(file=here("loadFieldData.R"))
 ```
 
-Often alternative cognitive mechanisms yield similar behaviour and/or cognitive
+Often alternative cognitive mechanisms yield similar behavior and/or cognitive
 performances. This poses a problem for disentangling the mechanistic 
-underpinnings of behaviour. This is particularly clear in research aimed at
+underpinnings of behavior. This is particularly clear in research aimed at
 discovering between species variation in *higher* cognitive abilities; or 
 in other words, research on whether non-human animals show cognitive 
 abilities believed to be uniquely human. For instance, when researchers 
-try to find *mental time travel-like* behaviour, they usually come up with 
-clever experiments to show the behaviour displayed requires inferences made 
-through past events[@dally_Foodcaching_2006]. However, they often face the
+try to find *mental time travel-like* behavior, they usually come up with 
+clever experiments to show the behavior displayed requires inferences made 
+through past events [@dally_Foodcaching_2006]. However, they often face the
 challenge of alternative scenarios where simpler explanations, 
 like classic associative learning, can bring about the 
 observed behavioural outcome [@suddendorf_Evolution_2007]. Similarly, attempts 
@@ -70,7 +82,7 @@ variation. Controlled laboratory conditions often mask between and within
 species variation that arises among different environments. Thus, if 
 predictions from the alternative mechanisms depend on environmental 
 conditions, it is possible to assess their relative explanatory power 
-by performing cognitive test in the context of
+by performing cognitive tests in the context of
 different environmental conditions. 
 
 From an evolutionary perspective, mechanisms are likely selected because 
@@ -86,7 +98,7 @@ current market conditions. Indeed, such adjustments have been repeatedly
 documented [@axen_Signalling_1996]. In animals, an obvious general candidate 
 mechanism for the strategic adjustment is the cognitive machinery. However, 
 it is not clear which cognitive mechanisms allow individuals to adjust their 
-behaviour to the varying conditions. More specifically the question arises 
+behaviors to the varying conditions. More specifically the question arises 
 to what extent mechanisms beyond basic associative learning may be involved.
 
 One example of strategic adjustment in a biological market is the marine
@@ -136,8 +148,8 @@ mechanisms that are not present in all the tested taxa, or were not used
 under the experimental set-up. 
 
 Recent research on the cognitive abilities needed to solve the ephemeral 
-reward task has used a broad approach as proposed by Shettleworth 
-[@shettleworth_Cognition_2009], who defined cognition as including 
+reward task has used a broad approach as proposed by
+@shettleworth_Cognition_2009, who defined cognition as including 
 all ways in which animals acquire information 
 through the senses, process, retain and decide to act on it. 
 Indeed, perception of relevant cues is of major importance 
@@ -148,7 +160,7 @@ However, identifying cues as salient is not the only challenge
 of the ephemeral reward task, as revealed by proximate learning models. 
 Such models allow varying the cognitive tool kit and evaluating 
 which minimal kit is necessary to solve 
-the task at hand (e.g. [@dubois_Model_2021]). Applied to the ephemeral 
+the task at hand (e.g. @dubois_Model_2021). Applied to the ephemeral 
 reward task, learning models showed that basic reinforcement learning does 
 not suffice to solve the ephemeral reward task [@prat_Modelling_2022;
 @quinones_Reinforcement_2019]. 
@@ -162,11 +174,11 @@ same strategic option, paired with a fish with the alternative strategic option)
 [@quinones_Reinforcement_2019]. The ability to distinguish and value 
 one stimulus differently alone from compound versions of it has been termed 
 configurational learning, chunking, 
-or segmentation (see references in [@prat_Modelling_2022]). 
+or segmentation (see references in @prat_Modelling_2022). 
 
 In addition to configurational learning, cleaners also need to account for 
 the future consequences of current decisions. In the model by 
-Quiñones *et al.* [@quinones_Reinforcement_2019], this could be achieved in 
+@quinones_Reinforcement_2019, this could be achieved in 
 two non-mutually exclusive ways: through low temporal discounting of 
 future effects, also termed ‘chaining’ [@enquist_Power_2016]; and/or 
 through perceiving a visitor client leaving as psychological punishment 
@@ -181,7 +193,7 @@ of short term considerations [@enquist_Power_2016]. Even though, 'chaining'
 can be readily implemented computationally in learning models 
 [@enquist_Power_2016;@sutton_Reinforcement_2018], cognitively it seems to be 
 a complex adaptation [@suddendorf_Evolution_2007]. On the other hand,
-using client behaviour as a negative reinforcer is, in principle, 
+using client behavior as a negative reinforcer is, in principle, 
 easier to implement. Negative reinforcement is part of the ubiquitous 
 learning mechanism termed operant conditioning [@thorndike_Animal_1898; 
 @skinner_Behavior_1938]. Thus, the standard logic of 
@@ -195,8 +207,8 @@ Here, for the sake of simplicity and clarity, we will use the word
 'penalty' to refer to this mechanism which includes a negative reinforcer. 
 
 
-Over the last decade, our team tested over a hundred wild-caught 
-cleaner fish in the exact same paradigm of the ephemeral reward 
+Over the last decade, over a hundred wild-caught cleaner fish have been tested
+in the exact same paradigm of the ephemeral reward 
 task [@salwiczek_Adult_2012;@wismer_Variation_2014;@triki_Decrease_2018;
 @triki_Biological_2019;@triki_Brain_2020]. These fish often come from 
 different reef locations around the study field site at Lizard Island, 
@@ -257,7 +269,7 @@ Individuals obtain a fixed reward from cleaning a client fish
 regardless of the category. Every time individuals face and make a choice
 they update the probability of making that same choice. The update is
 based on the difference between the expected reward and the obtained
-reward (prediction error) [@sutton_Reinforcement_2018; 
+reward - the prediction error- [@sutton_Reinforcement_2018; 
 @rescorla_Theory_1972]. Given the new information, the update is carried
 in the direction that leads to more reward being obtained, given
 the new information. In the long run, the probability of choosing a visitor 
@@ -265,7 +277,7 @@ over a resident converges in the model. To which probability the model
 will converge depends on the relative abundance of cleaners, visitors 
 and residents; as well as on the probability of visitors leaving the 
 cleaning station when made to wait. Further details of the model 
-implementation can be found in Quiñones *et al* [@quinones_Reinforcement_2019]. 
+implementation can be found in @quinones_Reinforcement_2019. 
 
 The model shows that agents need to find a way 
 to incorporate future consequences of current choices. In the model, 
@@ -274,10 +286,10 @@ also work together.  First, $\gamma$ measures how
 much individuals include future rewards in their decision updates. 
 If $\gamma=0$, individuals only use the immediate reward obtained from a
 cleaning interaction. As $\gamma$ increases, individuals include more the
-reward obtained from the subsequent choices. That amounts to calculating
+reward obtained from the subsequent choices. That amounts to estimating
 and using for decision making the future expected rewards of an action (chaining).
 Second, $\eta$ measures how much individuals include in their reward the
-fleeing behaviour of visitors as a negative component (penalty). Both of
+fleeing behavior of visitors as a negative component (penalty). Both of
 these parameters allow individuals to use in their estimates the future
 effects of their choices. 
 
@@ -297,24 +309,24 @@ In total, we have twelve site/year data sets for fish censuses and
 corresponding performance in the lab test. Thus, some sites were sampled more 
 than once. To estimate the population density of cleaner fish 
 and their clients at a given site in 
-a given year, Triki *et al.* [@triki_Biological_2019] used a series of ten 
+a given year, @triki_Biological_2019 used a series of ten 
 transects of $30m$ each. Observers swam along the transect lines placed on 
 the reef and first counted the visible large-bodied adult fish 
 (species with total length $TL \geq 10cm$) including cleaner fish 
 on a width of $5m$, and then on the 
 return individuals of small-bodied fish species ($TL < 10 cm$)
 on a width of $1 m$
-(see Triki et al. 2018 for further details on fish censuses data collection). 
+(see @triki_Decrease_2018 for further details on fish censuses data collection). 
 We then scaled the counts of cleaner fish, small-bodied, 
 and  large-bodied  clients fish densities per $100 m^2$. 
-From the study by Triki *et al* [@triki_Biological_2019] 
+From the study by @triki_Biological_2019 
 cleaner fish and large-bodied client populations densities were 
 highly correlated, and only the former 
 was hence used in the analyses as representative of both measures.
 
 The field observation data consisted of video recordings/encodings of the 
 cleaner-client cleaning interactions. There were videos from eight 
-cleaners per site/year of a duration of $30 min$ each. Triki *et al* 
+cleaners per site/year of a duration of $30 min$ each. Triki et al. 
 extracted information from every event wherein a visitor client 
 was made to wait in favour of another client (visitor or resident), and noted 
 whether or not the visitor left or queued for the cleaning service
@@ -324,7 +336,7 @@ The cognitive performance data was from a total of 120 cleaners
 (10 individuals per 12 site/year) tested in the 
 ephemeral reward task [@triki_Biological_2019;@triki_Brain_2020]. Authors 
 housed all captured cleaners individually in glass aquaria 
-( $62cm \times 27cm \times 37 cm$ ) and provided them 
+($62cm \times 27cm \times 37 cm$) and provided them 
 with PVC pipes ($10 cm \times 1 cm$) as shelters. 
 The task consisted of exposing the cleaner fish to substitute 
 models of client fish in the form of two *Plexiglas* plates offering the 
@@ -337,8 +349,8 @@ resident plate first, the experimenter withdrew the visitor plate out of
 the aquarium as a consequence.  Choosing first the visitor plate, 
 however, granted access to both plates. The equal size of the plates 
 forced cleaner fish to learn to give service priority to the visitor plate 
-based solely on the behaviour-cue of the plates rather than size-cue 
-[@wismer_Cuebased_2019]. Triki *et al.* [@triki_Biological_2019;@triki_Brain_2020] 
+based solely on the behavior-cue of the plates rather than size-cue 
+[@wismer_Cuebased_2019]. Triki et al. [-@triki_Biological_2019;@triki_Brain_2020] 
 tested the fish for a maximum of 200 trials with 20 trials a day, 10 trials 
 in the morning and 10 trials in the afternoon. They randomized and 
 counterbalanced the plates’ spatial location (i.e. left or right) 
@@ -347,7 +359,8 @@ between trials. Similarly, they counterbalanced the plates’ decoration
 tested fish. In the original studies, once a fish reach a learning criterion, 
 that is, performing significantly above chance level ($> 50%$, $p-value ≥ 0.05$),
 they passed to a reversal version of the task where the roles of the 
-visitor/resident Plexiglas plates were swapped (see Triki et al. 2019, 2020). 
+visitor/resident Plexiglas plates were swapped 
+(see Triki et al.[-@triki_Biological_2019;@triki_Brain_2020]). 
 Here, we used instead a subset of these data in order to have an idea of 
 cleaner fish preferences for the visitor plate, even if they do not reach 
 the learning criterion within 200 trials. To do so, we first extracted the 
@@ -367,15 +380,11 @@ supplementary material (Fig. \ref{fig:rawdata}) we show how our choice maps
 to the previously used criteria. For comparison, we also show a quantification 
 of visitor preference based only on the initial phase of the task. 
 
-### Ethics statement
-The Animal Ethics Committee of the Queensland government (DAFF)
-  approved the project (CA 2016/05/970 and CA 2017/05/1063)
-
 ### Statistical analysis
 
 The aim of the analyses is to fit the key model parameters 
-$\gamma$ and $\eta$, to the empirical data from Triki *et al.* 
-[@triki_Biological_2019;@triki_Brain_2020] to test whether each or 
+$\gamma$ and $\eta$, to the empirical data from Triki et al. 
+[-@triki_Biological_2019;@triki_Brain_2020] to test whether each or 
 a combination of these effects is a better explanation for the pattern 
 seen in the data. We used the ecological variables: cleaners, visitor clients, 
 resident clients abundances and visitor clients leaving probability,  
@@ -394,7 +403,8 @@ This is because, in the model, relative abundances of clients
 define not only the probability of residents and visitors 
 but also how often the cleaning station is empty (e.g. there are no 
 clients to be cleaned). The frequency with which clients visit the station 
-is another variable, which in nature may vary among different client species 
+is another variable influencing the station occupancy, which in nature 
+may vary among different client species 
 depending on their ectoparasite loads. We do not have field estimates 
 for species-specific parasite loads, especially not as a function of the site. 
 In order to control for these aspects, we computed a measure of relative 
@@ -459,7 +469,7 @@ relation to the log-likelihood of a model
 with parameters $\gamma$ and $\eta$ set to zero. This, in practice,
 amounts to a model that has a neutral preference between the two options. 
 We computed the pseudo $R^2$ for all the samples of the posterior from
-the MCMC. Thus, we used these distributions of pseudo $R^2$'s as a measure of
+the MCMC. We used these distributions of pseudo $R^2$'s as a measure of
 fit. 
 
 
@@ -591,11 +601,11 @@ separately and combined, we considered cleaner fish performance
 in the lab test to have its origin from the rule these fish applied 
 in their natural environment. That is, individuals that 
 solved the task already had a preference for 
-visitors clients and generalized this rule to the lab conditions 
+visitor clients and generalized this rule to the lab conditions 
 once being familiar with the task.
 
 While all three models captured well the positive relationship between visitor 
-leaving behaviour and cleaner fish performance in
+leaving behavior and cleaner fish performance in
 the market task [@triki_Biological_2019], only the chaining mechanism 
 predicted that cleaner fish performance in the task should be low in 
 habitats with low cleaner-to-client ratios, regardless of the 
@@ -630,14 +640,14 @@ larger forebrains; a key teleost brain region associated with
 behavioural flexibility and social intelligence. Those failing to 
 show optimized decision-rules given their local ecological 
 conditions had relatively smaller forebrains  [@triki_Brain_2020]. 
-Triki *et al.*  refer to the former as socially competent cleaner fish,
+Triki et al.  refer to the former as socially competent cleaner fish,
 while the second group as socially incompetent cleaner fish. 
-Social competence is the ability to optimise social behaviour 
+Social competence is the ability to optimise social behavior 
 to the available social information [@taborsky_Social_2012a;
 @bshary_Cooperation_2015;@varela_Correlated_2020]. Our analyses yielded no 
 evidence that the difference in social competence with respect to the local 
 ecological conditions and associated brain morphology, 
-found by Triki *et al* [@triki_Brain_2020], is due to the mechanism 
+found by @triki_Brain_2020, is due to the mechanism 
 used to incorporate future consequences. It is conceivable that 
 high performing individuals from low population densities reef sites 
 use negative reinforcement instead of chaining, but in that 
@@ -699,18 +709,19 @@ enhancement. Such strict conditions are virtually never met. For
 example, potato washing by Japanese macaques, an iconic example of
 social learning, took several years to spread within the group
 [@kawamura_Process_1959], meaning that any learner had been repeatedly
-exposed to demonstrations before acquisition. Importantly, Galef
-[@galef_Question_1992] refuted imitation as a mechanism not simply because
+exposed to demonstrations before acquisition. 
+Importantly, @galef_Question_1992 refuted imitation as a mechanism not simply because
 of the repeated exposure but because a (rather qualitative) analysis of
 the spread of potato washing across individuals did not follow the
 prediction based on imitation learning (see also
-[@hirata_SweetPotato_2001]). In our case, the number of trials it took
+@hirata_SweetPotato_2001). In our case, the number of trials it took
 cleaners to learn the solution to the ephemeral rewards task 
 would never allow excluding an important role of 
 penalty based on the data
 alone. However, fitting model predictions to our comprehensive empirical 
 data set revealed that a more complex mechanism, estimation of future reward,
 fits the data better.
+
 
 
 \newpage

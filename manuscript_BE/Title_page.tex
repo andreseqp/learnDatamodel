@@ -1,0 +1,106 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={ Computational models reveal how cleaner fish adjust decisions in a biological market},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{\large \textbf{Title:} Computational models reveal how cleaner
+fish adjust decisions in a biological market}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{\normalsize \textbf{Short title:} Cleaner fish cognitive
+mechanisms in a biological market}
+\date{}
+
+\usepackage{forarray}
+\usepackage{xstring}
+\newcommand{\getIndex}[2]{
+  \ForEach{,}{\IfEq{#1}{\thislevelitem}{\number\thislevelcount\ExitForEach}{}}{#2}
+}
+
+\newcommand{\getAff}[1]{
+  \getIndex{#1}{a,b}
+}
+
+\begin{document}
+\maketitle
+\begin{flushleft}
+
+Andrés E. Quiñones\textsuperscript{\getAff{a}}\textsuperscript{*},
+Zegni Triki\textsuperscript{\getAff{a}, \getAff{b}},
+Redouan Bshary\textsuperscript{\getAff{a}}\\
+\bigskip
+\textbf{\getAff{a}}Institute of Biology, University of Neuchatel,
+Neuchatel, Switzerland\\
+\textbf{\getAff{b}}Department of Zoology, Stockholm University,
+Stockholm, Sweden\\
+\bigskip
+* Corresponding author: \href{mailto:andresqp@gmail.com}{\nolinkurl{andresqp@gmail.com}}, Rue
+Emile-Argand 11, CH-2000, Neuchatel, Switzerland, tel. +41325586486\\
+\end{flushleft}
+
+\hypertarget{funding}{%
+\subsection{Funding}\label{funding}}
+
+This work was supported by the Swiss National Science Foundation grants
+(grants number: 31003A\_153067/1, 310030B\_173334/1) to R.B.
+
+\hypertarget{acknowledgements}{%
+\subsection{Acknowledgements}\label{acknowledgements}}
+
+ZT and RB kindly thank the staff of Lizard Island Research Station,
+Dominique Roche, Sharon Wismer, Olivia Rey,Sandra Ann Binning, Elena
+Levorato and William McNeely for their field support. AQ thanks Florian
+Hartig for statistical advice, and the cluster of the Institute of
+Computer Science of the University of Neuchâtel (IIUN) for the computing
+resources provided.
+
+\end{document}

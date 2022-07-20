@@ -1,0 +1,42 @@
+---
+title: | 
+ \large \textbf{Title:} Computational models reveal how cleaner fish adjust decisions in a biological market
+subtitle: |
+  \normalsize \textbf{Short title:} Cleaner fish cognitive mechanisms in a biological market
+author: 
+  - name: Andrés E. Quiñones 
+    email: andresqp@gmail.com
+    affiliation: a
+    corresponding: andresqp@gmail.com 
+    fulladress: Rue Emile-Argand 11, CH-2000, Neuchatel, Switzerland, tel. +41325586486
+  - name: Zegni Triki
+    affiliation: 
+      - a
+      - b
+  - name: Redouan Bshary
+    affiliation: a
+address:
+  - code: a
+    address: Institute of Biology, University of Neuchatel, Neuchatel, Switzerland
+  - code: b
+    address: Department of Zoology, Stockholm University, Stockholm, Sweden
+output:    
+  pdf_document:
+    keep_tex: true
+    latex_engine: xelatex
+    template: template.latex
+---
+
+
+## Funding
+This work was supported by the Swiss National Science Foundation grants
+(grants number: 31003A_153067/1, 310030B_173334/1) to R.B.
+
+## Acknowledgements
+ZT and RB kindly thank the staff of Lizard Island Research Station, 
+Dominique Roche, Sharon Wismer, Olivia Rey,Sandra Ann Binning, 
+Elena Levorato and William McNeely for their field support. 
+AQ thanks Florian Hartig for statistical advice, and the cluster of the 
+Institute of Computer Science of the University of Neuchâtel (IIUN) for the
+computing resources provided.
+

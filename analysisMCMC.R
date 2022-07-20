@@ -151,5 +151,5 @@ nrew.nrew.post<-ggplot(data=MCMCdata3,aes(x=negReward)) +
                show.legend=FALSE) +
   scale_fill_manual(values=c("gray85","skyblue","gray85"))+
   labs(title=labelsPlot.Scen[3],
-       subtitle = expression(gamma),x="",y="")+
+       subtitle = expression(eta),x="",y="")+
   theme_classic()+xlim(-2,2)
