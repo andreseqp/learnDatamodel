@@ -205,21 +205,23 @@ ggplot(field.merged.2,aes(x=score_visitor.init,y=score_visitor,
 
 initANDRev<-ggplot(field.merged.2,aes(y=score_visitor,x=as.factor(class.perform)))+
   geom_beeswarm()+theme_classic()+labs(title = "Initial and reversal")+
-  scale_x_discrete(name ="Performance",labels=c("0"="Nothing","1"="initial only",
+  scale_x_discrete(name ="Performance",labels=c("0"="None","1"="initial only",
                                                   "2"="both"))+ylim(0,20)+
   stat_summary(fun.data = function(x){return(c(y=20,
                label=length(x)))},
-               geom = "text")+ylab("# of visitor chosen")
+               geom = "text")+ylab("# of visitor chosen")+
+  theme(plot.title = element_text(hjust = 1)) 
 
 
 init<-ggplot(field.merged.2,aes(y=score_visitor.init,x=as.factor(class.perform)))+
   geom_beeswarm()+theme_classic()+labs(title = "Initial")+
-  scale_x_discrete(name ="Performance",labels=c("0"="Nothing",
+  scale_x_discrete(name ="Performance",labels=c("0"="None",
                                                 "1"="initial only",
                                                 "2"="both"))+ylim(0,20)+
   stat_summary(fun.data = function(x){return(c(y=20,
                           label=length(x)))},
-               geom = "text")+ylab("")
+               geom = "text")+ylab("")+
+  theme(plot.title = element_text(hjust = 1)) 
 
 
 

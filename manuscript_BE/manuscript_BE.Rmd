@@ -312,7 +312,7 @@ this could be achieved with either of two parameters that could
 also work together.  First, $\gamma$ measures how
 much individuals include future rewards in their decision updates. 
 If $\gamma=0$, individuals only use the immediate reward obtained from a
-cleaning interaction. As $\gamma$ increases, individuals include more the
+cleaning interaction. As $\gamma$ increases, individuals include more of the
 reward obtained from the subsequent choices. That amounts to estimating
 and using for decision making the future expected rewards of an action (chaining).
 Second, $\eta$ measures how much individuals include in their reward the
@@ -344,18 +344,16 @@ on a width of $5m$, and then on the
 return individuals of small-bodied fish species ($TL < 10 cm$)
 on a width of $1 m$
 (see @triki_Decrease_2018 for further details on fish censuses data collection). 
+Total length estimates were done by the observer. 
 We then scaled the counts of cleaner fish, small-bodied, 
 and  large-bodied  clients fish densities per $100 m^2$. 
-From the study by @triki_Biological_2019 
-cleaner fish and large-bodied client populations densities were 
-highly correlated, and only the former 
-was hence used in the analyses as representative of both measures.
+
 
 The field observation data consisted of video recordings/encodings of the 
 cleaner-client cleaning interactions. There were videos from eight 
 cleaners per site/year of a duration of $30 min$ each. Triki et al. 
 extracted information from every event wherein a visitor client 
-was made to wait in favour of another client (visitor or resident), and noted 
+was made to wait in favor of another client (visitor or resident), and noted 
 whether or not the visitor left or queued for the cleaning service
 [@triki_Biological_2019;@triki_Brain_2020]. 
 
@@ -375,20 +373,28 @@ resident (permanent food source). That is, if a cleaner fish inspected the
 resident plate first, the experimenter withdrew the visitor plate out of 
 the aquarium as a consequence.  Choosing first the visitor plate, 
 however, granted access to both plates. The equal size of the plates 
-forced cleaner fish to learn to give service priority to the visitor plate 
-based solely on the behavior-cue of the plates rather than size-cue 
-[@wismer_Cuebased_2019]. Triki et al. [-@triki_Biological_2019;@triki_Brain_2020] 
+forced cleaner fish to decide based solely on the association between 
+the behaviour and the collor/pattern cue [@wismer_Cuebased_2019]. 
+Triki et al. [-@triki_Biological_2019;@triki_Brain_2020] 
 tested the fish for a maximum of 200 trials with 20 trials a day, 10 trials 
 in the morning and 10 trials in the afternoon. They randomized and 
 counterbalanced the plates’ spatial location (i.e. left or right) 
 between trials. Similarly, they counterbalanced the plates’ decoration 
 (colour and pattern) and the plates’ role (visitor or resident) between the 
-tested fish. In the original studies, once a fish reach a learning criterion, 
-that is, performing significantly above chance level ($> 50%$, $p-value ≥ 0.05$),
+tested fish. In the original studies, once a fish reached a learning criterion, 
+that is, performing significantly above chance level in a binomial test 
+($p-value 	\leq 0.05$, ),
 they passed to a reversal version of the task where the roles of the 
-visitor/resident Plexiglas plates were swapped 
-(see Triki et al.[-@triki_Biological_2019;@triki_Brain_2020]). 
-Here, we used instead a subset of these data in order to have an idea of 
+visitor/resident Plexiglas plates were swapped. The reversal phased 
+stopped when the fish performed significatly above chance, or the fish
+completed the 200 trial together with the initial;
+see Triki et al.[-@triki_Biological_2019;@triki_Brain_2020]. 
+Here, we are interested in explaining the total frequency of visitor choices
+using the model, rather than just the achievement of the criterion. 
+Total frequency of visitor choices naturally comes out of the model, 
+and allows us to use all the variation among cleaners, instead of reducing 
+that to a binomial variable.
+Thus, we used instead a subset of these data to estimate the final 
 cleaner fish preferences for the visitor plate, even if they do not reach 
 the learning criterion within 200 trials. To do so, we first extracted the 
 trial-by-trial outcomes from the last two sessions (20 trials) of those who 
@@ -399,13 +405,16 @@ test and passed to a reversal phase, we extracted the trial-by-trial
 outcomes from the last session (10 trials) before passing to reversal 
 and the last 10 trials they were exposed to in the test 
 ($N = `r fieldData.cleaner.filt.sum[V1>2,length(V1)]`$ cleaner fish). 
+
 We chose a combination of initial and reversal to quantify preference 
-for the visitor client, given that it matches well the criteria chosen 
-in previous analysis of the ephemeral reward task experimental set-up
-[@triki_Biological_2019;@triki_Brain_2020]. In the 
-supplementary material (Fig. \ref{fig:rawdata}) we show how our choice maps
-to the previously used criteria. For comparison, we also show a quantification 
-of visitor preference based only on the initial phase of the task. 
+for the visitor client. However, it could be argued that using only the initial
+phase gives a better estimation of the cleaner fish preference for the visitor. 
+In the supplementary material (Fig. \ref{fig:rawdata}) we show how using 
+initial and reversal (a), and only initial (b) maps
+to the previously used criteria. The initial and reversal match better
+the criteria chosen in previous analysis of the ephemeral 
+reward task experimental set-up
+[@triki_Biological_2019;@triki_Brain_2020]. 
 
 ### Statistical analysis
 
@@ -415,12 +424,13 @@ $\gamma$ and $\eta$, to the empirical data from Triki et al.
 a combination of these effects is a better explanation for the pattern 
 seen in the data. We used the ecological variables: cleaners, visitor clients, 
 resident clients abundances and visitor clients leaving probability,  
-as input to the models. As the response variable, we used cleaners' 
-preference for visitors over residents in the ephemeral reward task. 
-Finally, we used the preference for visitors resulting from the 
-model simulations as the prediction for the response variable. 
-We kept all other parameter values used for the model simulations constant, 
-see Table \ref{tab:param}.
+as input to the models. As the response variable, we used the frequency with 
+which cleaners chose the visitor option in the ephemeral reward task. 
+Finally, we used the probability with which agents in the model
+simulations choose the visitor in resident-visitor options
+as the prediction for the response variable. 
+We kept all other parameter values used for 
+the model simulations constant, see Table \ref{tab:param}.
 
 To capture with the model the relationship between the ecological 
 variables and cleaner fish preferences for visitors, we needed to scale 
@@ -483,7 +493,9 @@ The collection of parameters sets kept in
 all chains approximates the posterior distribution. We coded the model 
 as well as the fitting algorithm in *c++*, the diagnostics and visualization 
 in R [@rcoreteam_Language_2021]. All codes are accessible at 
-<DOI: 10.5281/zenodo.6338073>
+[![DOI](https://zenodo.org/badge/440585701.svg)](https://zenodo.org/badge/latestdoi/440585701).
+
+
 
 To compare the fit of the three alternative models, we used the 
 distribution of pseudo $R^2$ proposed by Mcfadden [@mcfadden_Conditional_1974].
@@ -764,8 +776,8 @@ fits the data better.
 <!-- (ref:rawdata)  -->
 
 
-```{r rawdata,fig.cap='Relation between the response variable used in this study and the criteria used in previous studies to assess performance in the ephemeral reward task. In the x axis, we classified the performance of cleaner fish according to whether they developed a preference for the visitor in the initial round, in the initial and reversal, or none of them. In the y axis, we add the choices of two experimental sessions: panel on the left uses one session from the initial round and one from the reversal round when possible (as described in the main text); panel on the right uses two sessions from the initial round for all fish.',out.width='100%',fig.height=5,cache=FALSE}
-plot_grid(initANDRev,init,ncol = 2)
+```{r rawdata,fig.cap='Relation between the response variable used in this study and the criteria used in previous studies to assess performance in the ephemeral reward task. In the x axis, we classified the performance of cleaner fish according to whether they developed a preference for the visitor in the initial round (initial only), in the initial and reversal (both), or none of them (none). In the y axis, we add the choices of two experimental sessions: in panel \\textbf{a} we use one session from the initial round and one from the reversal round when possible (as described in the main text); in panel \\textbf{b} we use two sessions from the initial round for all fish.',out.width='100%',fig.height=5,cache=FALSE}
+plot_grid(initANDRev,init,ncol = 2,labels = c("a","b"),label_x = 0.15)
 
 ```
 
