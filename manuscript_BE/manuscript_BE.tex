@@ -44,19 +44,6 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-\usepackage{graphicx}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -350,8 +337,8 @@ Barto 2018; Rescorla and Wagner 1972). Formally, the prediction error is
 given by
 
 \begin{equation}
-\label{eq:delta}
 \delta_t = R_t -  V_t(S_t) + \gamma V_t(S_{t+1}) ,
+\label{eq:delta}
 \end{equation}
 
 where \(R_t\) is the sum different reward sources at time \(t\);
@@ -524,18 +511,24 @@ do not have field estimates for species-specific parasite loads,
 especially not as a function of the site. In order to control for these
 aspects, we computed a measure of relative cleaner fish abundance for
 each reef site relative to absolute abundances and multiplied it by a
-scaling constant that changes the range of the variable. This scaling
-constant is hence meant to capture variation in the market conditions
-driven partly by cleaner fish abundance. We fitted the value of the
-scaling constant as part of the statistical inference. As for the
+scaling constant that changes the range of the variable. Specifically,
+cleaner fish relative abundance is equal to
+\(\frac{\epsilon C_{abs}}{\epsilon C_{abs}+R_{abs}+V_{abs}}\). Where
+\(\epsilon\) is the scaling constant; \(C_{abs}\) is the cleaner fish
+absolute density; \(R_{abs}\) is the residents absolute density and
+\(V_{abs}\) is the visitor client absolute density. This scaling
+constant is meant to capture variation in the market conditions driven
+partly by cleaner fish abundance. We fitted the value of the scaling
+constant (\(\epsilon\)) as part of the statistical inference. As for the
 visitor and resident abundances, we computed a relative measure with
-respect to the total client abundance, and weighted that by the rescaled
-relative absence of cleaners (\(1-\text{relative cleaner abundance}\)).
-Thus, all three measures of relative abundance sum up to 1, and can be
-used in the model as a proxy for the probability of having different
-options in the cleaning station. Note that we introduced the scaling
-constant to control for variation that is not captured by the model; its
-parameter distribution does not offer biological insights.
+respect to the total client abundance, and weighted that by the
+re-scaled relative absence of cleaners
+(\(1-\text{relative cleaner abundance}\)). Thus, all three measures of
+relative abundance sum up to 1, and can be used in the model as a proxy
+for the probability of having different options in the cleaning station.
+Note that we introduced the scaling constant to control for variation
+that is not captured by the model; its parameter distribution does not
+offer biological insights.
 
 Once we calculated the relative abundances, we obtained predictions from
 the model for each one of the locations and ran the Markov Chain. We
@@ -552,7 +545,7 @@ visitor over the resident; and \(n=20\) (due to our choice of using 20
 choices per cleaner fish). By taking the natural logarithm and summing
 over all the cleaner fish and reef sites, we obtained the log-likelihood
 of the data given the model and parameters. We then proposed a new set
-of parameters drawn from a uniform distribution centred around the old
+of parameters drawn from a uniform distribution centered around the old
 parameter set. The amplitude of the uniform distribution used for each
 parameter can be found in Table \ref{tab:param}. Subsequently, we ran
 the model and calculated the likelihood with the new parameter set. We
@@ -571,7 +564,7 @@ autocorrelation. The collection of parameters sets kept in all chains
 approximates the posterior distribution. We coded the model as well as
 the fitting algorithm in \emph{c++}, the diagnostics and visualization
 in R (R Core Team 2021). All codes are accessible at
-\href{https://zenodo.org/badge/latestdoi/440585701}{\includegraphics{https://zenodo.org/badge/440585701.svg}}.
+\url{https://zenodo.org/badge/latestdoi/440585701}
 
 To compare the fit of the three alternative models, we used the
 distribution of pseudo \(R^2\) proposed by Mcfadden (McFadden 1974).
@@ -606,11 +599,11 @@ includes zero, but the mode of the posterior is around 0.5 (Fig.
 zero, the distribution of \(\gamma\) shifted to higher values, zero is
 no longer part of the 95\% credible interval of the parameter (Fig.
 \ref{fig:post}, c). In contrast, when we look at the model with only
-penalty, the posterior distribution of \(\eta\) is still centred around
+penalty, the posterior distribution of \(\eta\) is still centered around
 zero (Fig. \ref{fig:post}, d). Thus, the analysis of the estimates of
 individual parameter values in the three models only supports a strong
-effect of chaining. Furthermore, the comparison of the models` fit
-favours the chaining model. In panel e of figure \ref{fig:post} we show
+effect of chaining. Furthermore, the comparison of the models' fit
+favors the chaining model. In panel e of figure \ref{fig:post} we show
 the distribution of \(pseudo-R^2\) calculated using samples from the
 posterior distributions shown before. Note, \(pseudo-R^2\) can have
 negative values, which is when the log-likelihood of the model is lower
@@ -631,25 +624,27 @@ well as the diagnostics of the MCMCs (Figs.
 \includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/pred-1} \caption{Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.}\label{fig:pred}
 \end{figure}
 
-The main reason for chaining and penalty to give different predictions
-is the way that cleaner fish relative abundance influences the
-preference for the visitor clients. Visitor leaving probability has a
-similar positive effect on the probability of choosing the visitor
-clients on all three models, they all predict an increase preference for
-visitors as the visitor probability increases (Fig. \ref{fig:pred}). In
-contrast, cleaner fish relative abundance has a different effect in the
-model with only chaining, compared to the other two models, full model
-and penalty. In the model with only chaining, only intermediate cleaner
-fish abundance triggers a preference for the visitor clients (Fig.
-\ref{fig:pred} c). In both models with penalty, both intermediate and
-low cleaner abundance triggered a preference for the visitor (Fig.
-\ref{fig:pred} a,e). Note, however, we calculated preferences shown in
-figure \ref{fig:pred} left panels by using only the mode of the
-posterior distributions, and by holding constant the balance between
-resident and visitors´ abundances. Panels on the right, show how close
-predictions are from the observed data, allowing the balance between
-client types to vary and using a set of samples from the posterior
-distribution.
+Low cleaner fish relative abundance yields different predictions from a
+model with only chaining and with penalty. The model with only chaining
+predicts a low preference fpr the visitor when cleaner fish relative
+abundance is low (Fig. \ref{fig:pred} c). In contrast, the models
+including penalty (with and without chaining) predict high preference
+for the visitor option (Fig. \ref{fig:pred} a and e). For intermediate
+and high cleaner relative abundances the predictions are similar for all
+three models. Intermediate relative abundance trigger a high preference
+for the visitor; while low abundances trigger low preference for the
+visitor (Fig. \ref{fig:pred}a,b,e). Note, however, we calculated
+preferences shown in figure \ref{fig:pred} left panels by using only the
+model of the posterior distributions, and by holding constant the
+balance between resident and visitors' abundances. Panels on the right,
+show how close predictions are from the observed data, allowing the
+balance between client types to vary and using a set of samples from the
+posterior distribution.
+
+Visitor leaving probability has an overall positive effect on the
+probability of choosing the visitor clients on all three models. All
+three models predict an increase preference for visitors as the visitor
+probability increases (Fig. \ref{fig:pred}).
 
 \hypertarget{discussion}{%
 \subsection{Discussion}\label{discussion}}
@@ -809,13 +804,13 @@ in the MCMC. \(\sigma\) refers to the amplitude of the perturbation
 kernel with the subscript indicating the associated parameter. New
 values were taken from a uniform distribution. \(\alpha\) refers to the
 learning rate.}\tabularnewline
-\toprule
+\toprule()
 Parameter & Value \\
-\midrule
+\midrule()
 \endfirsthead
-\toprule
+\toprule()
 Parameter & Value \\
-\midrule
+\midrule()
 \endhead
 Learning rounds & 10000 \\
 Reward value & 1 \\
@@ -825,7 +820,7 @@ Reward value & 1 \\
 \(\sigma_{Sca.Const.}\) & 300 \\
 Number of chains & 5 \\
 Chain length & \(1^5\) \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \hypertarget{references}{%

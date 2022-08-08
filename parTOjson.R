@@ -12,23 +12,34 @@ fileName<-"parameters.json"
 
 # name of the scenario for which parameter files will be produces
 # format used for the name: MCMCclean_*parameter1_paramerter2_parameter3.....
-scenario<-"MCMCclean_gam_sca"
+scenario<- "test"#"MCMCclean_PAA_gam_Nre_sca"
 
 
 # MCMC fit - Generate json parameter files for -------------------------------------
 
 # for MCMC
-param_mcmc<-list(totRounds=10000, # Number of rounds in the learning model
-                 ResReward=1,VisReward=1, # Magnitude of reward for resdents and visitors
-                 ResProbLeav=0, # Prob. of resindet leaving the station if unattended
-                 scenario=0, # scenario of how the clients reach the station
+param_mcmc<-list(totRounds=10000, 
+                 # Number of rounds in the learning model
+                 ResReward=1,VisReward=1, 
+                 # Magnitude of reward for residents and visitors
+                 ResProbLeav=0, 
+                 # Prob. of resident leaving the station if unattended
+                 scenario=0, 
+                 # scenario of how the clients reach the station
                  #nature 0, experiment 1, marketExperiment 2, ExtendedMarket 3
-                 inbr=0,outbr=0, # probability of clients seeking similar/ different,
+                 inbr=0,outbr=0, 
+                 # probability of clients seeking similar/ different,
                  # clients, respectively, in the station
-                 forRat=0.0, # Rate at which cleaners forget what they have learned
-                 seed=1,  # Seed for the random number generator
-                 propfullPrint = 0.7, #Proportion of rounds used to calculate predictions
-                 sdPert=c(0.05,0.05,0.3,4,300), # Width of the perturbation kernel for each parameter
+                 forRat=0.0, 
+                 # Rate at which cleaners forget what they have learned
+                 seed=1,  
+                 # Seed for the random number generator
+                 agent="PAA", 
+                 # Type of agent FAA (chuncking), PAA (not chuncking)
+                 propfullPrint = 0.7, 
+                 #Proportion of final rounds used to calculate predictions
+                 sdPert=c(0.05,0.05,0.3,4,300), 
+                 # Width of the perturbation kernel for each parameter
                  # alphaA,AlphaC, Gamma, NegRew, scalConst
                  chain_length=100000, # Chain length
                  init=c(0.05,0.05,0,0,30), # Initial values for each of the parameters
@@ -58,7 +69,7 @@ check_create.dir(here(simsDir),param = rep(scenario,1),
 # Loop to make parameter files ------------------------------------------------
 # and give different starting values
 
-for(seed in 1:5){
+for(seed in 1:1){
   param_mcmc$folder<-param_mcmc$folderL
   # param_mcmc$folder<-paste(clusterHome,paste0(scenario,"_/"),sep="/")
   param_mcmc$init<-c(0.05,0.05,runif(1,max = 0.6),runif(1,max = 2,min = 0),
