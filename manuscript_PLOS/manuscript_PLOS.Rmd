@@ -767,6 +767,8 @@ ggarrange(sca.both.post,sca.gam.post,
 
 ```
 
+
+
 <!-- (ref:diagnosticsfull) MCMC convergence diagnostics for the full model.  -->
 <!-- On the left trace-plots, on the right changes along the chain of the  -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998]. -->
@@ -819,6 +821,54 @@ ggarrange(traces.full,gelman.full)
 
 ```
 
+
+```{r diagnosticsfullPAA, fig.cap='MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.',out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+
+longMCMCdata4<-melt(MCMCdata4,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("gamma","negReward","scaleConst"))
+                    
+parlab<-list(`gamma` =expression(gamma),
+          `negReward`=expression(eta),
+          `scaleConst`="Scaling constant")
+
+traces.full.PAA<-ggplot(longMCMCdata4,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = function(variable,value){
+  return(parlab[value])})+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+gel.full<-as.data.table(gelman.diag(mcmcList.4)$psrf)
+gel.full[,parameter:=c("gamma","negReward","scalConst")]
+
+pdf(file = NULL)
+gp.dat<-gelman.plot(mcmcList.4)
+rubbish <- dev.off()
+
+gp.dat.frame <- data.table(rbind(as.data.frame(gp.dat[["shrink"]][,,1]), 
+                          as.data.frame(gp.dat[["shrink"]][,,2])), 
+                q=rep(dimnames(gp.dat[["shrink"]])[[3]], each=nrow(gp.dat[["shrink"]][,,1])),
+                last.iter=rep(gp.dat[["last.iter"]], length(gp.dat)))
+
+gelman.full.PAA<-ggplot(melt(gp.dat.frame, c("q","last.iter"), value.name="shrink_factor"), 
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) + 
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y  = element_blank())
+  
+ggarrange(traces.full.PAA,gelman.full.PAA)
+
+```
+
 <!-- (ref:diagnosticsGam) MCMC convergence diagnostics for the chaining model.  -->
 <!-- On the left trace-plots, on the right changes along the chain of the  -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
@@ -867,6 +917,55 @@ gelman.gam<-ggplot(melt(gp.dat.frame.gam, c("q","last.iter"), value.name="shrink
 ggarrange(traces.gam,gelman.gam)
 ```
 
+<!-- (ref:diagnosticsGam) MCMC convergence diagnostics for the chaining model.  -->
+<!-- On the left trace-plots, on the right changes along the chain of the  -->
+<!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
+
+```{r diaggamPAA,fig.cap='MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor ',echo=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+longMCMCdata5<-melt(MCMCdata5,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("gamma","scaleConst"))
+                    
+parlab<-list(`gamma` =expression(gamma),
+          `scaleConst`="Scaling constant")
+
+traces.gam.PAA<-ggplot(longMCMCdata5,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = function(variable,value){
+  return(parlab[value])})+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+gel.gam<-as.data.table(gelman.diag(mcmcList.5)$psrf)
+gel.gam[,parameter:=c("gamma","scalConst")]
+
+pdf(file = NULL)
+gp.dat.gam<-gelman.plot(mcmcList.5)
+rubbish <- dev.off()
+
+gp.dat.frame.gam.PAA <- data.table(rbind(as.data.frame(gp.dat.gam[["shrink"]][,,1]), 
+                          as.data.frame(gp.dat.gam[["shrink"]][,,2])), 
+                q=rep(dimnames(gp.dat.gam[["shrink"]])[[3]], each=nrow(gp.dat.gam[["shrink"]][,,1])),
+                last.iter=rep(gp.dat.gam[["last.iter"]], length(gp.dat.gam)))
+
+gelman.gam.PAA<-ggplot(melt(gp.dat.frame.gam.PAA, c("q","last.iter"), value.name="shrink_factor"), 
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) + 
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y = element_blank())
+
+ggarrange(traces.gam.PAA,gelman.gam.PAA)
+```
+
+
 <!-- (ref:diagNeg) MCMC convergence diagnostics for the penalty model. -->
 <!-- On the left trace-plots, on the right changes along the chain of the -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
@@ -912,6 +1011,52 @@ gelman.neg<-ggplot(melt(gp.dat.frame.neg, c("q","last.iter"), value.name="shrink
 
 ggarrange(traces.neg,gelman.neg)
 ```
+<!-- (ref:diagNeg) MCMC convergence diagnostics for the penalty model. -->
+<!-- On the left trace-plots, on the right changes along the chain of the -->
+<!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
+
+```{r diagNeg,fig.cap='MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor',out.width='100%',fig.height=5,cache=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+longMCMCdata6<-melt(MCMCdata6,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("negReward","scaleConst"))
+
+parlab<-list(`negReward` =expression(eta),
+          `scaleConst`="Scaling constant")
+
+traces.neg.PAA<-ggplot(longMCMCdata6,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = function(variable,value){
+  return(parlab[value])})+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+
+pdf(file = NULL)
+gp.dat.neg<-gelman.plot(mcmcList.6)
+rubbish <- dev.off()
+
+gp.dat.frame.neg.PAA <- data.table(rbind(as.data.frame(gp.dat.neg[["shrink"]][,,1]),
+                          as.data.frame(gp.dat.neg[["shrink"]][,,2])),
+                q=rep(dimnames(gp.dat.neg[["shrink"]])[[3]], each=nrow(gp.dat.neg[["shrink"]][,,1])),
+                last.iter=rep(gp.dat.neg[["last.iter"]], length(gp.dat.neg)))
+
+gelman.neg.PAA<-ggplot(melt(gp.dat.frame.neg, c("q","last.iter"), value.name="shrink_factor"),
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) +
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y = element_blank())
+
+ggarrange(traces.neg.PAA,gelman.neg.PAA)
+```
+
 
 ```{r param , echo=FALSE,results='asis'}
   cat(' Table: \\label{tab:param} Parameter values with which the model was run 

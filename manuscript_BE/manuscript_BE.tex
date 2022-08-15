@@ -71,15 +71,9 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\linespread{2}
-\usepackage{lineno}
-\linenumbers
-\usepackage{setspace}\doublespacing
-\newcommand{\beginsupplement}{ \setcounter{table}{0}     \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
-\providecommand{\keywords}[1]{\textbf{\textit{Keywords---}} #1}
+  \usepackage{float}
+  \usepackage{booktabs}
+  \newcommand{\beginsupplement}{ \setcounter{table}{0}             \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -787,15 +781,27 @@ estimation of future reward, fits the data better.
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagnosticsfull-1} \caption{MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.}\label{fig:diagnosticsfull}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagnosticsfullFAA-1} \caption{MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.}\label{fig:diagnosticsfullFAA}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diaggam-1} \caption{MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor }\label{fig:diaggam}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diaggamFAA-1} \caption{MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor }\label{fig:diaggamFAA}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagNeg-1} \caption{MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor}\label{fig:diagNeg}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagNegFAA-1} \caption{MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor}\label{fig:diagNegFAA}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagnosticsfullPAA-1} \caption{MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.}\label{fig:diagnosticsfullPAA}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diaggamPAA-1} \caption{MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor }\label{fig:diaggamPAA}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagNegPAA-1} \caption{MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor}\label{fig:diagNegPAA}
 \end{figure}
 
 \begin{longtable}[]{@{}rc@{}}

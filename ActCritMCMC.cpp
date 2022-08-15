@@ -113,6 +113,9 @@ public:
 	virtual int mapOptions(client options[], int &choice)=0;
 	// function that maps state action pairs to indexes in the array 'values' 
 	//where values are stored
+	bool isRVoption(int time);
+	// Function to know if there is an RV option in the 
+	// current t=0 or future t=1 option
 	virtual void updateThet(int curState) = 0;
 	// function to update the policy parameter Theta
 	int numEst;
@@ -489,6 +492,15 @@ void agent::choice() {
 	else {
 		// if the clients are the same - choose randomly
 		choiceT1 = rnd::bernoulli();
+	}
+}
+
+bool agent::isRVoption(int time) {
+	if (time == 0) {
+		return(cleanOptionsT[0] + cleanOptionsT[1] == 1);
+	}
+	else {
+		return(cleanOptionsT1[0] + cleanOptionsT1[1] == 1);
 	}
 }
 
@@ -933,7 +945,7 @@ void do_simulation(//del focal_model,
 					learnScenario(sim_param["scenario"]));
 			cleaners[emp_data[id_data_point].group]->update();
 				if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
-					if (cleaners[emp_data[id_data_point].group]->getstate(0) == 0) {
+					if (cleaners[emp_data[id_data_point].group]->isRVoption(0)) {
 						++countRVopt;
 						if (cleaners[emp_data[id_data_point].group]->
 							cleanOptionsT[cleaners[emp_data[id_data_point].group]->getChoice(0)] == visitor) 
@@ -967,39 +979,39 @@ int main(int argc, char* argv[]){
 	// Only for debugging 
 	// input parameters provided by a JSON file with the following
 	// structure:
-	 json sim_param;
-	 sim_param["totRounds"]    = 5000;
-	 sim_param["ResReward"]    = 1;
-	 sim_param["VisReward"]    = 1;
-	 sim_param["ResProbLeav"]  = 0;
-	 sim_param["scenario"]  = 0;
-	 sim_param["inbr"]         = 0;
-	 sim_param["outbr"]        = 0;
-	 sim_param["seed"]         = 3;
-	 sim_param["forRat"]       = 0.0;
-	 sim_param["propfullPrint"]       = 0.7;
-	 sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10}; 
-	 sim_param["agent"] = "FAA";
-	 // alphaA, alphaC, Gamma, NegRew,scaleConst
-	 sim_param["chain_length"] = 100;
-	 sim_param["init"]       = {0.05, 0.05 , 0.93,0.02, 58};
-	 sim_param["init2"] =	{ 0.05, 0.05 , 0.93,0.02, 58 };
-	  //alphaA, alphaC, gamma, NegRew, scaleConst
-	 sim_param["pertScen"] = {false,false,true,true,true};
-	 //enum perturnScen {all,  bothFut, justGam, justNegRew};
-	 sim_param["MCMC"] = 1;
-	 sim_param["nRep"] = 1 ;
-	 sim_param["folder"] = "e:/Projects/LearnDataModel/Simulations/test_/";
-	 sim_param["dataFile"] = "e:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
-	 sim_param["Group"] = false;
+	 //json sim_param;
+	 //sim_param["totRounds"]    = 5000;
+	 //sim_param["ResReward"]    = 1;
+	 //sim_param["VisReward"]    = 1;
+	 //sim_param["ResProbLeav"]  = 0;
+	 //sim_param["scenario"]  = 0;
+	 //sim_param["inbr"]         = 0;
+	 //sim_param["outbr"]        = 0;
+	 //sim_param["seed"]         = 3;
+	 //sim_param["forRat"]       = 0.0;
+	 //sim_param["propfullPrint"]       = 0.7;
+	 //sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10}; 
+	 //sim_param["agent"] = "PAA";
+	 //// alphaA, alphaC, Gamma, NegRew,scaleConst
+	 //sim_param["chain_length"] = 100;
+	 //sim_param["init"]       = {0.05, 0.05 , 0.0,0.02, 58};
+	 //sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 };
+	 // //alphaA, alphaC, gamma, NegRew, scaleConst
+	 //sim_param["pertScen"] = {false,false,true,true,true};
+	 ////enum perturnScen {all,  bothFut, justGam, justNegRew};
+	 //sim_param["MCMC"] = 1;
+	 //sim_param["nRep"] = 1 ;
+	 //sim_param["folder"] = "m:/Projects/LearnDataModel/Simulations/test_/";
+	 //sim_param["dataFile"] = "m:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
+	 //sim_param["Group"] = false;
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
 	
 
 	// reading of parameters: 
-	/*ifstream parameters(argv[1]);
+	ifstream parameters(argv[1]);
 	if (parameters.fail()) { cout << "JSON file failed" << endl; }
-	json sim_param = nlohmann::json::parse(parameters);*/
+	json sim_param = nlohmann::json::parse(parameters);
 	
 	// Set random seed
 	rnd::set_seed(sim_param["seed"]);
@@ -1036,7 +1048,7 @@ int main(int argc, char* argv[]){
 		// we also pass on the empirical data, to use the x and y coordinates.
 		do_simulation(//focal_model
 			emp_data_clean, init_parameters, sim_param);
-			curr_loglike = calculate_fit(emp_data_clean);
+		curr_loglike = calculate_fit(emp_data_clean);
 		while (isinf(-curr_loglike)) {
 				focal_param = perturb_parameters_uniform(focal_param, sim_param);
 				curr_loglike  = calculate_fit(emp_data_clean);

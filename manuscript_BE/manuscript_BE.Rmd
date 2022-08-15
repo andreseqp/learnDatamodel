@@ -1,51 +1,52 @@
 ---
-title: | 
+title: |
   \large \textbf{Title:} Computational models reveal how cleaner fish adjust decisions in a biological market
 subtitle: |
   \normalsize \textbf{Abbreviated title:} Cleaner fish cognitive mechanisms in a biological market
-# date: "`r format(Sys.time(), '%B %d, %Y')`"
-# author: 
-#   - name: Andrés E. Quiñones 
-#     email: andresqp@gmail.com
-#     affiliation: a
-#     corresponding: andresqp@gmail.com 
-#     #, Rue Emile-Argand 11, CH-2000, Neuchatel, Switzerland. +41 32 718 31 24
-#   - name: Zegni Triki
-#     affiliation: a
-#     affiliation: b
-#   - name: Redouan Bshary
-#     affiliation: a
-# address:
-#   - code: a
-#     address: Institute of Biology, University of Neuchatel, Neuchatel, Switzerland
-#   - code: b
-#     address: Department of Zoology, Stockholm University, Stockholm, Sweden
 output:
-   pdf_document:
-    keep_tex: true
+  pdf_document:
+    keep_tex: yes
     latex_engine: xelatex
     template: template.latex
+  word_document: default
 fig_caption: yes
 fontsize: 12pt
 keep_tex: yes
 bibliography: Cleanerlearning.bib
-style: M:\Zotero\styles\behavioral-ecology.csl
+style: "M:\\Zotero\\styles\\behavioral-ecology.csl"
 spacing: double
 abstract: |
-  While it is generally straightforward to quantify individual performance in cognitive experiments, identifying the underlying cognitive processes remains a major challenge. Often, different mechanistic underpinnings yield similar performances, and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation. Alternatively, when the different mechanisms interact with environmental conditions, variation in performance across environments might allow to statistically infer the mechanism responsible. We illustrate this point by fitting computational models to experimental data on performance by wild-caught cleaner fish *Labroides dimidiatus* in an ephemeral reward task, as well as cleaner and client fish densities from the locations of capture. Using Bayesian statistics to fit the model parameters to performance data revealed that cleaner fish most likely estimate future consequences of an action, while it appears unlikely that the removal of the ephemeral reward acts as psychological punishment (negative reinforcement). Incorporating future consequences also yields performances that can be considered the result of locally optimal decision-rules, in contrast to the negative reinforcement mechanism. We argue that the combination of computational models with data is a powerful tool to infer the mechanistic underpinnings of cognitive performance. 
-lay_summary: |
-  Cleaner fish eat ectoparasites off other fishes, so-called clients. It regularly happens that two clients seek a cleaner's service simulatenously. Cleaners benefit from prioritising clients unwilling to wait, so they can feed on those willing to wait. To make the right choice, cleaners must somehow “look” into the future to anticipate consequences of current choices. By combining a learning model with data, we show that cleaners estimate the long-term value of their actions rather than using simpler heuristics. Estimating long-term value is a mechanism involved in human foresight.
+  While it is generally straightforward to quantify individual performance
+  in cognitive experiments, identifying the underlying cognitive processes remains
+  a major challenge. Often, different mechanistic underpinnings yield similar performances,
+  and Lloyd Morgan’s cannon warrants acceptance of the simpler explanation. Alternatively,
+  when the different mechanisms interact with environmental conditions, variation
+  in performance across environments might allow to statistically infer the mechanism
+  responsible. We illustrate this point by fitting computational models to experimental
+  data on performance by wild-caught cleaner fish *Labroides dimidiatus* in an ephemeral
+  reward task, as well as cleaner and client fish densities from the locations of
+  capture. Using Bayesian statistics to fit the model parameters to performance data
+  revealed that cleaner fish most likely estimate future consequences of an action,
+  while it appears unlikely that the removal of the ephemeral reward acts as psychological
+  punishment (negative reinforcement). Incorporating future consequences also yields
+  performances that can be considered the result of locally optimal decision-rules,
+  in contrast to the negative reinforcement mechanism. We argue that the combination
+  of computational models with data is a powerful tool to infer the mechanistic underpinnings
+  of cognitive performance.
+lay_summary:  |
+  Cleaner fish eat ectoparasites off other fishes, so-called clients.
+  It regularly happens that two clients seek a cleaner's service simulatenously. Cleaners
+  benefit from prioritising clients unwilling to wait, so they can feed on those willing
+  to wait. To make the right choice, cleaners must somehow “look” into the future
+  to anticipate consequences of current choices. By combining a learning model with
+  data, we show that cleaners estimate the long-term value of their actions rather
+  than using simpler heuristics. Estimating long-term value is a mechanism involved
+  in human foresight.
 header-includes: |
   ```{=latex}
-  \usepackage{float}
-  \usepackage{graphicx}
-  \usepackage{booktabs}
-  \linespread{2}
-  \usepackage{lineno}
-  \linenumbers
-  \usepackage{setspace}\doublespacing
-  \newcommand{\beginsupplement}{ \setcounter{table}{0}     \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
-  \providecommand{\keywords}[1]{\textbf{\textit{Keywords---}} #1}
+    \usepackage{float}
+    \usepackage{booktabs}
+    \newcommand{\beginsupplement}{ \setcounter{table}{0}             \renewcommand{\thetable}{S\arabic{table}}\setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
   ```
 editor_options:
   markdown:
@@ -536,16 +537,20 @@ fit.
 ```{r post, fig.cap='Posterior distributions for parameter values $\\gamma$ and $\\eta$ for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 66 (light blue shade) and 95\\% (grey shade)  highest posterior density interval for the two parameters. On the top, panels a and b show posterior distributions for a full model, including chaining ($\\gamma$) and penalty ($\\eta$). Panel c, shows the $\\gamma$ estimate from model with only chaining. Panel d shows the $\\eta$ estimate from a model with only penalty. Panel e, shows a measure of fit for all models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.',out.width='100%',fig.height=6,cache=FALSE}
 
 source(here("analysisMCMC.R"))
-first.col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
-          gam.both.post,gam.gam.post,nrew.nrew.post,
-          labels=c('a','c','d'))
-second.col<-plot_grid(nrow = 2,align = "v",byrow = TRUE,
-          nrew.both.post,panel.rsqr.all,rel_heights = c(1,2),
-          labels = c('b','e'))
-plot_grid(ncol = 2,first.col,second.col)
+
+ggarrange(allGammapost.plot,alletapost.plot,common.legend = TRUE)
+# first.col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
+#           gam.both.post.FAA,gam.gam.post.FAA,nrew.nrew.post.FAA,
+#           labels=c('a','c','d'))
+# second.col<-plot_grid(nrow = 2,align = "v",byrow = TRUE,
+#           nrew.both.post.FAA,panel.rsqr.all,rel_heights = c(1,2),
+#           labels = c('b','e'))
+# plot_grid(ncol = 2,first.col,second.col)
 
 
 ```
+
+
 
 Estimation of parameter values for the three models (full model,
 chaining and penalty), support chaining as the only mechanism 
@@ -798,7 +803,7 @@ plot_grid(initANDRev,init,ncol = 2,labels = c("a","b"),label_x = 0.15)
 <!-- panel a shows the posterior distribution from the full model; panel b from -->
 <!-- the model with only chaining; and panel c from a model with only penalty. -->
 
-```{r scaConst, fig.cap='Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\\% (light blue shade) and 95\\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.',fig.pos = 'H', out.extra = "",out.width='95%',fig.height=5}
+```{r scaConstFAA, fig.cap='Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\\% (light blue shade) and 95\\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.',fig.pos = 'H', out.extra = "",out.width='95%',fig.height=5}
 
 sca.both.post<-ggplot(data=MCMCdata1,aes(x=scaleConst)) + 
   stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.1$scaleConst))),
@@ -828,12 +833,44 @@ ggarrange(sca.both.post,sca.gam.post,
 
 ```
 
+```{r scaConstPAA, fig.cap='Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\\% (light blue shade) and 95\\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.',fig.pos = 'H', out.extra = "",out.width='95%',fig.height=5}
+
+sca.both.post.PAA<-ggplot(data=MCMCdata4,aes(x=scaleConst)) + 
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.4$scaleConst))),
+               point_interval = mode_hdi, .width = c(.66, .95),
+               point_size=3,show.legend=FALSE) + 
+  labs(title=labelsPlot.Scen[1],x="",y="")+
+  theme_classic()+
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))
+sca.gam.post.PAA<-ggplot(data=MCMCdata5,aes(x=scaleConst)) + 
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.5$scaleConst))),
+               point_interval = mode_hdi, 
+               .width = c(.66, .95),point_size=3,
+               show.legend=FALSE)+theme_classic()+
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+  labs(title=labelsPlot.Scen[2],x="",y="")
+sca.nRew.post.PAA<-ggplot(data=MCMCdata6,aes(x=scaleConst)) +
+  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.6$scaleConst))),
+               point_interval = mode_hdi, .width = c(.66, .95),
+               point_size=3,
+               show.legend=FALSE) +
+  scale_fill_manual(values=c("skyblue","gray85"))+
+  labs(title=labelsPlot.Scen[3],x="",y="")+
+  theme_classic()
+ggarrange(sca.both.post.PAA,sca.gam.post.PAA,
+          sca.nRew.post.PAA,
+          labels=c('a','b','c'),common.legend = F)
+
+```
+
+
+
 <!-- (ref:diagnosticsfull) MCMC convergence diagnostics for the full model.  -->
 <!-- On the left trace-plots, on the right changes along the chain of the  -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998]. -->
 
 
-```{r diagnosticsfull, fig.cap='MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.',out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+```{r diagnosticsfullFAA, fig.cap='MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.',out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
 
 longMCMCdata1<-melt(MCMCdata1,id.vars = c("iteration","seed"),
                     variable.name = "parameter",
@@ -884,21 +921,19 @@ ggarrange(traces.full,gelman.full)
 <!-- On the left trace-plots, on the right changes along the chain of the  -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
 
-```{r diaggam,fig.cap='MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor ',echo=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+```{r diaggamFAA,fig.cap='MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor ',echo=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
 longMCMCdata2<-melt(MCMCdata2,id.vars = c("iteration","seed"),
                     variable.name = "parameter",
                     measure.vars = c("gamma","scaleConst"))
-                    
-parlab<-list(`gamma` =expression(gamma),
-          `scaleConst`="Scaling constant")
 
+longMCMCdata2[,parameter:=factor(parameter,labels=c("gamma","'Scaling constant'"))]
+                    
 traces.gam<-ggplot(longMCMCdata2,aes(x=iteration,y=value,colour=as.factor(seed)))+
   geom_line()+
   scale_color_manual(values = multDiscrPallet)+
   labs(color="Chain")+
   facet_grid(rows=vars(parameter),scales = "free",switch = "y",
-             labeller = function(variable,value){
-  return(parlab[value])})+
+             labeller = label_parsed)+
   theme_classic()+
   theme(legend.position = 'top')
 
@@ -932,21 +967,19 @@ ggarrange(traces.gam,gelman.gam)
 <!-- On the left trace-plots, on the right changes along the chain of the -->
 <!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
 
-```{r diagNeg,fig.cap='MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor',out.width='100%',fig.height=5,cache=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+```{r diagNegFAA,fig.cap='MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor',out.width='100%',fig.height=5,cache=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
 longMCMCdata3<-melt(MCMCdata3,id.vars = c("iteration","seed"),
                     variable.name = "parameter",
                     measure.vars = c("negReward","scaleConst"))
 
-parlab<-list(`negReward` =expression(eta),
-          `scaleConst`="Scaling constant")
+longMCMCdata3[,parameter:=factor(parameter,labels=c("eta","'Scaling constant'"))]
 
 traces.neg<-ggplot(longMCMCdata3,aes(x=iteration,y=value,colour=as.factor(seed)))+
   geom_line()+
   scale_color_manual(values = multDiscrPallet)+
   labs(color="Chain")+
   facet_grid(rows=vars(parameter),scales = "free",switch = "y",
-             labeller = function(variable,value){
-  return(parlab[value])})+
+             labeller = label_parsed)+
   theme_classic()+
   theme(legend.position = 'top')
 
@@ -973,6 +1006,151 @@ gelman.neg<-ggplot(melt(gp.dat.frame.neg, c("q","last.iter"), value.name="shrink
 
 ggarrange(traces.neg,gelman.neg)
 ```
+
+
+<!-- (ref:diagnosticsfull) MCMC convergence diagnostics for the full model. -->
+<!-- On the left trace-plots, on the right changes along the chain of the -->
+<!-- Gelman and Rubin's shrink factor [@brooks_General_1998]. -->
+
+
+```{r diagnosticsfullPAA, fig.cap='MCMC convergence diagnostics for the full model. On the left trace-plots, fig.height=5, message=FALSE, cache=FALSE, on the right changes along the chain of the Gelman and Rubin shrink factor.',out.width='100%'}
+
+longMCMCdata4<-melt(MCMCdata4,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("gamma","negReward","scaleConst"))
+
+parlab<-list(`gamma` =expression(gamma),
+          `negReward`=expression(eta),
+          `scaleConst`="Scaling constant")
+
+traces.full.PAA<-ggplot(longMCMCdata4,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = function(variable,value){
+  return(parlab[value])})+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+gel.full<-as.data.table(gelman.diag(mcmcList.4)$psrf)
+gel.full[,parameter:=c("gamma","negReward","scalConst")]
+
+pdf(file = NULL)
+gp.dat<-gelman.plot(mcmcList.4)
+rubbish <- dev.off()
+
+gp.dat.frame.PAA <- data.table(rbind(as.data.frame(gp.dat[["shrink"]][,,1]),
+                          as.data.frame(gp.dat[["shrink"]][,,2])),
+                q=rep(dimnames(gp.dat[["shrink"]])[[3]], each=nrow(gp.dat[["shrink"]][,,1])),
+                last.iter=rep(gp.dat[["last.iter"]], length(gp.dat)))
+
+gelman.full.PAA<-ggplot(melt(gp.dat.frame.PAA, c("q","last.iter"), value.name="shrink_factor"),
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) +
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y  = element_blank())
+
+ggarrange(traces.full.PAA,gelman.full.PAA)
+
+```
+
+<!-- (ref:diagnosticsGam) MCMC convergence diagnostics for the chaining model.  -->
+<!-- On the left trace-plots, on the right changes along the chain of the  -->
+<!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
+
+```{r diaggamPAA,fig.cap='MCMC convergence diagnostics for the chaining model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor ',echo=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+longMCMCdata5<-melt(MCMCdata5,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("gamma","scaleConst"))
+
+longMCMCdata5[,parameter:=factor(parameter,labels = c("gamma","'Scaling constant'"))]
+
+
+traces.gam.PAA<-ggplot(longMCMCdata5,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = label_parsed)+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+gel.gam<-as.data.table(gelman.diag(mcmcList.5)$psrf)
+gel.gam[,parameter:=c("gamma","scalConst")]
+
+pdf(file = NULL)
+gp.dat.gam<-gelman.plot(mcmcList.5)
+rubbish <- dev.off()
+
+gp.dat.frame.gam.PAA <- data.table(rbind(as.data.frame(gp.dat.gam[["shrink"]][,,1]),
+                          as.data.frame(gp.dat.gam[["shrink"]][,,2])),
+                q=rep(dimnames(gp.dat.gam[["shrink"]])[[3]], each=nrow(gp.dat.gam[["shrink"]][,,1])),
+                last.iter=rep(gp.dat.gam[["last.iter"]], length(gp.dat.gam)))
+
+gelman.gam.PAA<-ggplot(melt(gp.dat.frame.gam.PAA, c("q","last.iter"), value.name="shrink_factor"),
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) +
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y = element_blank())
+
+ggarrange(traces.gam.PAA,gelman.gam.PAA)
+```
+
+<!-- (ref:diagNeg) MCMC convergence diagnostics for the penalty model. -->
+<!-- On the left trace-plots, on the right changes along the chain of the -->
+<!-- Gelman and Rubin's shrink factor [@brooks_General_1998] -->
+
+```{r diagNegPAA,fig.cap='MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor',out.width='100%',fig.height=5,cache=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+longMCMCdata6<-melt(MCMCdata6,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("negReward","scaleConst"))
+
+longMCMCdata6[,parameter:=factor(parameter,labels = c("eta","'Scaling constant'"))]
+
+traces.neg.PAA<-ggplot(longMCMCdata6,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = label_parsed)+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+
+pdf(file = NULL)
+gp.dat.neg<-gelman.plot(mcmcList.6)
+rubbish <- dev.off()
+
+gp.dat.frame.neg.PAA <- data.table(rbind(as.data.frame(gp.dat.neg[["shrink"]][,,1]),
+                          as.data.frame(gp.dat.neg[["shrink"]][,,2])),
+                q=rep(dimnames(gp.dat.neg[["shrink"]])[[3]], each=nrow(gp.dat.neg[["shrink"]][,,1])),
+                last.iter=rep(gp.dat.neg[["last.iter"]], length(gp.dat.neg)))
+
+gelman.neg.PAA<-ggplot(melt(gp.dat.frame.neg.PAA, c("q","last.iter"), value.name="shrink_factor"),
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) +
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y = element_blank())
+
+ggarrange(traces.neg.PAA,gelman.neg.PAA)
+```
+
 
 ```{r param , echo=FALSE,results='asis'}
   cat(' Table: \\label{tab:param} Parameter values with which the model was run 
