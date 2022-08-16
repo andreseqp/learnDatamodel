@@ -12,13 +12,13 @@ fileName<-"parameters.json"
 
 # name of the scenario for which parameter files will be produces
 # format used for the name: MCMCclean_*parameter1_paramerter2_parameter3.....
-scenario<- "MCMCclean_PAA2_gam_Nrew_sca"#""
+scenario<- "test"#""
 
 
 # MCMC fit - Generate json parameter files for -------------------------------------
 
 # for MCMC
-param_mcmc<-list(totRounds=10000, 
+param_mcmc<-list(totRounds=100, 
                  # Number of rounds in the learning model
                  ResReward=1,VisReward=1, 
                  # Magnitude of reward for residents and visitors
@@ -34,26 +34,26 @@ param_mcmc<-list(totRounds=10000,
                  # Rate at which cleaners forget what they have learned
                  seed=1,  
                  # Seed for the random number generator
-                 agent="PAA", 
+                 # agent="PAA", 
                  # Type of agent FAA (chuncking), PAA (not chuncking)
                  propfullPrint = 0.7, 
                  #Proportion of final rounds used to calculate predictions
-                 sdPert=c(0.05,0.05,0.2,5,200), 
+                 sdPert=c(0.05,0.05,0.3,6,100,0.2), 
                  # Width of the perturbation kernel for each parameter
-                 # alphaA,AlphaC, Gamma, NegRew, scalConst
+                 # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
                  chain_length=100000, # Chain length
-                 init=c(0.05,0.05,0,0,30), # Initial values for each of the parameters
-                 # alphaA,AlphaC, Gamma, NegRew, scalConst
-                 pertScen = c(FALSE,FALSE,TRUE,TRUE,TRUE), # boolean controlling which
+                 init=c(0.05,0.05,0,0,30,1), # Initial values for each of the parameters
+                 # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
+                 pertScen = c(FALSE,FALSE,FALSE,TRUE,TRUE,TRUE), # boolean controlling which
                  # parameter is perturbed
                  MCMC =1, # run chain=1, run prediction for one parameter set = 0
                  nRep=1, # number of replicate simulations
                  Group = FALSE, # grouped data according to social competence
                  # from triki et al. 2020
                  dataFile =
-                 paste(clusterHome,"Data","data_cleaner_abs_threa1.5.txt",
-                                  sep="/"),
-                   # here("Data","data_cleaner_abs_threa1.5.txt"),
+                 # paste(clusterHome,"Data","data_cleaner_abs_threa1.5.txt",
+                 #                  sep="/"),
+                   here("Data","data_cleaner_abs_threa1.5.txt"),
                  # location of the data file
                  # here("Simulations",
                  #                 paste0(scenario,"_"),"data_MCMC_fake.txt"))
@@ -69,14 +69,14 @@ check_create.dir(here(simsDir),param = rep(scenario,1),
 # Loop to make parameter files ------------------------------------------------
 # and give different starting values
 
-for(seed in 5:5){
+for(seed in 1:5){
   param_mcmc$folder<-param_mcmc$folderL
-  param_mcmc$folder<-paste(clusterHome,paste0(scenario,"_/"),sep="/")
+  # param_mcmc$folder<-paste(clusterHome,paste0(scenario,"_/"),sep="/")
   param_mcmc$init<-c(0.05,0.05,runif(1,max = 0.6),runif(1,max = 1,min = 0),
-                     runif(1,max = 100,min = 5))
+                     runif(1,max = 100,min = 5),0.5)
   param_mcmc$init[3:4]<-param_mcmc$init[3:4]*param_mcmc$pertScen[3:4]
   param_mcmc$seed <- seed
-  fileName<-paste("parametersMCMCcluster_",seed,".json",sep="")
+  fileName<-paste("parametersMCMC_",seed,".json",sep="")
   outParam<-toJSON(param_mcmc,auto_unbox = TRUE,pretty = TRUE)
   if(file.exists(paste(param_mcmc$folderL,fileName,sep = ''))){
     currFile<-fromJSON(paste(param_mcmc$folderL,fileName,sep = ''))

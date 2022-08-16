@@ -626,14 +626,17 @@ struct model_param {
 	//model_param(model_param const &obj);
 	double alphaC, alphaA, scaleConst;
 	double gamma[2], negReward[2];
+	double probFAA[2];
 	model_param &operator= (model_param const &rhs) {
 		alphaA = rhs.alphaA;
 		alphaC = rhs.alphaC;
 		scaleConst = rhs.scaleConst;
 		gamma[0] = rhs.gamma[0];
 		negReward[0] = rhs.negReward[0];
+		probFAA[0] = rhs.probFAA[0];
 		gamma[1] = rhs.gamma[1];
 		negReward[1] = rhs.negReward[1];
+		probFAA[1] = rhs.probFAA[1];
 		return *this;
 	}
 };
@@ -724,9 +727,10 @@ void initializeChainFile(ofstream &chainOutput,nlohmann::json param){
 	string IndFile = create_filename(namedir, param);
 	chainOutput.open(IndFile.c_str());
 	chainOutput << "iteration	" << "alpha_actor	" << "alpha_critic	" <<
-		 "gamma	" << "negReward	";
+		 "gamma	" << "negReward	" << "probFAA	";
 	if (bool(param["Group"]))
-		chainOutput	<< "gamma.1	" << "negReward.1	";
+		chainOutput	<< "gamma.1	" << "negReward.1	" << 
+		"probFAA.1";
 	chainOutput  << "scaleConst	" << "fit	" << "ratio" << endl;
 }
 
@@ -875,6 +879,10 @@ model_param perturb_parameters_uniform(model_param focal_param, json &sim_param)
 		boundedParUnifPert(focal_param.negReward[0],
 			sim_param["sdPert"][3], -INFINITY, INFINITY) +
 			(!bool(sim_param["pertScen"][3]))*focal_param.negReward[0];
+	new_param.probFAA[0] = bool(sim_param["pertScen"][5]) *
+		boundedParUnifPert(focal_param.probFAA[0],
+			sim_param["sdPert"][5], 0, 1) +
+			(!bool(sim_param["pertScen"][5])) * focal_param.probFAA[0];
 	if (sim_param["Group"]) {
 		new_param.gamma[1] = bool(sim_param["pertScen"][2]) *
 			boundedParUnifPert(focal_param.gamma[1],
@@ -884,6 +892,10 @@ model_param perturb_parameters_uniform(model_param focal_param, json &sim_param)
 			boundedParUnifPert(focal_param.negReward[1],
 				sim_param["sdPert"][3], -INFINITY, INFINITY) +
 				(!bool(sim_param["pertScen"][3]))*focal_param.negReward[1];
+		new_param.probFAA[1] = bool(sim_param["pertScen"][5]) *
+			boundedParUnifPert(focal_param.probFAA[1],
+				sim_param["sdPert"][5], 0, 1) +
+				(!bool(sim_param["pertScen"][5])) * focal_param.probFAA[1];
 	}
 	new_param.scaleConst = bool(sim_param["pertScen"][4])* boundedParUnifPert(focal_param.scaleConst,
 		sim_param["sdPert"][4], 0, INFINITY) +
@@ -900,19 +912,26 @@ void do_simulation(//del focal_model,
 	clientSet = new client[int(sim_param["totRounds"]) * 2];
 	int idClientSet;
 	agent* cleaners[2];
-	if (sim_param["agent"] == "FAA") {
+	if (rnd::bernoulli(focal_comb.probFAA[0])) {
 		cleaners[0] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
 			focal_comb.negReward[0], focal_comb.alphaA);
-		if (sim_param["Group"]) cleaners[1] = new FAATyp1(focal_comb.alphaC,
-			focal_comb.gamma[1], focal_comb.negReward[1], focal_comb.alphaA);
 	}
-	else {
+	else
+	{
 		cleaners[0] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
 			focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
-		if (sim_param["Group"]) cleaners[1] = new PAATyp1(focal_comb.alphaC,
-			focal_comb.gamma[1],
-			focal_comb.negReward[1], focal_comb.alphaA, 1.0, 0.0);
-	}	
+	}
+	if (sim_param["Group"]) {
+		if (rnd::bernoulli(focal_comb.probFAA[1])) {
+			cleaners[1] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+				focal_comb.negReward[0], focal_comb.alphaA);
+		}
+		else
+		{
+			cleaners[1] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+				focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
+		}
+	}
 	double VisPref, init;
 	int countRVopt;
 	abs2rel_abund(emp_data, focal_comb);
@@ -990,19 +1009,18 @@ int main(int argc, char* argv[]){
 	 //sim_param["seed"]         = 3;
 	 //sim_param["forRat"]       = 0.0;
 	 //sim_param["propfullPrint"]       = 0.7;
-	 //sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10}; 
-	 //sim_param["agent"] = "PAA";
-	 //// alphaA, alphaC, Gamma, NegRew,scaleConst
+	 //sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10,0.3}; 
+	 //// alphaA, alphaC, Gamma, NegRew,scaleConst,probFAA
 	 //sim_param["chain_length"] = 100;
-	 //sim_param["init"]       = {0.05, 0.05 , 0.0,0.02, 58};
-	 //sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 };
-	 // //alphaA, alphaC, gamma, NegRew, scaleConst
-	 //sim_param["pertScen"] = {false,false,true,true,true};
+	 //sim_param["init"]       = {0.05, 0.05 , 0.0,0.02, 58,1};
+	 //sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 , 1};
+	 // //alphaA, alphaC, gamma, NegRew, scaleConst,probFAA
+	 //sim_param["pertScen"] = {false,false,true,true,true,true};
 	 ////enum perturnScen {all,  bothFut, justGam, justNegRew};
 	 //sim_param["MCMC"] = 1;
 	 //sim_param["nRep"] = 1 ;
-	 //sim_param["folder"] = "m:/Projects/LearnDataModel/Simulations/test_/";
-	 //sim_param["dataFile"] = "m:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
+	 //sim_param["folder"] = "e:/Projects/LearnDataModel/Simulations/test_/";
+	 //sim_param["dataFile"] = "e:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
 	 //sim_param["Group"] = false;
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
@@ -1036,7 +1054,8 @@ int main(int argc, char* argv[]){
 	init_parameters.gamma[1] = sim_param["init"][2];
 	init_parameters.negReward[1] = sim_param["init"][3];
 	init_parameters.scaleConst = sim_param["init"][4];
-
+	init_parameters.probFAA[0] = sim_param["init"][5];
+	init_parameters.probFAA[1] = sim_param["init"][5];
 	model_param focal_param = init_parameters;
 	
 	if (sim_param["MCMC"] == 1) {
@@ -1088,10 +1107,12 @@ int main(int argc, char* argv[]){
 			outfile << focal_param.alphaA << "\t"
 				<< focal_param.alphaC << "\t"
 				<< focal_param.gamma[0] << "\t"
-				<< focal_param.negReward[0] << "\t";
+				<< focal_param.negReward[0] << "\t"
+				<< focal_param.probFAA[0];
 			if(sim_param["Group"])
 				outfile << focal_param.gamma[1] << "\t"
-				<< focal_param.negReward[1] << "\t";
+				<< focal_param.negReward[1] << "\t" 
+				<< focal_param.probFAA[1];
 			outfile	<< focal_param.scaleConst << "\t"
 				<< curr_loglike << "\t";
 			outfile << ratio << endl;

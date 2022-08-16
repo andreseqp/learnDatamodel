@@ -22,8 +22,8 @@ scen1<-"MCMCclean_gam_Nrew_sca_"
 scen2<-"MCMCclean_gam_sca_"
 scen3<-"MCMCclean_Nrew_sca_"
 scen4<-"MCMCclean_PAA2_gam_Nrew_sca_"
-scen5<-"MCMCclean_PAA_gam_sca_"
-scen6<-"MCMCclean_PAA_Nrew_sca_"
+scen5<-"MCMCclean_PAA2_gam_sca_"
+scen6<-"MCMCclean_PAA2_Nrew_sca_"
 
 
 # NLables names for the three scenarios
@@ -65,11 +65,15 @@ mcmcList.3<-mcmc.list(do.call(list,lapply(unique(MCMCdata3$seed), function(repli
   return(mcmcRun)
 })))
 
+MCMCdata4<-MCMCdata4[iteration<66800]
+
 mcmcList.4<-mcmc.list(do.call(list,lapply(unique(MCMCdata4$seed), function(repli){
   rundata<-MCMCdata4[seed==repli]
   mcmcRun<-mcmc(rundata[,.(gamma,negReward,scaleConst)],thin = thinning)#
   return(mcmcRun)
 })))
+
+MCMCdata5<-MCMCdata5[iteration<MCMCdata5[,max(iteration),by=seed][,min(V1)]]
 
 mcmcList.5<-mcmc.list(do.call(list,lapply(unique(MCMCdata5$seed), function(repli){
   rundata<-MCMCdata5[seed==repli]
@@ -77,7 +81,7 @@ mcmcList.5<-mcmc.list(do.call(list,lapply(unique(MCMCdata5$seed), function(repli
   return(mcmcRun)
 })))
 
-
+MCMCdata6<-MCMCdata6[iteration<MCMCdata6[,max(iteration),by=seed][,min(V1)]]
 mcmcList.6<-mcmc.list(do.call(list,lapply(unique(MCMCdata6$seed), function(repli){
   rundata<-MCMCdata6[seed==repli]
   mcmcRun<-mcmc(rundata[,.(negReward,scaleConst)],thin = thinning)#
