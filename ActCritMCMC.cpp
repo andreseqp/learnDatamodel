@@ -730,7 +730,7 @@ void initializeChainFile(ofstream &chainOutput,nlohmann::json param){
 		 "gamma	" << "negReward	" << "probFAA	";
 	if (bool(param["Group"]))
 		chainOutput	<< "gamma.1	" << "negReward.1	" << 
-		"probFAA.1";
+		"probFAA.1	";
 	chainOutput  << "scaleConst	" << "fit	" << "ratio" << endl;
 }
 
@@ -884,18 +884,24 @@ model_param perturb_parameters_uniform(model_param focal_param, json &sim_param)
 			sim_param["sdPert"][5], 0, 1) +
 			(!bool(sim_param["pertScen"][5])) * focal_param.probFAA[0];
 	if (sim_param["Group"]) {
-		new_param.gamma[1] = bool(sim_param["pertScen"][2]) *
+		new_param.gamma[1] = bool(sim_param["groupPars"][2])*(
+			bool(sim_param["pertScen"][2]) *
 			boundedParUnifPert(focal_param.gamma[1],
 				sim_param["sdPert"][2], -1, 1) +
-				(!bool(sim_param["pertScen"][2]))*focal_param.gamma[1];
-		new_param.negReward[1] = bool(sim_param["pertScen"][3])*
+				(!bool(sim_param["pertScen"][2]))*focal_param.gamma[1])+
+			(!bool(sim_param["groupPars"][2])*new_param.gamma[0]);
+		new_param.negReward[1] = bool(sim_param["groupPars"][3])*(
+			bool(sim_param["pertScen"][3])*
 			boundedParUnifPert(focal_param.negReward[1],
 				sim_param["sdPert"][3], -INFINITY, INFINITY) +
-				(!bool(sim_param["pertScen"][3]))*focal_param.negReward[1];
-		new_param.probFAA[1] = bool(sim_param["pertScen"][5]) *
+				(!bool(sim_param["pertScen"][3]))*focal_param.negReward[1]) +
+			(!bool(sim_param["groupPars"][3]) * new_param.negReward[0]);
+		new_param.probFAA[1] = bool(sim_param["groupPars"][5])*(
+			bool(sim_param["pertScen"][5]) *
 			boundedParUnifPert(focal_param.probFAA[1],
 				sim_param["sdPert"][5], 0, 1) +
-				(!bool(sim_param["pertScen"][5])) * focal_param.probFAA[1];
+				(!bool(sim_param["pertScen"][5])) * focal_param.probFAA[1]) +
+			(!bool(sim_param["groupPars"][5]) * new_param.probFAA[0]);
 	}
 	new_param.scaleConst = bool(sim_param["pertScen"][4])* boundedParUnifPert(focal_param.scaleConst,
 		sim_param["sdPert"][4], 0, INFINITY) +
@@ -994,42 +1000,47 @@ int main(int argc, char* argv[]){
 
 	mark_time(1);
 
-	// Hardwire parameter values:
-	// Only for debugging 
-	// input parameters provided by a JSON file with the following
-	// structure:
-	 //json sim_param;
-	 //sim_param["totRounds"]    = 5000;
-	 //sim_param["ResReward"]    = 1;
-	 //sim_param["VisReward"]    = 1;
-	 //sim_param["ResProbLeav"]  = 0;
-	 //sim_param["scenario"]  = 0;
-	 //sim_param["inbr"]         = 0;
-	 //sim_param["outbr"]        = 0;
-	 //sim_param["seed"]         = 3;
-	 //sim_param["forRat"]       = 0.0;
-	 //sim_param["propfullPrint"]       = 0.7;
-	 //sim_param["sdPert"]       = {0.05, 0.05 ,0.15 ,0.1, 10,0.3}; 
-	 //// alphaA, alphaC, Gamma, NegRew,scaleConst,probFAA
-	 //sim_param["chain_length"] = 100;
-	 //sim_param["init"]       = {0.05, 0.05 , 0.0,0.02, 58,1};
-	 //sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 , 1};
-	 // //alphaA, alphaC, gamma, NegRew, scaleConst,probFAA
-	 //sim_param["pertScen"] = {false,false,true,true,true,true};
-	 ////enum perturnScen {all,  bothFut, justGam, justNegRew};
-	 //sim_param["MCMC"] = 1;
-	 //sim_param["nRep"] = 1 ;
-	 //sim_param["folder"] = "e:/Projects/LearnDataModel/Simulations/test_/";
-	 //sim_param["dataFile"] = "e:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
-	 //sim_param["Group"] = false;
+	////Hardwire parameter values:
+	////Only for debugging 
+	////input parameters provided by a JSON file with the following
+	////structure:
+	//json sim_param;
+	//sim_param["totRounds"]    = 5000;
+	//sim_param["ResReward"]    = 1;
+	//sim_param["VisReward"]    = 1;
+	//sim_param["ResProbLeav"]  = 0;
+	//sim_param["scenario"]  = 0;
+	//sim_param["inbr"]         = 0;
+	//sim_param["outbr"]        = 0;
+	//sim_param["seed"]         = 1;
+	//sim_param["forRat"]       = 0.0;
+	//sim_param["propfullPrint"]       = 0.7;
+	//sim_param["sdPert"]       = {0.05, 0.05 ,0.3 ,6, 100,0.2}; 
+	//// alphaA, alphaC, Gamma, NegRew,scaleConst,probFAA
+	//sim_param["chain_length"] = 100;
+	//sim_param["init"]       = {0.05, 0.05 , 0.0,0.42, 39.31,0};
+	//sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 , 0};
+	////alphaA, alphaC, gamma, NegRew, scaleConst,probFAA
+	//sim_param["pertScen"] = {false,false,false,true,true,true};
+	////enum perturnScen {all,  bothFut, justGam, justNegRew};
+	//sim_param["MCMC"] = 1;
+	//sim_param["nRep"] = 1 ;
+	//sim_param["folder"] = "m:/Projects/LearnDataModel/Simulations/test_/";
+	//sim_param["dataFile"] = "m:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
+	//sim_param["Group"] = true;
+	//sim_param["groupPars"] = {false,false,false,false,false,true};
+
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
 	
 
 	// reading of parameters: 
 	ifstream parameters(argv[1]);
+	//ifstream parameters("M:/Projects/LearnDataModel/Simulations/test_/parametersMCMC_1.json");
 	if (parameters.fail()) { cout << "JSON file failed" << endl; }
 	json sim_param = nlohmann::json::parse(parameters);
+
+
 	
 	// Set random seed
 	rnd::set_seed(sim_param["seed"]);
@@ -1070,6 +1081,7 @@ int main(int argc, char* argv[]){
 		curr_loglike = calculate_fit(emp_data_clean);
 		while (isinf(-curr_loglike)) {
 				focal_param = perturb_parameters_uniform(focal_param, sim_param);
+				do_simulation(emp_data_clean, focal_param, sim_param);
 				curr_loglike  = calculate_fit(emp_data_clean);
 		}
 		ofstream outfile;
@@ -1078,10 +1090,6 @@ int main(int argc, char* argv[]){
 		for (int r = 0; r < sim_param["chain_length"]; ++r) {  // 
 			//cout << "Iteration	" << r << endl;
 			model_param new_param = perturb_parameters_uniform(focal_param, sim_param);
-			//if ((new_param.gamma < 1 && new_param.gamma > -1) &&
-			//	((new_param.negReward <= INFINITY && new_param.negReward >= -INFINITY) &&
-			//	(new_param.scaleConst <= INFINITY && new_param.scaleConst > 0))) {
-			
 			do_simulation(//focal_model, 
 				emp_data_clean, focal_param, sim_param);
 			curr_loglike = calculate_fit(emp_data_clean);
@@ -1108,11 +1116,11 @@ int main(int argc, char* argv[]){
 				<< focal_param.alphaC << "\t"
 				<< focal_param.gamma[0] << "\t"
 				<< focal_param.negReward[0] << "\t"
-				<< focal_param.probFAA[0];
+				<< focal_param.probFAA[0] << "\t";
 			if(sim_param["Group"])
 				outfile << focal_param.gamma[1] << "\t"
 				<< focal_param.negReward[1] << "\t" 
-				<< focal_param.probFAA[1];
+				<< focal_param.probFAA[1] << "\t";
 			outfile	<< focal_param.scaleConst << "\t"
 				<< curr_loglike << "\t";
 			outfile << ratio << endl;

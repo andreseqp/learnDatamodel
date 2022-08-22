@@ -53,9 +53,9 @@ editor_options:
     wrap: 80
 ---
 
-```{=latex}
-\keywords{learning, behavior, cleaners, bayesian statisitics, behavioral mechanisms}
-```
+<!-- ```{=latex} -->
+<!-- \keywords{learning, behavior, cleaners, bayesian statisitics, behavioral mechanisms} -->
+<!-- ``` -->
 
 \newpage
 
@@ -375,7 +375,7 @@ resident plate first, the experimenter withdrew the visitor plate out of
 the aquarium as a consequence.  Choosing first the visitor plate, 
 however, granted access to both plates. The equal size of the plates 
 forced cleaner fish to decide based solely on the association between 
-the behaviour and the collor/pattern cue [@wismer_Cuebased_2019]. 
+the behaviour and the color/pattern cue [@wismer_Cuebased_2019]. 
 Triki et al. [-@triki_Biological_2019;@triki_Brain_2020] 
 tested the fish for a maximum of 200 trials with 20 trials a day, 10 trials 
 in the morning and 10 trials in the afternoon. They randomized and 
@@ -536,8 +536,14 @@ fit.
 
 ```{r post, fig.cap='Posterior distributions for parameter values $\\gamma$ and $\\eta$ for the six models, three for each type of agent (Agents: FAA and PAA; models: Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 66 (light color shade) and 95\\% (grey shade)  highest posterior density interval for the two parameters. Colors blue and red denote agents FAA and PAA respectively. On the top, panels a and b show posterior distributions for a full model, including chaining ($\\gamma$) and penalty ($\\eta$). Panel c, shows the $\\gamma$ estimate from model with only chaining. Panel d shows the $\\eta$ estimate from a model with only penalty. Panel e, shows a measure of fit for all models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.',out.width='100%',fig.height=6,cache=FALSE}
 
-source(here("analysisMCMC.R"))
+scen1<-"MCMCclean_gam_Nrew_sca_"
+scen2<-"MCMCclean_gam_sca_"
+scen3<-"MCMCclean_Nrew_sca_"
+scen4<-"MCMCclean_PAA_gam_Nrew_sca_"
+scen5<-"MCMCclean_PAA_gam_sca_"
+scen6<-"MCMCclean_PAA_Nrew_sca_"
 
+source(here("analysisMCMC.R"))
 ggarrange(allGammapost.plot,alletapost.plot,common.legend = TRUE)
 # first.col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
 #           gam.both.post.FAA,gam.gam.post.FAA,nrew.nrew.post.FAA,
@@ -550,6 +556,9 @@ ggarrange(allGammapost.plot,alletapost.plot,common.legend = TRUE)
 
 ```
 
+```{r fitAllModels}
+panel.rsqr.all
+```
 
 
 Estimation of parameter values for the three models (full model,
@@ -585,8 +594,9 @@ having one parameter less than the full model. We have not shown
 here the marginal posterior distributions of the scaling constant, 
 given that they do not bring biological insight. 
 Their visualizations can be found in the supplementary 
-material (Fig. \ref{fig:scaConst}), as well as the diagnostics of the MCMCs
-(Figs. \ref{fig:diagnosticsfull},\ref{fig:diaggam},\ref{fig:diagNeg}).
+material (Fig. \ref{fig:scaConstFAA} and \ref{fig:scaConstPAA}), as well as the diagnostics of the MCMCs
+(Figs. \ref{fig:diagnosticsfullFAA},\ref{fig:diaggamFAA},\ref{fig:diagNegFAA},
+\ref{fig:diagnosticsfullPAA},\ref{fig:diaggamPAA},\ref{fig:diagNegPAA}).
 
 
 
@@ -609,17 +619,39 @@ material (Fig. \ref{fig:scaConst}), as well as the diagnostics of the MCMCs
 <!-- penalty; middle panels (c and d) from a  model with only chaining; lower  -->
 <!-- panels (e and f) from a model with penalty only. -->
 
-```{r pred, fig.cap='Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.',out.width='100%',fig.height=5,cache=FALSE}
+```{r predFAA, fig.cap='Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.',out.width='100%',fig.height=5,cache=FALSE}
 
+scen1<-"MCMCclean_gam_Nrew_sca_"
+scen2<-"MCMCclean_gam_sca_"
+scen3<-"MCMCclean_Nrew_sca_"
  source(here("predictions.R"))
 first_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
           cont.obs.pred.both,cont.obs.pred.gam,cont.obs.pred.Nrew,
           labels=c('a','c','e'),rel_heights = c(1.4,1,1))
 second_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
           scatter.obs.pred.both,scatter.obs.pred.gam,scatter.obs.pred.Nrew,
+           rel_heights = c(1.4,1,1),
           labels=c('b','d','f'))
 plot_grid(first_col,second_col,rows = 1)
 ```
+
+```{r predPAA, fig.cap='Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.',out.width='100%',fig.height=5,cache=FALSE}
+
+scen1<-"MCMCclean_PAA2_gam_Nrew_sca_"
+scen2<-"MCMCclean_PAA2_gam_sca_"
+scen3<-"MCMCclean_PAA2_Nrew_sca_"
+
+source(here("predictions.R"))
+first_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
+          cont.obs.pred.both,cont.obs.pred.gam,cont.obs.pred.Nrew,
+          labels=c('a','c','e'),rel_heights = c(1.4,1,1))
+second_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
+                      rel_heights = c(1.4,1,1),
+          scatter.obs.pred.both,scatter.obs.pred.gam,scatter.obs.pred.Nrew,
+          labels=c('b','d','f'))
+plot_grid(first_col,second_col,rows = 1)
+```
+
 
 Low cleaner fish relative abundance yields different predictions 
 from a model with only chaining and with penalty.
@@ -836,25 +868,25 @@ ggarrange(sca.both.post,sca.gam.post,
 ```{r scaConstPAA, fig.cap='Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\\% (light blue shade) and 95\\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.',fig.pos = 'H', out.extra = "",out.width='95%',fig.height=5}
 
 sca.both.post.PAA<-ggplot(data=MCMCdata4,aes(x=scaleConst)) + 
-  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.4$scaleConst))),
+  stat_halfeye(aes(fill=stat(level)),
                point_interval = mode_hdi, .width = c(.66, .95),
                point_size=3,show.legend=FALSE) + 
   labs(title=labelsPlot.Scen[1],x="",y="")+
   theme_classic()+
   scale_fill_manual(values=c("gray85","skyblue","gray85"))
 sca.gam.post.PAA<-ggplot(data=MCMCdata5,aes(x=scaleConst)) + 
-  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.5$scaleConst))),
+  stat_halfeye(aes(fill=stat(level)),
                point_interval = mode_hdi, 
                .width = c(.66, .95),point_size=3,
                show.legend=FALSE)+theme_classic()+
   scale_fill_manual(values=c("gray85","skyblue","gray85"))+
   labs(title=labelsPlot.Scen[2],x="",y="")
 sca.nRew.post.PAA<-ggplot(data=MCMCdata6,aes(x=scaleConst)) +
-  stat_halfeye(aes(fill=stat(cut(x,breaks = cuts.6$scaleConst))),
+  stat_halfeye(aes(fill=stat(level)),
                point_interval = mode_hdi, .width = c(.66, .95),
                point_size=3,
                show.legend=FALSE) +
-  scale_fill_manual(values=c("skyblue","gray85"))+
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
   labs(title=labelsPlot.Scen[3],x="",y="")+
   theme_classic()
 ggarrange(sca.both.post.PAA,sca.gam.post.PAA,
@@ -1150,7 +1182,45 @@ gelman.neg.PAA<-ggplot(melt(gp.dat.frame.neg.PAA, c("q","last.iter"), value.name
 
 ggarrange(traces.neg.PAA,gelman.neg.PAA)
 ```
+```{r diagbothGroup,fig.cap='MCMC convergence diagnostics for the penalty model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor',out.width='100%',fig.height=5,cache=FALSE,message=FALSE,out.width='100%',fig.height=5,cache=FALSE,message=FALSE}
+longMCMCdata7<-melt(MCMCdata7,id.vars = c("iteration","seed"),
+                    variable.name = "parameter",
+                    measure.vars = c("gamma","probFAA","probFAA.1","scaleConst"))
 
+longMCMCdata7[,parameter:=factor(parameter,labels = c("gamma","p[FAA]","p[FAA_1]","'Scaling constant'"))]
+
+traces.both.group<-ggplot(longMCMCdata7,aes(x=iteration,y=value,colour=as.factor(seed)))+
+  geom_line()+
+  scale_color_manual(values = multDiscrPallet)+
+  labs(color="Chain")+
+  facet_grid(rows=vars(parameter),scales = "free",switch = "y",
+             labeller = label_parsed)+
+  theme_classic()+
+  theme(legend.position = 'top')
+
+
+pdf(file = NULL)
+gp.dat.both.group<-gelman.plot(mcmcList.7)
+rubbish <- dev.off()
+
+gp.dat.frame.both.group <- data.table(rbind(as.data.frame(gp.dat.both.group[["shrink"]][,,1]),
+                          as.data.frame(gp.dat.both.group[["shrink"]][,,2])),
+                q=rep(dimnames(gp.dat.both.group[["shrink"]])[[3]], each=nrow(gp.dat.neg[["shrink"]][,,1])),
+                last.iter=rep(gp.dat.both.group[["last.iter"]], length(gp.dat.both.group)))
+
+gelman.both.group<-ggplot(melt(gp.dat.frame.both.group, c("q","last.iter"), value.name="shrink_factor"),
+       aes(last.iter, shrink_factor, colour=q, linetype=q)) +
+  geom_hline(yintercept=1, colour="grey30", lwd=0.2) +
+  geom_line() +
+  facet_grid(rows = vars(variable)) +
+  labs(x="Last Iteration in Chain", y="Shrink Factor",
+       colour="Quantile", linetype="Quantile") +
+  scale_linetype_manual(values=c(2,1))+
+  theme_classic()+
+  theme(legend.position = 'top',strip.text.y = element_blank())
+
+ggarrange(traces.both.group,gelman.both.group)
+```
 
 ```{r param , echo=FALSE,results='asis'}
   cat(' Table: \\label{tab:param} Parameter values with which the model was run 

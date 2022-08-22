@@ -681,7 +681,7 @@ int main(int argc, char* argv[]){
 	double outbr = param["outbr"];
 	int trainingRep = param["trainingRep"];
 	double alphaT = param["alphaT"];
-	int numlearn = param["numlearn"];
+	int learn = param["learn"];
 	int printGen = param["printGen"];
 	double propfullPrint = param["propfullPrint"];
 	int seed = param["seed"];
@@ -717,15 +717,16 @@ int main(int argc, char* argv[]){
 								double init = tmpGam*(1 - pow(1 - tmpRes - tmpVis, 2)) / (1 - tmpGam);
 
 							   // Initialize agents
-								learners[1] = new PAATyp1(alphaT, *itg, *itn,
+								learners[0] = new PAATyp1(alphaT, *itg, *itn,
 									*italTh, init, alphaThNch);
-								learners[0] = new FAATyp1(alphaT, *itg, *itn, 
+								learners[1] = new FAATyp1(alphaT, *itg, *itn, 
 									*italTh, init);
 								// output of learning trials
 								ofstream printTest;
 // Loop through types of agents
-for (int k = 0; k < numlearn; ++k) {
-    initializeIndFile(printTest, *learners[k],
+// for (int k = 0; k < numlearn; ++k) {
+  int k = param["learn"];
+  initializeIndFile(printTest, *learners[k],
 	param, *itVisProb, *itResProb);
     // Loop through the number of replicates
 	for (int i = 0; i < trainingRep; i++) {
@@ -754,7 +755,7 @@ for (int k = 0; k < numlearn; ++k) {
 
 	printTest.close();
 	delete learners[k];
-}
+// }
 							
 						}
 					}

@@ -18,18 +18,18 @@ library("jsonlite")
 # scen2<-"MCMCclean_gam_sca_"
 # scen3<-"MCMCclean_Nrew_sca_"
 
-scen1<-"MCMCclean_gam_Nrew_sca_"
-scen2<-"MCMCclean_gam_sca_"
-scen3<-"MCMCclean_Nrew_sca_"
-scen4<-"MCMCclean_PAA2_gam_Nrew_sca_"
-scen5<-"MCMCclean_PAA2_gam_sca_"
-scen6<-"MCMCclean_PAA2_Nrew_sca_"
-
+# scen1<-"MCMCclean_gam_Nrew_sca_"
+# scen2<-"MCMCclean_gam_sca_"
+# scen3<-"MCMCclean_Nrew_sca_"
+# scen4<-"MCMCclean_PAA_gam_Nrew_sca_"
+# scen5<-"MCMCclean_PAA_gam_sca_"
+# scen6<-"MCMCclean_PAA_Nrew_sca_"
+scen7<-"MCMCclean_both_gam_Nrew_sca_group_"
 
 # NLables names for the three scenarios
 labels.Scen<-c("both","gam","Nrew")
 labelsPlot.Scen<-c("Full Model","Chaining","Penalty")
-labels.agente<-c("FAA","PAA")
+labels.agente<-c("FAA","PAA","both")
 ## Load files --------------------------------------------------------------
 
 # Defaults for MCMC analysis
@@ -43,7 +43,7 @@ MCMCdata3<-loadMCMCrun(scen3,thinning = thinning,burn.in = burn.in)
 MCMCdata4<-loadMCMCrun(scen4,thinning = thinning,burn.in = burn.in)
 MCMCdata5<-loadMCMCrun(scen5,thinning = thinning,burn.in = burn.in)
 MCMCdata6<-loadMCMCrun(scen6,thinning = thinning,burn.in = burn.in)
-
+MCMCdata7<-loadMCMCrun(scen7,thinning = thinning,burn.in = burn.in)
 
 # Create list with the data, convenient to use CODA for diagnostics
 mcmcList.1<-mcmc.list(do.call(list,lapply(unique(MCMCdata1$seed), function(repli){
@@ -65,7 +65,7 @@ mcmcList.3<-mcmc.list(do.call(list,lapply(unique(MCMCdata3$seed), function(repli
   return(mcmcRun)
 })))
 
-MCMCdata4<-MCMCdata4[iteration<66800]
+MCMCdata4<-MCMCdata4[iteration<MCMCdata4[,max(iteration),by=seed][,min(V1)]]
 
 mcmcList.4<-mcmc.list(do.call(list,lapply(unique(MCMCdata4$seed), function(repli){
   rundata<-MCMCdata4[seed==repli]
@@ -87,6 +87,14 @@ mcmcList.6<-mcmc.list(do.call(list,lapply(unique(MCMCdata6$seed), function(repli
   mcmcRun<-mcmc(rundata[,.(negReward,scaleConst)],thin = thinning)#
   return(mcmcRun)
 })))
+
+MCMCdata7<-MCMCdata7[iteration<MCMCdata7[,max(iteration),by=seed][,min(V1)]]
+mcmcList.7<-mcmc.list(do.call(list,lapply(unique(MCMCdata7$seed), function(repli){
+  rundata<-MCMCdata7[seed==repli]
+  mcmcRun<-mcmc(rundata[,.(gamma,probFAA,probFAA.1,scaleConst)],thin = thinning)#
+  return(mcmcRun)
+})))
+
 
 ## Density plots with gg -------------------------------------------------------
 
@@ -132,29 +140,48 @@ cuts.6<-lapply(MCMCdata6[,.(negReward,scaleConst)],
                    mode_hdci(x,.width = intervals)$ymax)
                })
 
+cuts.7<-lapply(MCMCdata7[,.(gamma,probFAA,probFAA.1,scaleConst)],
+               function(x){
+                 c(mode_hdci(x,.width = intervals[c(2,1)])$ymin,
+                   mode_hdci(x,.width = intervals)$ymax)
+               })
+
+
 
 # get all the likelihoods from the posterior for all models
 loglikehoods.all<-data.table(lglikelihood=c(MCMCdata1$fit,MCMCdata2$fit,
                                             MCMCdata3$fit
                                             ,MCMCdata4$fit,
-                                            MCMCdata5$fit,MCMCdata6$fit
+                                            MCMCdata5$fit,MCMCdata6$fit,
+                                            MCMCdata7$fit
                                             ),
                              model=c(rep(labels.Scen[1],length(MCMCdata1$fit)),
                                      rep(labels.Scen[2],length(MCMCdata2$fit)),
                                      rep(labels.Scen[3],length(MCMCdata3$fit))
                                      ,rep(labels.Scen[1],length(MCMCdata4$fit)),
                                      rep(labels.Scen[2],length(MCMCdata5$fit)),
-                                     rep(labels.Scen[3],length(MCMCdata6$fit))
+                                     rep(labels.Scen[3],length(MCMCdata6$fit)),
+                                     rep(labels.Scen[2],length(MCMCdata7$fit))
                                      )
-                             ,agent=rep(labels.agente,each=length(MCMCdata3$fit)*3)
-                             )
+                             ,agent=c(rep(labels.agente[1],
+                                          length(MCMCdata3$fit)+length(MCMCdata1$fit)
+                                          +length(MCMCdata2$fit)),
+                                      rep(labels.agente[2],
+                                              length(MCMCdata4$fit)+
+                                                length(MCMCdata5$fit)
+                                              +length(MCMCdata6$fit)),
+                                      rep(labels.agente[3],
+                                          length(MCMCdata7$fit))
+                             ))
+
 loglikehoods.all[,model_agent:=
                    factor(paste(model,agent,sep = "_"),
                           levels=c("both_FAA","gam_FAA","Nrew_FAA",
-                                   "both_PAA","gam_PAA","Nrew_PAA"),
+                                   "both_PAA","gam_PAA","Nrew_PAA","gam_both"),
                           labels = c("FAA full model", "FAA chaining",
                                      "FAA penalty","PAA full model",
-                                     "PAA chaining","PAA penalty"))]
+                                     "PAA chaining","PAA penalty",
+                                     "both chaining"))]
 
 loglikehoods.all[,levels(model_agent)]
 
@@ -219,9 +246,10 @@ alletapost<-data.table(
                    rep("PAA.negReward",length(MCMCdata6$negReward))),
                  labels = c("FAA full model", "FAA penalty",
                             "PAA full model","PAA penalty")),
-  agent = factor(c(rep("FAA",length(MCMCdata1$gamma)+length(MCMCdata2$gamma)),
-                   rep("PAA",length(MCMCdata4$gamma)+length(MCMCdata5$gamma))))
+  agent = factor(c(rep("FAA",length(MCMCdata1$gamma)+length(MCMCdata3$gamma)),
+                   rep("PAA",length(MCMCdata4$gamma)+length(MCMCdata6$gamma))))
 )
+
 
 alletapost.plot<-ggplot(alletapost,aes(y=model,x=negReward))+
   stat_halfeye(aes(fill=agent,fill_ramp=stat(level)),.width = c(.66, .95),
@@ -234,9 +262,6 @@ alletapost.plot<-ggplot(alletapost,aes(y=model,x=negReward))+
   geom_vline(xintercept = 0)+
   xlim(-1,13)
   
-
-
-
 gam.both.post.FAA<-ggplot(data=MCMCdata1,aes(x=gamma)) +
   stat_halfeye(aes(fill=stat(level)),#cut(x,breaks = cuts.1$gamma))),
                point_interval = mode_hdi, .width = c(.66, .95),
@@ -315,3 +340,15 @@ nrew.nrew.post.PAA<-ggplot(data=MCMCdata6,aes(x=negReward)) +
   labs(title=labelsPlot.Scen[3],
        subtitle = expression(eta),x="",y="")+
   theme_classic()+xlim(-2,2)
+
+ggplot(data=MCMCdata7,aes(x=probFAA)) +
+  stat_halfeye(aes(fill=stat(level)),
+               point_interval = mode_hdi,
+               .width = c(.66, .95),
+               point_size=3,
+               show.legend=FALSE) +
+  scale_fill_manual(values=c("gray85","skyblue","gray85"))+
+  labs(title=labelsPlot.Scen[2],
+       subtitle = expression(gamma),x="",y="")+
+  theme_classic()+xlim(-2,2)
+

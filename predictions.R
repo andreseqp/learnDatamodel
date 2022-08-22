@@ -7,6 +7,7 @@ library("RColorBrewer")
 library("patchwork") 
 library(ggpubr)
 library(ggdist)
+library(ggforce)
 library(here)
 library(cowplot)
 source(here("loadData.R"))
@@ -14,6 +15,7 @@ source(here("data2interp.R"))
 require('akima')
 source(here("aesth_par.R"))
 source(here("../R_files/posPlots.R"))
+
 
 # Folder where the three models are
 # scen1<-"MCMCclean_gam_Nrew_sca_"
@@ -49,13 +51,13 @@ predictDataMode.Nrew<-fread(here("Simulations",scen3,
 
 # Load predictions with the samples from the posterior
 predictDataSamps.both<-do.call(rbind,lapply(predfileSamples.both,fread))
-predictDataSamps.both[,id_samp:=rep(1:100,each=120)]
+predictDataSamps.both[,id_samp:=rep(1:length(predfileSamples.both),each=120)]
 
 predictDataSamps.gam<-do.call(rbind,lapply(predfileSamples.gam,fread))
-predictDataSamps.gam[,id_samp:=rep(1:100,each=120)]
+predictDataSamps.gam[,id_samp:=rep(1:length(predfileSamples.gam),each=120)]
 
-predictDataSamps.Nrew<-do.call(rbind,lapply(predfileSamples.gam,fread))
-predictDataSamps.Nrew[,id_samp:=rep(1:100,each=120)]
+predictDataSamps.Nrew<-do.call(rbind,lapply(predfileSamples.Nrew,fread))
+predictDataSamps.Nrew[,id_samp:=rep(1:length(predfileSamples.Nrew),each=120)]
 
 
 
@@ -94,10 +96,12 @@ fieldatabyLocSamps.Nrew<-predictDataSamps.Nrew[,.(probVisi.data=mean(visitorChoi
                                              by=.(site_year,id_samp)]
 
 myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
-sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0,0.8))
+sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0,1))
 
 
 ## Load data for the contour plot using the mode of the posterior --------------
+
+pointInt<-200
 
 # Full model
 simsDir.both<-here("Simulations",scen1)
@@ -115,8 +119,6 @@ FIA.stats<-FIAlastQuarData[,.(meanProb=mean(Prob.RV.V),
                            ,by=.(Neta,Gamma,pR,pV,Vlp)]
 
 FIA.stats$pA<-round(1-FIA.stats$pR-FIA.stats$pV,1)
-
-pointInt<-200
 
 FIAinterpData.both<-AbundLeavData2interp(FIAlastQuarData,
                                     Var2int = "Prob.RV.V",npoints = pointInt)
@@ -216,11 +218,12 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
 # Panel full model scatter
 scatter.obs.pred.both<-ggplot(data=fieldatabyLocSamps.both,
                               aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
-                        fill_type = "segments")+
+  # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+  #                       fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("")+
   geom_point(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+
+  geom_mark_ellipse()+
   ylim(0.45,0.85)+xlim(0.45,0.85)+
   guides(color=guide_legend(title=""))+
   scale_color_manual(values = multDiscrPallet[1:12])+
@@ -252,8 +255,8 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
 # Panel future reward scatter
 scatter.obs.pred.gam<-ggplot(data=fieldatabyLocSamps.gam,
                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
-                        fill_type = "segments")+
+  # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+                        # fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
   geom_point(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+
@@ -287,8 +290,8 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
 
 scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
                               aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
-  stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
-                        fill_type = "segments")+
+  # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
+  #                       fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
   geom_point(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred),
              shape=15,size=2)+

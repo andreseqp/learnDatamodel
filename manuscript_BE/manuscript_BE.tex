@@ -44,6 +44,19 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -145,8 +158,6 @@ data, we show that cleaners estimate the long-term value of their
 actions rather than using simpler heuristics. Estimating long-term value
 is a mechanism involved in human foresight.
 
-
-\keywords{learning, behavior, cleaners, bayesian statisitics, behavioral mechanisms}
 
 \newpage
 
@@ -437,7 +448,7 @@ resident plate first, the experimenter withdrew the visitor plate out of
 the aquarium as a consequence. Choosing first the visitor plate,
 however, granted access to both plates. The equal size of the plates
 forced cleaner fish to decide based solely on the association between
-the behaviour and the collor/pattern cue (Wismer et al. 2019). Triki et
+the behaviour and the color/pattern cue (Wismer et al. 2019). Triki et
 al. (2019, 2020) tested the fish for a maximum of 200 trials with 20
 trials a day, 10 trials in the morning and 10 trials in the afternoon.
 They randomized and counterbalanced the plates' spatial location
@@ -577,8 +588,10 @@ these distributions of pseudo \(R^2\)'s as a measure of fit.
 \subsection{Results}\label{results}}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/post-1} \caption{Posterior distributions for parameter values $\gamma$ and $\eta$ for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 66 (light blue shade) and 95\% (grey shade)  highest posterior density interval for the two parameters. On the top, panels a and b show posterior distributions for a full model, including chaining ($\gamma$) and penalty ($\eta$). Panel c, shows the $\gamma$ estimate from model with only chaining. Panel d shows the $\eta$ estimate from a model with only penalty. Panel e, shows a measure of fit for all models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.}\label{fig:post}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/post-1} \caption{Posterior distributions for parameter values $\gamma$ and $\eta$ for the six models, three for each type of agent (Agents: FAA and PAA; models: Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 66 (light color shade) and 95\% (grey shade)  highest posterior density interval for the two parameters. Colors blue and red denote agents FAA and PAA respectively. On the top, panels a and b show posterior distributions for a full model, including chaining ($\gamma$) and penalty ($\eta$). Panel c, shows the $\gamma$ estimate from model with only chaining. Panel d shows the $\eta$ estimate from a model with only penalty. Panel e, shows a measure of fit for all models, namely the distribution of pseudo-$R^2$ obtained from sampling the posterior distribution of parameter values.}\label{fig:post}
 \end{figure}
+
+\includegraphics{manuscript_BE_files/figure-latex/fitAllModels-1.pdf}
 
 Estimation of parameter values for the three models (full model,
 chaining and penalty), support chaining as the only mechanism cleaners
@@ -610,12 +623,18 @@ parameter estimates the model with chaining gives a better fit to the
 data, despite having one parameter less than the full model. We have not
 shown here the marginal posterior distributions of the scaling constant,
 given that they do not bring biological insight. Their visualizations
-can be found in the supplementary material (Fig. \ref{fig:scaConst}), as
-well as the diagnostics of the MCMCs (Figs.
-\ref{fig:diagnosticsfull},\ref{fig:diaggam},\ref{fig:diagNeg}).
+can be found in the supplementary material (Fig. \ref{fig:scaConstFAA}
+and \ref{fig:scaConstPAA}), as well as the diagnostics of the MCMCs
+(Figs.
+\ref{fig:diagnosticsfullFAA},\ref{fig:diaggamFAA},\ref{fig:diagNegFAA},
+\ref{fig:diagnosticsfullPAA},\ref{fig:diaggamPAA},\ref{fig:diagNegPAA}).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/pred-1} \caption{Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.}\label{fig:pred}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/predFAA-1} \caption{Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.}\label{fig:predFAA}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/predPAA-1} \caption{Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.}\label{fig:predPAA}
 \end{figure}
 
 Low cleaner fish relative abundance yields different predictions from a
@@ -777,7 +796,11 @@ estimation of future reward, fits the data better.
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width=0.95\linewidth,]{manuscript_BE_files/figure-latex/scaConst-1} \caption{Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\% (light blue shade) and 95\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.}\label{fig:scaConst}
+\includegraphics[width=0.95\linewidth,]{manuscript_BE_files/figure-latex/scaConstFAA-1} \caption{Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\% (light blue shade) and 95\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.}\label{fig:scaConstFAA}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.95\linewidth,]{manuscript_BE_files/figure-latex/scaConstPAA-1} \caption{Posterior distributions for scaling constant for the three models (Full model, chaining only and penalty only). We show the kernel density estimates, below the mode (black dot) and the 65\% (light blue shade) and 95\% (grey shade)  highest posterior density interval. On the top, panel a shows the posterior distribution from the full model; panel b from the model with only chaining; and panel c from a model with only penalty.}\label{fig:scaConstPAA}
 \end{figure}
 
 \begin{figure}
@@ -793,7 +816,7 @@ estimation of future reward, fits the data better.
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagnosticsfullPAA-1} \caption{MCMC convergence diagnostics for the full model. On the left trace-plots, on the right changes along the chain of the Gelman and Rubin shrink factor.}\label{fig:diagnosticsfullPAA}
+\includegraphics[width=1\linewidth]{manuscript_BE_files/figure-latex/diagnosticsfullPAA-1} \caption{MCMC convergence diagnostics for the full model. On the left trace-plots, fig.height=5, message=FALSE, cache=FALSE, on the right changes along the chain of the Gelman and Rubin shrink factor.}\label{fig:diagnosticsfullPAA}
 \end{figure}
 
 \begin{figure}
