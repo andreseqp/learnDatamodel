@@ -599,7 +599,25 @@ filename.append(".txt");
 return(filename);
 }
 
-
+struct model_param {
+	//model_param(model_param const &obj);
+	double alphaC, alphaA, scaleConst;
+	double gamma[2], negReward[2];
+	double probFAA[2];
+	double interpReg, slopRegRelAC, slopRegPVL;
+	model_param &operator= (model_param const &rhs) {
+		alphaA = rhs.alphaA;
+		alphaC = rhs.alphaC;
+		scaleConst = rhs.scaleConst;
+		gamma[0] = rhs.gamma[0];
+		negReward[0] = rhs.negReward[0];
+		probFAA[0] = rhs.probFAA[0];
+		gamma[1] = rhs.gamma[1];
+		negReward[1] = rhs.negReward[1];
+		probFAA[1] = rhs.probFAA[1];
+		return *this;
+	}
+};
 
 struct locat_point {
 	double rel_abund_clean, rel_abund_visitors, rel_abund_resid, prob_Vis_Leav;
@@ -618,28 +636,26 @@ struct cleaner_point {
 	float market_exp_success;
 	double marketPred;
 	int group=0;
-};
-
-
-
-struct model_param {
-	//model_param(model_param const &obj);
-	double alphaC, alphaA, scaleConst;
-	double gamma[2], negReward[2];
-	double probFAA[2];
-	model_param &operator= (model_param const &rhs) {
-		alphaA = rhs.alphaA;
-		alphaC = rhs.alphaC;
-		scaleConst = rhs.scaleConst;
-		gamma[0] = rhs.gamma[0];
-		negReward[0] = rhs.negReward[0];
-		probFAA[0] = rhs.probFAA[0];
-		gamma[1] = rhs.gamma[1];
-		negReward[1] = rhs.negReward[1];
-		probFAA[1] = rhs.probFAA[1];
-		return *this;
+	bool agent; // Agent to be used in the simulation of the model
+	void setAgent(model_param currPars, json sim_param) {
+		double prob_F;
+		switch (int(sim_param["agentScen"])){
+		case 0:
+			prob_F = currPars.probFAA[group];
+			break;
+		case 1:
+			prob_F = 1 / (1 + exp(-(currPars.interpReg
+				+ currPars.slopRegRelAC*rel_abund_clean
+				+ currPars.slopRegPVL*prob_Vis_Leav)));
+		default:
+			prob_F =currPars.probFAA[group];
+			break;
+		}
+		agent = rnd::bernoulli(prob_F);
 	}
 };
+
+
 
 //model_param::model_param(model_param const &obj) {
 //	alphaA = obj.alphaA;
@@ -708,16 +724,19 @@ vector <cleaner_point> read_CleanData(ifstream& marketData) {
 void abs2rel_abund(vector<cleaner_point> & emp_data, model_param param) {
 	double totAbundance_inv, inv_tot_abund_client;
 	for (int d_point = 0; d_point < emp_data.size(); ++d_point){
-		totAbundance_inv = 1/(param.scaleConst*emp_data[d_point].abund_clean + emp_data[d_point].abund_resid +
+		totAbundance_inv = 1/(param.scaleConst*emp_data[d_point].abund_clean + 
+			emp_data[d_point].abund_resid +
 			emp_data[d_point].abund_visitors);
 		inv_tot_abund_client = 1 / (emp_data[d_point].abund_resid +
 			emp_data[d_point].abund_visitors);
 		emp_data[d_point].rel_abund_clean = 
 			param.scaleConst*emp_data[d_point].abund_clean*totAbundance_inv;
 		emp_data[d_point].rel_abund_resid =
-			(1- emp_data[d_point].rel_abund_clean)*emp_data[d_point].abund_resid*inv_tot_abund_client;
+			(1- emp_data[d_point].rel_abund_clean)*
+			emp_data[d_point].abund_resid*inv_tot_abund_client;
 		emp_data[d_point].rel_abund_visitors=
-			(1 - emp_data[d_point].rel_abund_clean)*emp_data[d_point].abund_visitors*inv_tot_abund_client;
+			(1 - emp_data[d_point].rel_abund_clean)*
+			emp_data[d_point].abund_visitors*inv_tot_abund_client;
 	}
 }
 
@@ -727,10 +746,17 @@ void initializeChainFile(ofstream &chainOutput,nlohmann::json param){
 	string IndFile = create_filename(namedir, param);
 	chainOutput.open(IndFile.c_str());
 	chainOutput << "iteration	" << "alpha_actor	" << "alpha_critic	" <<
-		 "gamma	" << "negReward	" << "probFAA	";
-	if (bool(param["Group"]))
-		chainOutput	<< "gamma.1	" << "negReward.1	" << 
-		"probFAA.1	";
+		"gamma	" << "negReward	"; 
+	if (bool(param["agentScen"])) {
+		chainOutput << "interpReg	" << "slopeRegRelAC	" <<
+			"slopeRegPVL	";
+	}
+	else {
+		chainOutput << "probFAA	";
+		if (bool(param["Group"]))
+			chainOutput << "gamma.1	" << "negReward.1	" <<
+			"probFAA.1	";
+	}
 	chainOutput  << "scaleConst	" << "fit	" << "ratio" << endl;
 }
 
@@ -917,45 +943,36 @@ void do_simulation(//del focal_model,
 	client *clientSet;
 	clientSet = new client[int(sim_param["totRounds"]) * 2];
 	int idClientSet;
-	agent* cleaners[2];
-	if (rnd::bernoulli(focal_comb.probFAA[0])) {
-		cleaners[0] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
-			focal_comb.negReward[0], focal_comb.alphaA);
-	}
-	else
-	{
-		cleaners[0] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
-			focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
-	}
+	agent* cleaners[2][2];
+	cleaners[0][0] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+		focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
+	cleaners[1][0] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+		focal_comb.negReward[0], focal_comb.alphaA);
 	if (sim_param["Group"]) {
-		if (rnd::bernoulli(focal_comb.probFAA[1])) {
-			cleaners[1] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+		cleaners[0][1] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
+			focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
+		cleaners[1][1] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
 				focal_comb.negReward[0], focal_comb.alphaA);
-		}
-		else
-		{
-			cleaners[1] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
-				focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
-		}
 	}
 	double VisPref, init;
 	int countRVopt;
 	abs2rel_abund(emp_data, focal_comb);
 	// Loop through the data points
 	for (int id_data_point = 0; id_data_point < emp_data.size(); ++id_data_point) {
-		if (id_data_point > 0 &&
+		emp_data[id_data_point].setAgent(focal_comb, sim_param);
+		/*if (id_data_point > 0 &&
 			(emp_data[id_data_point].site_year == emp_data[id_data_point - 1].site_year &&
 			emp_data[id_data_point].group == emp_data[id_data_point - 1].group)) {
 			emp_data[id_data_point].marketPred = emp_data[id_data_point - 1].marketPred;
 		}
-		else
-		{
+		else {*/
 			init = focal_comb.gamma[emp_data[id_data_point].group]*
 				(1 - pow(1 -
 					emp_data[id_data_point].rel_abund_resid -
 					emp_data[id_data_point].rel_abund_visitors, 2)) / 
 					(1 - focal_comb.gamma[emp_data[id_data_point].group]);
-			cleaners[emp_data[id_data_point].group]->rebirth(init);
+			cleaners[emp_data[id_data_point].agent]
+				[emp_data[id_data_point].group]->rebirth(init);
 			draw(clientSet, sim_param["totRounds"],
 				emp_data[id_data_point].rel_abund_resid,
 				emp_data[id_data_point].rel_abund_visitors);
@@ -963,24 +980,30 @@ void do_simulation(//del focal_model,
 			VisPref = 0, countRVopt = 0;
 			// Loop through the learning rounds
 			for (int trial = 0; trial < sim_param["totRounds"]; ++trial) {
-				cleaners[emp_data[id_data_point].group]->
+				cleaners[emp_data[id_data_point].agent]
+						[emp_data[id_data_point].group]->
 					act(clientSet, idClientSet, emp_data[id_data_point].prob_Vis_Leav,
 					sim_param["ResProbLeav"], sim_param["VisReward"],
 					sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
 					learnScenario(sim_param["scenario"]));
-			cleaners[emp_data[id_data_point].group]->update();
+			cleaners[emp_data[id_data_point].agent]
+					[emp_data[id_data_point].group]->update();
 				if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
-					if (cleaners[emp_data[id_data_point].group]->isRVoption(0)) {
+					if (cleaners[emp_data[id_data_point].agent]
+							[emp_data[id_data_point].group]->isRVoption(0)) {
 						++countRVopt;
-						if (cleaners[emp_data[id_data_point].group]->
-							cleanOptionsT[cleaners[emp_data[id_data_point].group]->getChoice(0)] == visitor) 
+						if (cleaners[emp_data[id_data_point].agent]
+								[emp_data[id_data_point].group]->
+							cleanOptionsT[cleaners[emp_data[id_data_point].agent]
+								[emp_data[id_data_point].group]->getChoice(0)] == visitor)
 							++VisPref;
-					}
+				//	}
 				}
 			}
 			if (countRVopt == 0) emp_data[id_data_point].marketPred = 0.5;
 			else emp_data[id_data_point].marketPred = VisPref / countRVopt;
-			cleaners[emp_data[id_data_point].group]->rebirth();
+			cleaners[emp_data[id_data_point].agent]
+				[emp_data[id_data_point].group]->rebirth();
 		}
 	}
 	delete[] clientSet;
@@ -1004,41 +1027,42 @@ int main(int argc, char* argv[]){
 	////Only for debugging 
 	////input parameters provided by a JSON file with the following
 	////structure:
-	//json sim_param;
-	//sim_param["totRounds"]    = 5000;
-	//sim_param["ResReward"]    = 1;
-	//sim_param["VisReward"]    = 1;
-	//sim_param["ResProbLeav"]  = 0;
-	//sim_param["scenario"]  = 0;
-	//sim_param["inbr"]         = 0;
-	//sim_param["outbr"]        = 0;
-	//sim_param["seed"]         = 1;
-	//sim_param["forRat"]       = 0.0;
-	//sim_param["propfullPrint"]       = 0.7;
-	//sim_param["sdPert"]       = {0.05, 0.05 ,0.3 ,6, 100,0.2}; 
-	//// alphaA, alphaC, Gamma, NegRew,scaleConst,probFAA
-	//sim_param["chain_length"] = 100;
-	//sim_param["init"]       = {0.05, 0.05 , 0.0,0.42, 39.31,0};
-	//sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 , 0};
-	////alphaA, alphaC, gamma, NegRew, scaleConst,probFAA
-	//sim_param["pertScen"] = {false,false,false,true,true,true};
-	////enum perturnScen {all,  bothFut, justGam, justNegRew};
-	//sim_param["MCMC"] = 1;
-	//sim_param["nRep"] = 1 ;
-	//sim_param["folder"] = "m:/Projects/LearnDataModel/Simulations/test_/";
-	//sim_param["dataFile"] = "m:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
-	//sim_param["Group"] = true;
-	//sim_param["groupPars"] = {false,false,false,false,false,true};
+	json sim_param;
+	sim_param["totRounds"]    = 5000;
+	sim_param["ResReward"]    = 1;
+	sim_param["VisReward"]    = 1;
+	sim_param["ResProbLeav"]  = 0;
+	sim_param["scenario"]	  = 0;
+	sim_param["inbr"]         = 0;
+	sim_param["outbr"]        = 0;
+	sim_param["seed"]         = 1;
+	sim_param["forRat"]       = 0.0;
+	sim_param["propfullPrint"]       = 0.7;
+	sim_param["sdPert"]       = {0.05, 0.05 ,0.3 ,6, 100,0.2,0.1,0.1,0.1}; 
+	// alphaA, alphaC, Gamma, NegRew,scaleConst,probFAA
+	sim_param["chain_length"] = 100;
+	sim_param["init"]       = {0.05, 0.05 , 0.0,0.42, 39.31,0,0,0,0};
+	sim_param["init2"] =	{ 0.05, 0.05 , 0.0,0.02, 58 , 0};
+	//alphaA, alphaC, gamma, NegRew, scaleConst,probFAA
+	sim_param["pertScen"] = {false,false,false,true,true,true,false,false,false};
+	//enum perturnScen {all,  bothFut, justGam, justNegRew};
+	sim_param["MCMC"] = 1;
+	sim_param["nRep"] = 1 ;
+	sim_param["folder"] = "m:/Projects/LearnDataModel/Simulations/test_/";
+	sim_param["dataFile"] = "m:/Projects/LearnDataModel/Data/data_cleaner_abs_threa1.5.txt";
+	sim_param["Group"] = true;
+	sim_param["groupPars"] = {false,false,false,false,false,true};
+	sim_param["agentScen"] = true;
 
 
 	////ifstream marketData ("E:/Projects/Clean.ActCrit/Data/data_ABC.txt");
 	
 
 	// reading of parameters: 
-	ifstream parameters(argv[1]);
-	//ifstream parameters("M:/Projects/LearnDataModel/Simulations/test_/parametersMCMC_1.json");
-	if (parameters.fail()) { cout << "JSON file failed" << endl; }
-	json sim_param = nlohmann::json::parse(parameters);
+	//ifstream parameters(argv[1]);
+	////ifstream parameters("M:/Projects/LearnDataModel/Simulations/test_/parametersMCMC_1.json");
+	//if (parameters.fail()) { cout << "JSON file failed" << endl; }
+	//json sim_param = nlohmann::json::parse(parameters);
 
 
 	
@@ -1067,6 +1091,9 @@ int main(int argc, char* argv[]){
 	init_parameters.scaleConst = sim_param["init"][4];
 	init_parameters.probFAA[0] = sim_param["init"][5];
 	init_parameters.probFAA[1] = sim_param["init"][5];
+	init_parameters.interpReg = sim_param["init"][6];
+	init_parameters.slopRegRelAC = sim_param["init"][7];
+	init_parameters.slopRegPVL = sim_param["init"][8];
 	model_param focal_param = init_parameters;
 	
 	if (sim_param["MCMC"] == 1) {
@@ -1115,12 +1142,19 @@ int main(int argc, char* argv[]){
 			outfile << focal_param.alphaA << "\t"
 				<< focal_param.alphaC << "\t"
 				<< focal_param.gamma[0] << "\t"
-				<< focal_param.negReward[0] << "\t"
-				<< focal_param.probFAA[0] << "\t";
-			if(sim_param["Group"])
-				outfile << focal_param.gamma[1] << "\t"
-				<< focal_param.negReward[1] << "\t" 
-				<< focal_param.probFAA[1] << "\t";
+				<< focal_param.negReward[0] << "\t";
+			if (bool(sim_param["agentScen"])) {
+				outfile << focal_param.interpReg << "\t"
+					<< focal_param.slopRegRelAC << "\t"
+					<< focal_param.slopRegPVL << "\t";
+			}
+			else {
+				outfile << focal_param.probFAA[0] << "\t";
+				if (sim_param["Group"])
+					outfile << focal_param.gamma[1] << "\t"
+					<< focal_param.negReward[1] << "\t"
+					<< focal_param.probFAA[1] << "\t";
+			}
 			outfile	<< focal_param.scaleConst << "\t"
 				<< curr_loglike << "\t";
 			outfile << ratio << endl;

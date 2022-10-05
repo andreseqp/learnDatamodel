@@ -8,6 +8,8 @@ library("patchwork")
 library(ggpubr)
 library(ggdist)
 library(ggforce)
+library(concaveman)
+library(ggalt)
 library(here)
 library(cowplot)
 source(here("loadData.R"))
@@ -65,17 +67,22 @@ predictDataSamps.Nrew[,id_samp:=rep(1:length(predfileSamples.Nrew),each=120)]
 fieldatabyLoc.both<-predictDataMode.both[,.(probVisi.data=mean(visitorChoices)/20,
                               probvisitor.pred=max(visitorChoices_pred),
                               re.abund.clean=max(rel.abund.cleaners),
-                            prob.Vis.leave=max(prob.Vis.Leav)),by=site_year]
+                              prob.Vis.leave=max(prob.Vis.Leav),
+                              model="both"),by=site_year]
 
 fieldatabyLoc.gam<-predictDataMode.gam[,.(probVisi.data=mean(visitorChoices)/20,
                                    probvisitor.pred=max(visitorChoices_pred),
                                    re.abund.clean=max(rel.abund.cleaners),
-                                   prob.Vis.leave=max(prob.Vis.Leav)),by=site_year]
+                                   prob.Vis.leave=max(prob.Vis.Leav),
+                                   model="gamma"
+                                   ),by=site_year]
 
 fieldatabyLoc.Nrew<-predictDataMode.Nrew[,.(probVisi.data=mean(visitorChoices)/20,
                                           probvisitor.pred=max(visitorChoices_pred),
                                           re.abund.clean=max(rel.abund.cleaners),
-                                          prob.Vis.leave=max(prob.Vis.Leav)),by=site_year]
+                                          prob.Vis.leave=max(prob.Vis.Leav),
+                                          model="eta"
+                                          ),by=site_year]
 
 fieldatabyLocSamps.both<-predictDataSamps.both[,.(probVisi.data=mean(visitorChoices)/20,
                                         probvisitor.pred=max(visitorChoices_pred),
@@ -201,6 +208,7 @@ rsqr.Nrew.McFadden<-1-predictDataMode.Nrew[,sum(log.like)]/
 
 axislabSize<-8
 axisSize<-12
+margPlots<-unit(c(0,0,0,0),"cm")
 # Panel full model contour
 cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y=prob.Vis.Leav,
                                                 fill=market_binomial_data))+
@@ -209,30 +217,34 @@ cont.obs.pred.both<- ggplot(data = FIAinterpData.both,aes(x=rel.abund.cleaners,y
   geom_point(data = fieldatabyLoc.both,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("")+
   ylab("Prob. of visitor leaving")+
-  labs(fill="Probability \n of choosing \n a visitor")+#
-  theme(legend.position ="top",
+  labs(fill="Probability \n of choosing a visitor")+#
+  theme(legend.position ="bottom",
         axis.text = element_text(size=axisSize),
         axis.title.x = element_text(size=axislabSize),
-        axis.title.y = element_text(size=axislabSize))
+        axis.title.y = element_text(size=axislabSize),
+        plot.margin = margPlots)
 
 # Panel full model scatter
-scatter.obs.pred.both<-ggplot(data=fieldatabyLocSamps.both,
-                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+# 
+scatter.obs.pred.both<-ggplot(data = fieldatabyLoc.both,
+                              aes(y=market_binomial_data,x=probvisitor.pred,
+                                  colour=site_year))+
   # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
   #                       fill_type = "segments")+
   geom_abline(slope=1)+ylab("Observed")+xlab("")+
-  geom_point(data = fieldatabyLoc.both,aes(y=market_binomial_data,x=probvisitor.pred),
-             shape=15,size=2)+
-  geom_mark_ellipse()+
-  ylim(0.45,0.85)+xlim(0.45,0.85)+
+  geom_point(shape=15,size=2)+
+  geom_mark_ellipse(aes(color=model))+
+  ylim(0.4,0.9)+xlim(0.45,0.85)+
   guides(color=guide_legend(title=""))+
-  scale_color_manual(values = multDiscrPallet[1:12])+
+  scale_color_manual(values = c("black",multDiscrPallet[1:12]))+
   theme_classic()+theme(legend.position ="top",#c(.9, .4),
         axis.text = element_text(size=axisSize),
         axis.title.x = element_text(size=axislabSize),
         axis.title.y = element_text(size=axislabSize),
         legend.text = element_text(size=6),
-        legend.key.size = unit(0.1,'cm'))+
+        legend.key.size = unit(0.1,'cm'),
+        axis.text.x = element_blank(),
+        plot.margin = margPlots)+
   guides(colour=guide_legend(ncol=3,title="",override.aes = list(size=1)))
 
   
@@ -244,31 +256,36 @@ cont.obs.pred.gam<- ggplot(data = FIAinterpData.gam,aes(x=rel.abund.cleaners,y=p
   geom_raster(interpolate = TRUE) +  
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.gam,aes(fill=market_binomial_data),size=5,
-             shape=21,color="black")+sc+xlab("")+
-  ylab("")+
+             shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
+  ylab("Prob. of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
   theme(legend.position ="none",
     axis.text = element_text(size=axisSize),
     axis.title.x = element_text(size=axislabSize),
-    axis.title.y = element_text(size=axislabSize))
+    axis.title.y = element_text(size=axislabSize),
+    plot.margin =  margPlots)
 
 # Panel future reward scatter
-scatter.obs.pred.gam<-ggplot(data=fieldatabyLocSamps.gam,
-                             aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+# ggplot(data=fieldatabyLocSamps.gam,
+#                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
   # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
                         # fill_type = "segments")+
-  geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
-  geom_point(data = fieldatabyLoc.gam,aes(y=market_binomial_data,x=probvisitor.pred),
-             shape=15,size=2)+
-  ylim(0.45,0.85)+xlim(0.45,0.85)+
+scatter.obs.pred.gam<-ggplot(data=fieldatabyLoc.gam,aes(y=market_binomial_data,colour=site_year,
+                                  x=probvisitor.pred))+
+  geom_abline(slope=1)+ylab("Observed")+xlab("")+
+  geom_point(shape=15,size=2)+
+  geom_mark_ellipse(aes(color=model))+
+  ylim(0.4,0.9)+xlim(0.45,0.85)+
   guides(color=guide_legend(title="Location"))+
-  scale_color_manual(values = multDiscrPallet[1:12])+
+  scale_color_manual(values = c("black",multDiscrPallet[1:12]))+
   theme_classic()+
   theme(legend.position ="none",#c(.85, .4),#
+        legend.key.size = unit(0.20,'cm'),
         axis.text = element_text(size=axisSize),
         axis.title.x = element_text(size=axislabSize),
         axis.title.y = element_text(size=axislabSize),
-        legend.key.size = unit(0.20,'cm'))+
+        axis.text.x = element_blank(),
+        plot.margin = margPlots)+
   guides(colour=guide_legend(ncol=1))
 
 # Panel negative reward contour
@@ -278,34 +295,62 @@ cont.obs.pred.Nrew<- ggplot(data = FIAinterpData.Nrew,aes(x=rel.abund.cleaners,y
   scale_fill_gradientn(limits=c(0.3,1),colours= myPalette(100))+theme_classic()+
   geom_point(data = fieldatabyLoc.gam,aes(fill=market_binomial_data),size=5,
              shape=21,color="black")+sc+xlab("Relative cleaner abundance")+
-  ylab("")+
+  ylab("Prob. of visitor leaving")+
   labs(fill="Probability \n of choosing \n a visitor")+
   theme(legend.position = "none",
     axis.text = element_text(size=axisSize),
     axis.title.x = element_text(size=axislabSize),
-    axis.title.y = element_text(size=axislabSize))
+    axis.title.y = element_text(size=axislabSize),
+    plot.margin = margPlots)
 
 # Panel negative reward scatter
 
 
-scatter.obs.pred.Nrew<-ggplot(data=fieldatabyLocSamps.Nrew,
-                              aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
+# ggplot(data=fieldatabyLocSamps.Nrew,
+#                               aes(y=probVisi.data,colour=site_year,x=probvisitor.pred))+
   # stat_gradientinterval(aes(slab_alpha=F),point_interval = mode_hdi,point_size=2,
   #                       fill_type = "segments")+
+scatter.obs.pred.Nrew<-
+  ggplot(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred,
+                                     color=site_year))+
   geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
-  geom_point(data = fieldatabyLoc.Nrew,aes(y=market_binomial_data,x=probvisitor.pred),
-             shape=15,size=2)+
-  ylim(0.45,0.85)+xlim(0.45,0.85)+
+  geom_point(shape=15,size=2)+
+  geom_mark_ellipse(aes(color=model))+
+  ylim(0.4,0.9)+xlim(0.45,0.85)+
   guides(color=guide_legend(title="Location"))+
-  scale_color_manual(values = multDiscrPallet[1:12],
+  scale_color_manual(values = c("black",multDiscrPallet[1:12]),
                      name = "Location")+
   theme_classic()+theme(legend.position ="none",#c(.9, .4),
                       axis.text = element_text(size=axisSize),
                       axis.title.x = element_text(size=axislabSize),
                       axis.title.y = element_text(size=axislabSize),
                       legend.text = element_text(size=6),
-                      legend.key.size = unit(0.1,'cm'))+
+                      legend.key.size = unit(0.1,'cm'),
+                      plot.margin = margPlots)+
   guides(colour=guide_legend(ncol=3,title="",override.aes = list(size=1)))
   
+ScatterData.All<-rbind(fieldatabyLoc.both,fieldatabyLoc.gam,fieldatabyLoc.Nrew)
+ScatterData.All[,model:=factor(model,levels = c("both","gamma","eta"),
+                               labels = c("Full model",
+                                          "Chaining","Penalty"))]
+
+
+scatter.all.plot<-
+  ggplot(data = ScatterData.All,aes(y=market_binomial_data,
+                                    x=probvisitor.pred,
+                                       color=model))+
+  geom_abline(slope=1)+ylab("Observed")+xlab("Predicted")+
+  geom_point(shape=15,size=2)+
+  geom_encircle()+
+  ylim(0.4,0.9)+xlim(0.45,0.85)+
+  scale_color_manual(values = c("black",multDiscrPallet[1:12]))+
+  theme_classic()+theme(legend.position ="top",
+                        axis.text = element_text(size=axisSize),
+                        axis.title.x = element_text(size=axislabSize),
+                        axis.title.y = element_text(size=axislabSize),
+                        legend.text = element_text(size=10),
+                        legend.key.size = unit(0.8,'cm'),
+                        plot.margin = margPlots)+
+  guides(colour=guide_legend(ncol=3,title="Model"),override.aes = list(size=2))
 
 

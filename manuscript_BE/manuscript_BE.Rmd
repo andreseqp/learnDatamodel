@@ -539,9 +539,9 @@ fit.
 scen1<-"MCMCclean_gam_Nrew_sca_"
 scen2<-"MCMCclean_gam_sca_"
 scen3<-"MCMCclean_Nrew_sca_"
-scen4<-"MCMCclean_PAA_gam_Nrew_sca_"
-scen5<-"MCMCclean_PAA_gam_sca_"
-scen6<-"MCMCclean_PAA_Nrew_sca_"
+scen4<-"MCMCclean_PAA2_gam_Nrew_sca_"
+scen5<-"MCMCclean_PAA2_gam_sca_"
+scen6<-"MCMCclean_PAA2_Nrew_sca_"
 
 source(here("analysisMCMC.R"))
 ggarrange(allGammapost.plot,alletapost.plot,common.legend = TRUE)
@@ -625,14 +625,14 @@ scen1<-"MCMCclean_gam_Nrew_sca_"
 scen2<-"MCMCclean_gam_sca_"
 scen3<-"MCMCclean_Nrew_sca_"
  source(here("predictions.R"))
-first_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
-          cont.obs.pred.both,cont.obs.pred.gam,cont.obs.pred.Nrew,
-          labels=c('a','c','e'),rel_heights = c(1.4,1,1))
-second_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
-          scatter.obs.pred.both,scatter.obs.pred.gam,scatter.obs.pred.Nrew,
-           rel_heights = c(1.4,1,1),
-          labels=c('b','d','f'))
-plot_grid(first_col,second_col,rows = 1)
+first_col<-plot_grid(nrow=2,align = "v",byrow = TRUE,
+          cont.obs.pred.both,cont.obs.pred.gam,
+          labels=c('a','c'),rel_heights = c(1.4,1))
+second_col<-plot_grid(nrow=2,align = "v",byrow = TRUE,
+          cont.obs.pred.Nrew,scatter.all.plot,
+           rel_heights = c(1,1.4),
+          labels=c('b','d'))
+plot_grid(first_col,second_col)
 ```
 
 ```{r predPAA, fig.cap='Observed and predicted probability of choosing a visitor. Left-hand side panel: colour contour shows the prediction from the learning model using the mode of the posterior distributions of parameters recovered by the statistical analysis. Dots show the frequency of visitor choices for the 12 reef sites, as well as the corresponding relative cleaner fish abundance (x axis) and frequency of visitors clients leaving the cleaning station (y axis). Right-hand side panels: Variation of the predicted probabilities  of choosing a visitor over a resident and their observed values for 12 locations. Circles show the mean prediction for each location from 100 samples taken from the posterior distribution. Thick and thin bars show the 66 and 95\\% credible interval, respectively, taken from those posterior samples. Squares show the predictions used for the panel on the right-hand side. Colour coding denotes different reef site/year of the data collection (see Empirical data section). The black line corresponds to a perfect match between observed and predicted probabilities. Upper panels (a and b) show predictions from a model including chaining and penalty; middle panels (c and d) from a  model with only chaining; lower panels (e and f) from a model with penalty only.',out.width='100%',fig.height=5,cache=FALSE}
@@ -642,14 +642,15 @@ scen2<-"MCMCclean_PAA2_gam_sca_"
 scen3<-"MCMCclean_PAA2_Nrew_sca_"
 
 source(here("predictions.R"))
-first_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
-          cont.obs.pred.both,cont.obs.pred.gam,cont.obs.pred.Nrew,
-          labels=c('a','c','e'),rel_heights = c(1.4,1,1))
-second_col<-plot_grid(nrow=3,align = "v",byrow = TRUE,
-                      rel_heights = c(1.4,1,1),
-          scatter.obs.pred.both,scatter.obs.pred.gam,scatter.obs.pred.Nrew,
-          labels=c('b','d','f'))
-plot_grid(first_col,second_col,rows = 1)
+
+first_col<-plot_grid(nrow=2,align = "v",byrow = TRUE,
+          cont.obs.pred.both,cont.obs.pred.gam,
+          labels=c('a','c'),rel_heights = c(1.4,1))
+second_col<-plot_grid(nrow=2,align = "v",byrow = TRUE,
+          cont.obs.pred.Nrew,scatter.all.plot,
+           rel_heights = c(1,1.4),
+          labels=c('b','d'))
+plot_grid(first_col,second_col)
 ```
 
 
