@@ -949,10 +949,10 @@ void do_simulation(//del focal_model,
 	cleaners[1][0] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
 		focal_comb.negReward[0], focal_comb.alphaA);
 	if (sim_param["Group"]) {
-		cleaners[0][1] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
-			focal_comb.negReward[0], focal_comb.alphaA, 1.0, 0.0);
-		cleaners[1][1] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[0],
-				focal_comb.negReward[0], focal_comb.alphaA);
+		cleaners[0][1] = new PAATyp1(focal_comb.alphaC, focal_comb.gamma[1],
+			focal_comb.negReward[1], focal_comb.alphaA, 1.0, 0.0);
+		cleaners[1][1] = new FAATyp1(focal_comb.alphaC, focal_comb.gamma[1],
+				focal_comb.negReward[1], focal_comb.alphaA);
 	}
 	double VisPref, init;
 	int countRVopt;

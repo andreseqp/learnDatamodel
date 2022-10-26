@@ -12,7 +12,7 @@ fileName<-"parameters.json"
 
 # name of the scenario for which parameter files will be produces
 # format used for the name: MCMCclean_*parameter1_paramerter2_parameter3.....
-scenario<- "MCMCclean_PAA_Nrew_sca"
+scenario<- "testBayesianTools"
 
 
 # MCMC fit - Generate json parameter files for -------------------------------------
@@ -35,6 +35,7 @@ param_mcmc<-list(totRounds=10000,
                  seed=1,  
                  # Seed for the random number generator
                  agent="PAA",
+                 agentScen = 0,
                  # Type of agent FAA (chuncking), PAA (not chuncking)
                  propfullPrint = 0.7, 
                  #Proportion of final rounds used to calculate predictions
