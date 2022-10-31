@@ -1,8 +1,8 @@
 #include <Rcpp.h>
 #include "../Cpp/json.hpp"  
+
 using json = nlohmann::json;
 using namespace Rcpp;
-
 
 // [[Rcpp::depends(RcppJson)]]
 
@@ -71,7 +71,7 @@ struct model_param {
     return p;
   }
   double alphaC, alphaA;
-  json myJson = json::parse(R"({
+  nlohmann::json myJson =  nlohmann::json::parse(R"({
     "pi": 3.141,
     "happy": true
   }
@@ -81,7 +81,7 @@ struct model_param {
 
 
 // [[Rcpp::export]]
-double showPi(json myJson){
+double showPi( nlohmann::json myJson){
   return myJson["pi"];
 }
 
@@ -124,7 +124,7 @@ RCPP_MODULE(cleaner){
 //     return p;
 //   }
 // };
-// 
+
 // RCPP_MODULE(cleaner){
 //   using namespace Rcpp;
 // 

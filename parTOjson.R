@@ -18,7 +18,7 @@ scenario<- "testBayesianTools"
 # MCMC fit - Generate json parameter files for -------------------------------------
 
 # for MCMC
-param_mcmc<-list(totRounds=10000, 
+param_mcmc<-list(totRounds=1000, 
                  # Number of rounds in the learning model
                  ResReward=1,VisReward=1, 
                  # Magnitude of reward for residents and visitors
@@ -53,9 +53,9 @@ param_mcmc<-list(totRounds=10000,
                  # from triki et al. 2020
                  groupPars = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE),
                  dataFile =
-                 paste(clusterHome,"Data","data_cleaner_abs_threa1.5.txt",
-                                  sep="/"),
-                   # here("Data","data_cleaner_abs_threa1.5.txt"),
+                 # paste(clusterHome,"Data","data_cleaner_abs_threa1.5.txt",
+                 #                  sep="/"),
+                   here("Data","data_cleaner_abs_threa1.5.txt"),
                  # location of the data file
                  # here("Simulations",
                  #                 paste0(scenario,"_"),"data_MCMC_fake.txt"))
@@ -71,9 +71,9 @@ check_create.dir(here(simsDir),param = rep(scenario,1),
 # Loop to make parameter files ------------------------------------------------
 # and give different starting values
 
-for(seed in 1:5){
+for(seed in 1:1){
   param_mcmc$folder<-param_mcmc$folderL
-  param_mcmc$folder<-paste(clusterHome,paste0(scenario,"_/"),sep="/")
+  # param_mcmc$folder<-paste(clusterHome,paste0(scenario,"_/"),sep="/")
   param_mcmc$init[1:6]<-c(0.05,0.05,runif(1,max = 0.6),runif(1,max = 1,min = 0),
                      runif(1,max = 100,min = 5),runif(1,max = 1,min = 0))
   param_mcmc$init[3:4]<-param_mcmc$init[3:4]*param_mcmc$pertScen[3:4]
@@ -81,7 +81,7 @@ for(seed in 1:5){
   param_mcmc$init[6]<-ifelse(param_mcmc$pertScen[6],param_mcmc$init[6],
                              as.numeric(param_mcmc$agent=="FAA"))
   param_mcmc$seed <- seed
-  fileName<-paste("parametersMCMCcluster_",seed,".json",sep="")
+  fileName<-paste("parametersMCMC_",seed,".json",sep="")
   outParam<-toJSON(param_mcmc,auto_unbox = TRUE,pretty = TRUE)
   if(file.exists(paste(param_mcmc$folderL,fileName,sep = ''))){
     currFile<-fromJSON(paste(param_mcmc$folderL,fileName,sep = ''))

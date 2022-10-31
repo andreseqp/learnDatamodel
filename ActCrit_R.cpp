@@ -6,12 +6,12 @@
 #include <fstream>
 #include <omp.h>
 #include "../Cpp/Routines/C++/RandomNumbers/random.h"
-#include "../Cpp/json.hpp"  
+// #include "../Cpp/json.hpp"  
 using namespace Rcpp;
 using namespace std;
-using json = nlohmann::json;
+// using json = nlohmann::json;
 
-// [[Rcpp::depends(RcppJson)]]
+
 // [[Rcpp::plugins("cpp11")]]
 
 
@@ -139,7 +139,9 @@ agent::agent(double alphaI = 0.01, double gammaI = 0.5,
 }
 
 void agent::rebirth(double initVal = 0){
-  age = 0;
+  age = 1;
+  cout << "Hello world" << endl;
+  wait_for_return();
   cleanOptionsT[0] = absence, cleanOptionsT[1] = absence;
   cleanOptionsT1[0] = absence, cleanOptionsT1[1] = absence;
   choiceT = 0, choiceT1 = 0;
@@ -568,7 +570,7 @@ void draw(client trainingSet[], int rounds, double probRes, double probVis){
 //   bool agent; // Agent to be used in the simulation of the model
 // };
 
-bool setAgent(Rcpp::List currPars, json sim_param, int group,
+bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, int group,
               double rel_abund_clean,double prob_Vis_Leav) {
   
   double prob_F;
@@ -652,20 +654,19 @@ Rcpp::DataFrame abs2rel_abund(Rcpp::NumericVector abund_clean,
 // [[Rcpp::export]]
 Rcpp::DataFrame do_simulation(//del focal_model,
     Rcpp::DataFrame emp_data, Rcpp::List focal_param,
-    SEXP fileStr) {
-  cout << "Hello world" << endl;
-  std::string stdfileStr = Rcpp::as<std::string>(fileStr);
-  json sim_param = json::parse(stdfileStr);
+    Rcpp::List sim_param) {
+  // std::string stdfileStr = Rcpp::as<std::string>(fileStr);
+  // nlohmann::json sim_param = nlohmann::json::parse(stdfileStr);
   // ifstream parfile (stdfileStr.c_str());
   client *clientSet;
-  cout << sim_param["totRounds"] << endl;
-  cout << sim_param["agent"] << endl;
+  // cout << int(sim_param["totRounds"]) << endl;
+  // cout << char(sim_param["agent"]) << endl;
   clientSet = new client[int(sim_param["totRounds"]) * 2];
   int idClientSet;
   agent* cleaners[2][2];
   Rcpp::NumericVector gammas = focal_param["gamma"];
   Rcpp::NumericVector negRewards = focal_param["negReward"];
-  cleaners[0][0] = new PAATyp1(focal_param["alphaC"], gammas[0],
+    cleaners[0][0] = new PAATyp1(focal_param["alphaC"], gammas[0],
                                negRewards[0], focal_param["alphaA"],
                                                          1.0, 0.0);
   cleaners[1][0] = new FAATyp1(focal_param["alphaC"], gammas[0],
@@ -689,6 +690,7 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   Rcpp::NumericVector rel_abund_visitors = relAbunds["rel_abund_visitors"];
   Rcpp::LogicalVector agent;
   Rcpp::NumericVector marketPred;
+  
   // Loop through the data points
   for (int id_data_point = 0; id_data_point < emp_data.nrows(); ++id_data_point) {
 
@@ -698,31 +700,32 @@ Rcpp::DataFrame do_simulation(//del focal_model,
                                   prob_Vis_Leav[id_data_point]
                                )
                       );
+    
     /*if (id_data_point > 0 &&
      (emp_data[id_data_point].site_year == emp_data[id_data_point - 1].site_year &&
      emp_data[id_data_point].group == emp_data[id_data_point - 1].group)) {
      emp_data[id_data_point].marketPred = emp_data[id_data_point - 1].marketPred;
      }
      else {*/
-    init = gammas[group[id_data_point]]*
-      (1 - pow(1 -
-      rel_abund_resid[id_data_point] -
-      rel_abund_visitors[id_data_point], 2)) / 
-      (1 - gammas[group[id_data_point]]);
-    cleaners[agent[id_data_point]]
-    [group[id_data_point]]->rebirth(init);
-    draw(clientSet, sim_param["totRounds"],
+    init = 0;
+      // gammas[group[id_data_point]]*
+      // (1 - pow(1 -
+      // rel_abund_resid[id_data_point] -
+      // rel_abund_visitors[id_data_point], 2)) / 
+      // (1 - gammas[group[id_data_point]]);
+    cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
+    draw(clientSet, int(sim_param["totRounds"]),
          rel_abund_resid[id_data_point],
          rel_abund_visitors[id_data_point]);
     idClientSet = 0;
     VisPref = 0, countRVopt = 0;
     // Loop through the learning rounds
-    for (int trial = 0; trial < sim_param["totRounds"]; ++trial) {
+    for (int trial = 0; trial < int(sim_param["totRounds"]); ++trial) {
       cleaners[agent[id_data_point]][group[id_data_point]]->
         act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
-            sim_param["ResProbLeav"], sim_param["VisReward"],
+            double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
             sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
-            learnScenario(sim_param["scenario"]));
+            learnScenario(int(sim_param["scenario"])));
       cleaners[agent[id_data_point]][group[id_data_point]]->update();
       if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
         if (cleaners[agent[id_data_point]][group[id_data_point]]->isRVoption(0)) {
