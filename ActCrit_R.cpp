@@ -47,6 +47,7 @@ public:
   // Check that the choice taken is among one of the options, 
   //otherwise trigger an error
   void rebirth(double initVal);		
+  // Function to reset private variables in an individual
   int getstate(bool time) {
     if (!time) return currState;
     else return nextState;
@@ -113,12 +114,11 @@ protected:
   int currState, nextState;
 };
 
-void wait_for_returnRcpp()
-{
+void wait_for_returnRcpp(string strTOp="return"){
   Environment base = Environment("package:base");
   Function readline = base["readline"];
   Function as_numeric = base["as.numeric"];
-  std::cout << "Hit <Enter> to continue\n";
+  std::cout << strTOp;
   int drink = as<int>(as_numeric(readline("> ")));
 }
 
@@ -147,7 +147,6 @@ agent::agent(double alphaI = 0.01, double gammaI = 0.5,
 }
 
 void agent::rebirth(double initVal = 0){
-  wait_for_returnRcpp();
   currentReward = 0;
   cumulReward = 0;
   choiceT = 0, choiceT1 = 0;
@@ -271,6 +270,8 @@ void agent::getExternalOptions(client newOptions[], int &idNewOptions,
     if (cleanOptionsT1[0] == absence){
       // If the first draw does not yield a client
       cleanOptionsT1[1] = newOptions[idNewOptions], ++idNewOptions;
+      // wait_for_returnRcpp("2");
+      // cout << cleanOptionsT1[1] << '\t' << newOptions[idNewOptions-1] << endl;
       return;
     }
   }
@@ -399,27 +400,27 @@ void agent::update(){
   updateThet(currState);
 }
 
-void agent::printIndData(ofstream &learnSeries, int &seed, double &outbr, 
-                         double pV, double pR){
-  learnSeries << seed << '\t' << age << '\t';
-  //cout << seed << '\t' << age << '\t';
-  learnSeries << alpha << '\t' << gamma << '\t';
-  learnSeries << neta << '\t' << alphath << '\t' << pV << '\t';
-  learnSeries << pR << '\t' << theta[0] << '\t';
-  learnSeries << theta[1] << '\t' << outbr << '\t';
-  learnSeries << cleanOptionsT[0] << '\t' << cleanOptionsT[1] << '\t';
-  learnSeries << cleanOptionsT[choiceT] << '\t';
-  //cout << cleanOptionsT[0] << '\t' << cleanOptionsT[1] << '\t' << choiceT << '\t';
-  learnSeries << currentReward << '\t' << cumulReward << '\t' << negRew_curr << '\t';
-  //cout << currentReward << '\t' << cumulReward << '\t';
-  for (int j = 0; j < numEst; j++)
-  {
-    learnSeries << values[j] << '\t';
-    //cout << values[j] << '\t';
-  }
-  learnSeries << endl;
-  //cout << endl;
-}
+// void agent::printIndData(ofstream &learnSeries, int &seed, double &outbr, 
+//                          double pV, double pR){
+//   learnSeries << seed << '\t' << age << '\t';
+//   //cout << seed << '\t' << age << '\t';
+//   learnSeries << alpha << '\t' << gamma << '\t';
+//   learnSeries << neta << '\t' << alphath << '\t' << pV << '\t';
+//   learnSeries << pR << '\t' << theta[0] << '\t';
+//   learnSeries << theta[1] << '\t' << outbr << '\t';
+//   learnSeries << cleanOptionsT[0] << '\t' << cleanOptionsT[1] << '\t';
+//   learnSeries << cleanOptionsT[choiceT] << '\t';
+//   //cout << cleanOptionsT[0] << '\t' << cleanOptionsT[1] << '\t' << choiceT << '\t';
+//   learnSeries << currentReward << '\t' << cumulReward << '\t' << negRew_curr << '\t';
+//   //cout << currentReward << '\t' << cumulReward << '\t';
+//   for (int j = 0; j < numEst; j++)
+//   {
+//     learnSeries << values[j] << '\t';
+//     //cout << values[j] << '\t';
+//   }
+//   learnSeries << endl;
+//   //cout << endl;
+// }
 
 double agent::logist() { return (1 / (1 + exp(-(theta[0]-theta[1]))));}
 
@@ -512,10 +513,6 @@ public:
     values[3] -= 1;
   }
   
-  void rebirth(int initVal=1) {
-    rebirth();
-    values[3] -= 1;
-  }
   int mapOptions(client options[], int &choice){
     if (options[choice] == resident) { return (0); }
     else if (options[choice] == visitor) { return(1); }
@@ -564,18 +561,14 @@ void draw(client trainingSet[], int rounds, double probRes, double probVis){
   }
 }
 
+void checkGroups(Rcpp::IntegerVector &group,bool groups) {
+  if (!groups) {
+    for (int i = 0; i < group.size(); ++i)
+      group[i] = 0;
+  }
+  return;
+}
 
-// struct cleaner_point {
-//   double abund_clean, abund_visitors, abund_resid, prob_Vis_Leav;
-//   double rel_abund_clean, rel_abund_visitors, rel_abund_resid;
-//   string site_year;
-//   string cleanerID;
-//   int countVisitor, totalMarket;
-//   float market_exp_success;
-//   double marketPred;
-//   int group=0;
-//   bool agent; // Agent to be used in the simulation of the model
-// };
 
 bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, int group,
               double rel_abund_clean,double prob_Vis_Leav) {
@@ -598,37 +591,6 @@ bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, int group,
 }
 
 
-// perhaps this needs to be modified to upload data into R directly
-// rather than through c++
-// vector <cleaner_point> read_CleanData(ifstream& marketData) {
-//   // open file
-//   if (!marketData.is_open()) {
-//     std::cerr << "error: unable to open data file\n";
-//     wait_for_return();
-//     exit(EXIT_FAILURE);
-//   }
-//   string header;
-//   getline(marketData, header); // skip header
-//   vector<cleaner_point> data_set;
-//   cleaner_point input;
-//   for (;;) { // read data
-//     marketData >> input.site_year;
-//     marketData >> input.cleanerID;
-//     marketData >> input.countVisitor;
-//     marketData >> input.abund_clean;
-//     marketData >> input.abund_visitors;
-//     marketData >> input.abund_resid;
-//     marketData >> input.prob_Vis_Leav;
-//     marketData >> input.group;
-//     if (marketData.eof()) 	break;
-//     input.totalMarket = 20;
-//     input.market_exp_success = double(input.countVisitor) /
-//       double(input.totalMarket);
-//     data_set.emplace_back(input);
-//     // if end of file
-//   }
-//   return(data_set);
-// }
 
 Rcpp::DataFrame abs2rel_abund(Rcpp::NumericVector abund_clean,
                                   Rcpp::NumericVector abund_resid,
@@ -662,27 +624,29 @@ Rcpp::DataFrame abs2rel_abund(Rcpp::NumericVector abund_clean,
 Rcpp::DataFrame do_simulation(//del focal_model,
     Rcpp::DataFrame emp_data, Rcpp::List focal_param,
     Rcpp::List sim_param) {
-  // std::string stdfileStr = Rcpp::as<std::string>(fileStr);
-  // nlohmann::json sim_param = nlohmann::json::parse(stdfileStr);
-  // ifstream parfile (stdfileStr.c_str());
-  client *clientSet;
-  // cout << int(sim_param["totRounds"]) << endl;
-  // cout << char(sim_param["agent"]) << endl;
-  clientSet = new client[int(sim_param["totRounds"]) * 2];
+  
+  client clientSet[int(sim_param["totRounds"]) * 2];
+  // array to store the queue of clients
   int idClientSet;
-  agent* cleaners[2][2];
+  // counter for the client queue
   Rcpp::NumericVector gammas = focal_param["gamma"];
   Rcpp::NumericVector negRewards = focal_param["negReward"];
-    cleaners[0][0] = new PAATyp1(focal_param["alphaC"], gammas[0],
-                               negRewards[0], focal_param["alphaA"],
-                                                         1.0, 0.0);
-  cleaners[1][0] = new FAATyp1(focal_param["alphaC"], gammas[0],
-                               negRewards[0], focal_param["alphaA"]);
+  agent* cleaners[2][2];
+  // Array with the 4 agent types: PAA, FAA, with and without groups
+  PAATyp1 PAAcleaner_NG(focal_param["alphaC"], gammas[0],
+                        negRewards[0], focal_param["alphaA"],
+                                                  1.0, 0.0);
+  cleaners[0][0] = &PAAcleaner_NG;
+  FAATyp1 FAAcleaner_NG (focal_param["alphaC"], gammas[0],
+                         negRewards[0], focal_param["alphaA"]);
+  cleaners[1][0] = &FAAcleaner_NG;
   if (sim_param["Group"]) {
-    cleaners[0][1] = new PAATyp1(focal_param["alphaC"], gammas[1],
-                                 negRewards[1], focal_param["alphaA"], 1.0, 0.0);
-    cleaners[1][1] = new FAATyp1(focal_param["alphaC"], gammas[1],
-                                 negRewards[2], focal_param["alphaA"]);
+    PAATyp1 PAAcleaner_G (focal_param["alphaC"], gammas[1],
+                          negRewards[1], focal_param["alphaA"], 1.0, 0.0);
+    cleaners[0][1] = &PAAcleaner_G;
+    FAATyp1 FAAcleaner_G (focal_param["alphaC"], gammas[1],
+                          negRewards[2], focal_param["alphaA"]);
+    cleaners[1][1] = &FAAcleaner_G;
   }
   double VisPref, init;
   int countRVopt;
@@ -690,14 +654,16 @@ Rcpp::DataFrame do_simulation(//del focal_model,
                                             emp_data["abund_resid"],
                                             emp_data["abund_visitors"],
                                             focal_param);
+  // Transform absolute to relative abundances
   Rcpp::IntegerVector group = emp_data["group"];
+  // Assign data points to groups
   Rcpp::NumericVector rel_abund_clean = relAbunds["rel_abund_clean"];
   Rcpp::NumericVector prob_Vis_Leav = emp_data["prob_Vis_Leav"];
   Rcpp::NumericVector rel_abund_resid = relAbunds["rel_abund_resid"];
   Rcpp::NumericVector rel_abund_visitors = relAbunds["rel_abund_visitors"];
   Rcpp::LogicalVector agent;
   Rcpp::NumericVector marketPred;
-  
+  checkGroups(group,sim_param["Group"]);
   // Loop through the data points
   for (int id_data_point = 0; id_data_point < emp_data.nrows(); ++id_data_point) {
 
@@ -714,43 +680,50 @@ Rcpp::DataFrame do_simulation(//del focal_model,
      emp_data[id_data_point].marketPred = emp_data[id_data_point - 1].marketPred;
      }
      else {*/
-    init = 0;
-      // gammas[group[id_data_point]]*
-      // (1 - pow(1 -
-      // rel_abund_resid[id_data_point] -
-      // rel_abund_visitors[id_data_point], 2)) / 
-      // (1 - gammas[group[id_data_point]]);
+    init = 
+      gammas[group[id_data_point]]*
+      (1 - pow(1 -
+      rel_abund_resid[id_data_point] -
+      rel_abund_visitors[id_data_point], 2)) /
+      (1 - gammas[group[id_data_point]]);
     draw(clientSet, int(sim_param["totRounds"]),
          rel_abund_resid[id_data_point],
          rel_abund_visitors[id_data_point]);
-    cout << id_data_point << '\t'<< group[id_data_point]  << '\n';
+    // cout << id_data_point << '\t'<< group[id_data_point]  << '\n';
     cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
-    idClientSet = 0;
-    VisPref = 0, countRVopt = 0;
+    idClientSet = 0,VisPref = 0, countRVopt = 0;
+    // set counters to 0
     // Loop through the learning rounds
-    for (int trial = 0; trial < int(sim_param["totRounds"]); ++trial) {
+    for (int trial = 0;trial < int(sim_param["totRounds"]); ++trial) {
       cleaners[agent[id_data_point]][group[id_data_point]]->
         act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
             double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
             sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
             learnScenario(int(sim_param["scenario"])));
       cleaners[agent[id_data_point]][group[id_data_point]]->update();
+      // cout << cleaners[agent[id_data_point]][group[id_data_point]]->cleanOptionsT[0]
+      //      << '\t'
+      //      << cleaners[agent[id_data_point]][group[id_data_point]]->cleanOptionsT[1]
+      //      << endl;
       if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
         if (cleaners[agent[id_data_point]][group[id_data_point]]->isRVoption(0)) {
           ++countRVopt;
           if (cleaners[agent[id_data_point]][group[id_data_point]]->
                   cleanOptionsT[cleaners[agent[id_data_point]]
-                [group[id_data_point]]->getChoice(0)] == visitor)
+                [group[id_data_point]]->getChoice(0)] == visitor){
+            wait_for_returnRcpp("trial:"+itos(trial));
             ++VisPref;
-          //	}
+          }
         }
       }
-      if (countRVopt == 0) marketPred.push_back(0.5);
-      else marketPred.push_back( VisPref / countRVopt);
-      cleaners[agent[id_data_point]][group[id_data_point]]->rebirth();
     }
+    wait_for_returnRcpp("data point:"+itos(id_data_point));
+    // cout << countRVopt << endl;
+    if (countRVopt == 0) marketPred.push_back(0.5);
+    else marketPred.push_back( VisPref / countRVopt);
+    cleaners[agent[id_data_point]][group[id_data_point]]->rebirth();
   }
-  delete[] clientSet;
+  // construct the data frame
   emp_data.push_back(rel_abund_clean,"rel_abund_clean");
   emp_data.push_back(rel_abund_resid,"rel_abund_resid");
   emp_data.push_back(rel_abund_visitors,"rel_abund_visitors");
@@ -760,74 +733,74 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   return emp_data;
 }
 
-// [[Rcpp::export]]
-bool do_simulation_test(//del focal_model,
-    Rcpp::DataFrame emp_data, Rcpp::List focal_param,
-    Rcpp::List sim_param) {
-  // std::string stdfileStr = Rcpp::as<std::string>(fileStr);
-  // nlohmann::json sim_param = nlohmann::json::parse(stdfileStr);
-  // ifstream parfile (stdfileStr.c_str());
-  client *clientSet;
-  // cout << int(sim_param["totRounds"]) << endl;
-  // cout << char(sim_param["agent"]) << endl;
-  clientSet = new client[int(sim_param["totRounds"]) * 2];
-  int idClientSet;
-  agent* cleaners[2][2];
-  Rcpp::NumericVector gammas = focal_param["gamma"];
-  Rcpp::NumericVector negRewards = focal_param["negReward"];
-  cleaners[0][0] = new PAATyp1(focal_param["alphaC"], gammas[0],
-                               negRewards[0], focal_param["alphaA"],
-                                                         1.0, 0.0);
-  cleaners[1][0] = new FAATyp1(focal_param["alphaC"], gammas[0],
-                               negRewards[0], focal_param["alphaA"]);
-  if (sim_param["Group"]) {
-    cleaners[0][1] = new PAATyp1(focal_param["alphaC"], gammas[1],
-                                 negRewards[1], focal_param["alphaA"], 1.0, 0.0);
-    cleaners[1][1] = new FAATyp1(focal_param["alphaC"], gammas[1],
-                                 negRewards[2], focal_param["alphaA"]);
-  }
-  double VisPref, init;
-  int countRVopt;
-  Rcpp::DataFrame relAbunds = abs2rel_abund(emp_data["abund_clean"],
-                                            emp_data["abund_resid"],
-                                                    emp_data["abund_visitors"],
-                                                            focal_param);
-  Rcpp::IntegerVector group = emp_data["group"];
-  Rcpp::NumericVector rel_abund_clean = relAbunds["rel_abund_clean"];
-  Rcpp::NumericVector prob_Vis_Leav = emp_data["prob_Vis_Leav"];
-  Rcpp::NumericVector rel_abund_resid = relAbunds["rel_abund_resid"];
-  Rcpp::NumericVector rel_abund_visitors = relAbunds["rel_abund_visitors"];
-  Rcpp::LogicalVector agent;
-  Rcpp::NumericVector marketPred;
-  
-  // Loop through the data points
-  int id_data_point = 0;
-  agent.push_back(setAgent(focal_param,sim_param,
-                           group[id_data_point],
-                                rel_abund_clean[id_data_point],
-                                               prob_Vis_Leav[id_data_point]
-                          )
-                  );
-  init = 0;
-
-  draw(clientSet, int(sim_param["totRounds"]),
-       rel_abund_resid[id_data_point],
-                      rel_abund_visitors[id_data_point]);
-  cout << id_data_point << '\t'<< group[id_data_point]  << '\n';
-  wait_for_returnRcpp();
-  cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
-  wait_for_returnRcpp();
-  idClientSet = 0;
-  VisPref = 0, countRVopt = 0;
-  cleaners[agent[id_data_point]][group[id_data_point]]->
-    act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
-    double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
-    sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
-    learnScenario(int(sim_param["scenario"])));
-  wait_for_returnRcpp();
-  // cleaners[agent[id_data_point]][group[id_data_point]]->update();
-  
-  return 0;
-}
-
-
+// // [[Rcpp::export]]
+// bool do_simulation_test(//del focal_model,
+//     Rcpp::DataFrame emp_data, Rcpp::List focal_param,
+//     Rcpp::List sim_param) {
+//   // std::string stdfileStr = Rcpp::as<std::string>(fileStr);
+//   // nlohmann::json sim_param = nlohmann::json::parse(stdfileStr);
+//   // ifstream parfile (stdfileStr.c_str());
+//   client *clientSet;
+//   // cout << int(sim_param["totRounds"]) << endl;
+//   // cout << char(sim_param["agent"]) << endl;
+//   clientSet = new client[int(sim_param["totRounds"]) * 2];
+//   int idClientSet;
+//   agent* cleaners[2][2];
+//   Rcpp::NumericVector gammas = focal_param["gamma"];
+//   Rcpp::NumericVector negRewards = focal_param["negReward"];
+//   cleaners[0][0] = new PAATyp1(focal_param["alphaC"], gammas[0],
+//                                negRewards[0], focal_param["alphaA"],
+//                                                          1.0, 0.0);
+//   cleaners[1][0] = new FAATyp1(focal_param["alphaC"], gammas[0],
+//                                negRewards[0], focal_param["alphaA"]);
+//   if (sim_param["Group"]) {
+//     cleaners[0][1] = new PAATyp1(focal_param["alphaC"], gammas[1],
+//                                  negRewards[1], focal_param["alphaA"], 1.0, 0.0);
+//     cleaners[1][1] = new FAATyp1(focal_param["alphaC"], gammas[1],
+//                                  negRewards[2], focal_param["alphaA"]);
+//   }
+//   double VisPref, init;
+//   int countRVopt;
+//   Rcpp::DataFrame relAbunds = abs2rel_abund(emp_data["abund_clean"],
+//                                             emp_data["abund_resid"],
+//                                                     emp_data["abund_visitors"],
+//                                                             focal_param);
+//   Rcpp::IntegerVector group = emp_data["group"];
+//   Rcpp::NumericVector rel_abund_clean = relAbunds["rel_abund_clean"];
+//   Rcpp::NumericVector prob_Vis_Leav = emp_data["prob_Vis_Leav"];
+//   Rcpp::NumericVector rel_abund_resid = relAbunds["rel_abund_resid"];
+//   Rcpp::NumericVector rel_abund_visitors = relAbunds["rel_abund_visitors"];
+//   Rcpp::LogicalVector agent;
+//   Rcpp::NumericVector marketPred;
+//   
+//   // Loop through the data points
+//   int id_data_point = 0;
+//   agent.push_back(setAgent(focal_param,sim_param,
+//                            group[id_data_point],
+//                                 rel_abund_clean[id_data_point],
+//                                                prob_Vis_Leav[id_data_point]
+//                           )
+//                   );
+//   init = 0;
+// 
+//   draw(clientSet, int(sim_param["totRounds"]),
+//        rel_abund_resid[id_data_point],
+//                       rel_abund_visitors[id_data_point]);
+//   cout << id_data_point << '\t'<< group[id_data_point]  << '\n';
+//   wait_for_returnRcpp();
+//   cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
+//   wait_for_returnRcpp();
+//   idClientSet = 0;
+//   VisPref = 0, countRVopt = 0;
+//   cleaners[agent[id_data_point]][group[id_data_point]]->
+//     act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
+//     double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
+//     sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
+//     learnScenario(int(sim_param["scenario"])));
+//   wait_for_returnRcpp();
+//   // cleaners[agent[id_data_point]][group[id_data_point]]->update();
+//   
+//   return 0;
+// }
+// 
+// 

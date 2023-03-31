@@ -7,7 +7,7 @@ library("RcppJson")
 
 
 foc.param<-list(alphaC=0.01,alphaA=0.01,scaleConst=150,
-     gamma=c(0.1,0.2),negReward=c(0.5,0.8),
+     gamma=c(0.9,0.9),negReward=c(0.0,0.0),
      probFAA=c(1,1),interpReg=1,slopRegRelAC=2,
      slopRegPVL=2)
 
@@ -18,7 +18,7 @@ names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
 scenario<-"testBayesianTools"
 
 param_mcmc<-list(
-    totRounds=2, 
+    totRounds=1000, 
    # Number of rounds in the learning model
    ResReward=1,VisReward=1, 
    # Magnitude of reward for residents and visitors
@@ -66,6 +66,14 @@ param_mcmc<-list(
 
 param_mcmc$agentScen <-0
 
+sourceCpp(here("ActCrit_R.cpp"))
+
+predicton<-do_simulation(emp_data = fieldData,
+                         focal_param = foc.param,
+                         # fileStr= outParam)
+                         sim_param =   param_mcmc)
+
+
 
 sourceCpp(here("SWE_ActCrit.cpp"))
 
@@ -82,17 +90,6 @@ do_simulation(emp_data = fieldData,
               # fileStr= outParam)
               sim_param =   param_mcmc)
 
-sourceCpp(here("ActCrit_R.cpp"))
-
-do_simulation_test(emp_data = fieldData,
-                   focal_param = foc.param,
-                   sim_param =   param_mcmc)
-
-
-predicton<-do_simulation(emp_data = fieldData,
-              focal_param = foc.param,
-              # fileStr= outParam)
-              sim_param =   param_mcmc)
 
 timesTwo(3)
 

@@ -4,6 +4,7 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "../Cpp/Routines/C++/RandomNumbers/random.h"
 
 using namespace Rcpp;
@@ -61,6 +62,7 @@ public:
   void getExtenededMarket();
   // Get new clients in the experimental setting of Noa's experiment
   double logist();
+  int mapOptionsDP(client options[], int &choice);			
   bool isRVoption(int time);
   // Function to know if there is an RV option in the 
   // current t=0 or future t=1 option
@@ -68,6 +70,9 @@ public:
   client cleanOptionsT1[2];	// future cleaning options  time = t+1
   void choice();
   // Function to make a choice
+  virtual int mapOptions(client options[], int &choice)=0;
+  // function that maps state action pairs to indexes in the array 'values' 
+  //where values are stored
   virtual void updateThet(int curState) = 0;
   // function to update the policy parameter Theta
   int numEst;
@@ -95,11 +100,11 @@ protected:
   int currState, nextState;
 };
 
-void wait_for_returnRcpp(){
+void wait_for_returnRcpp(string strTOp="return"){
   Environment base = Environment("package:base");
   Function readline = base["readline"];
   Function as_numeric = base["as.numeric"];
-  std::cout << "Hit <Enter> to continue\n";
+  std::cout << strTOp;
   int drink = as<int>(as_numeric(readline("> ")));
 }
 
@@ -185,7 +190,6 @@ void agent::ObtainReward(double &ResReward, double &VisReward){
 void agent::getNewOptions(client newOptions[], int &idNewOptions, 
                           double &VisProbLeav, double &ResProbLeav, double &inbr, double &outbr, 
                           learnScenario &scenario){
-  wait_for_returnRcpp();
   if (choiceT == 0)		// Define the behaviour of the unattended client
   {
     if (cleanOptionsT[1] == resident)
@@ -229,19 +233,15 @@ void agent::getNewOptions(client newOptions[], int &idNewOptions,
   }
   switch (scenario) {
   case nature: 
-    wait_for_returnRcpp();
     getExternalOptions(newOptions, idNewOptions, inbr, outbr);
     break;
   case experiment: 
-    wait_for_returnRcpp();
     getExperimentalOptions();
     break;
   case marketExperiment: 
-    wait_for_returnRcpp();
     getMarketExperiment();
     break;
   case ExtendedMarket: 
-    wait_for_returnRcpp();
     getExtenededMarket();
     break;
   default:cout << "unkown scenario!!" << endl;
@@ -370,20 +370,17 @@ void agent::act(client newOptions[], int &idNewOptions, double &VisProbLeav,
   // Future state is unknown
   choiceT1 = 2;
   ObtainReward(VisReward,ResReward);
-  wait_for_returnRcpp();
-  // fix this!!!
   getNewOptions(newOptions, idNewOptions, VisProbLeav, ResProbLeav,
                 inbr, outbr, scenario);
-  wait_for_returnRcpp();
   choice();
 }
 
 void agent::update(){																								
   // change estimated value according to TD error
   // change policy parameter according to TD error
-  wait_for_returnRcpp();
-  currState = 0;
-  nextState = 1;
+  // why did this following lines changed while developing the 
+  currState = mapOptions(cleanOptionsT,choiceT);
+  nextState = mapOptions(cleanOptionsT1, choiceT);
   delta = currentReward -
     negRew_curr*neta + gamma*values[nextState] - values[currState];
   // construct the TD error
@@ -393,6 +390,32 @@ void agent::update(){
 }
 
 double agent::logist() { return (1 / (1 + exp(-(theta[0]-theta[1]))));}
+
+int agent::mapOptionsDP(client options[], int &choice){
+  int state;
+  if (options[0] == absence || options[1] == absence)	{
+    // One of the options is empty
+    if (options[0] == resident || options[1] == resident){					
+      // the other one is a resident
+      state = 2;                                                    // R0
+    }
+    else if (options[0] == visitor || options[1] == visitor){
+      // the other one is a visitor
+      state = 1;                                                    // V0
+    }
+    else { state = 5; }				                                  // 00
+  }
+  else if (options[0] == resident || options[1] == resident){
+    // Both options have clients and one of them is a resident
+    if (options[0] == visitor || options[1] == visitor){
+      // the other one is a visitor
+      state = 0;                                                    // RV
+    }
+    else { state = 3; }		                                          // RR
+  }
+  else { state = 4; }			                                          // VV
+  return state;
+}
 
 void agent::choice() {
   if (cleanOptionsT1[0] == absence || cleanOptionsT1[1] == absence) {
@@ -430,9 +453,9 @@ public:
           double alphaThI, double initVal=1):agent(alphaI, gammaI, NegRewI, 
           alphaThI, initVal){
   }
-  // virtual int mapOptions(client options[], int &choice){
-  //   return(mapOptionsDP(options, choice));
-  // }
+  virtual int mapOptions(client options[], int &choice){
+    return(mapOptionsDP(options, choice));
+  }
 
   virtual void updateThet(int curState) {
     if (curState == 0) {
@@ -562,10 +585,10 @@ void draw(client trainingSet[], int rounds, double probRes, double probVis){
 // [[Rcpp::export]]
 Rcpp::DataFrame do_simulation(
     Rcpp::DataFrame emp_data, Rcpp::List focal_param, Rcpp::List sim_param) {
-  // client *clientSet;
-  // clientSet = new client[int(sim_param["totRounds"]) * 2];
   client clientSet[int(sim_param["totRounds"]) * 2];
+  // array to store the queue of clients
   int idClientSet;
+  // counter for the client queue
   Rcpp::NumericVector gammas = focal_param["gamma"];
   Rcpp::NumericVector negRewards = focal_param["negReward"];
   agent* cleaners[2][2];
@@ -611,26 +634,15 @@ Rcpp::DataFrame do_simulation(
     draw(clientSet, int(sim_param["totRounds"]),
          rel_abund_resid[id_data_point],
                         rel_abund_visitors[id_data_point]);
-    // wait_for_returnRcpp();
-    // cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
-    // wait_for_returnRcpp();
-    // cout << "Reinit finished" << endl;
-    VisPref = 0, countRVopt = 0;
+    cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
+    VisPref = 0, countRVopt = 0,  idClientSet = 0;
     // Loop through the learning rounds
     for (int trial = 0; trial < int(sim_param["totRounds"]); ++trial) {
-      cout << id_data_point << "\t" << agent[id_data_point] << "\t"
-           << group[id_data_point] << endl;
-      cout << cleaners[agent[id_data_point]][group[id_data_point]]->
-      getLearnPar(alphaPar) << endl;
       cleaners[agent[id_data_point]][group[id_data_point]]->
         act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
             double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
             sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
             learnScenario(int(sim_param["scenario"])));
-      cout << id_data_point << "\t" << agent[id_data_point] << "\t"
-           << group[id_data_point] << endl;
-      cout << cleaners[agent[id_data_point]][group[id_data_point]]->
-      getLearnPar(alphaPar) << endl;
       cleaners[agent[id_data_point]][group[id_data_point]]->update();
       if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
         if (cleaners[agent[id_data_point]][group[id_data_point]]->isRVoption(0)) {
