@@ -4,21 +4,18 @@ library("BayesianTools")
 library(data.table)
 library("jsonlite")
 library("RcppJson")
+library("truncnorm")
+# Cpp file with the simulation model
+sourceCpp(here("ActCrit_R.cpp"))
 
-
-foc.param<-list(alphaC=0.01,alphaA=0.01,scaleConst=150,
-     gamma=c(0.9,0.9),negReward=c(0.0,0.0),
-     probFAA=c(1,1),interpReg=1,slopRegRelAC=2,
-     slopRegPVL=2)
 
 fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
 names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
                          "prob_Vis_Leav","group")
 
-scenario<-"testBayesianTools"
-
+# Parameters not to be fitted
 param_mcmc<-list(
-    totRounds=1000, 
+    totRounds=10000, 
    # Number of rounds in the learning model
    ResReward=1,VisReward=1, 
    # Magnitude of reward for residents and visitors
@@ -34,97 +31,159 @@ param_mcmc<-list(
    # Rate at which cleaners forget what they have learned
    seed=1,  
    # Seed for the random number generator
-   agent="PAA",
+   agent="FAA",
    agentScen = 0,
    # Type of agent FAA (chuncking), PAA (not chuncking)
    propfullPrint = 0.7, 
    #Proportion of final rounds used to calculate predictions
-   sdPert=c(0.05,0.05,0.25,6.5,100,0.2), 
-   # Width of the perturbation kernel for each parameter
    # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
-   chain_length=100000, # Chain length
-   init=c(0.05,0.05,0,0,30,0), # Initial values for each of the parameters
-   # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
-   pertScen = c(FALSE,FALSE,FALSE,TRUE,TRUE,FALSE), # boolean controlling which
-   # parameter is perturbed
-   MCMC =1, # run chain=1, run prediction for one parameter set = 0
-   nRep=1, # number of replicate simulations
+   nRep=30, # number of replicate simulations
    Group = FALSE, # grouped data according to social competence
    # from triki et al. 2020
-   groupPars = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE),
-   dataFile =
-   # paste(clusterHome,"Data","data_cleaner_abs_threa1.5.txt",
-   #                  sep="/"),
-   here("Data","data_cleaner_abs_threa1.5.txt"),
-   # location of the data file
-   # here("Simulations",
-   #                 paste0(scenario,"_"),"data_MCMC_fake.txt"))
-   folderL=paste0(here("Simulations"),"/",scenario,"_/")
-   # Local folder
+   groupPars = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE)
 )
 
+foc.param<-list(alphaC=0.05,alphaA=0.05,scaleConst=150,
+                gamma0=0.9, gamma1=0.9,negReward0=0.0,negReward1=0.0,
+                probFAA=1,interpReg=1,slopRegRelAC=2,
+                slopRegPVL=2)
 
-param_mcmc$agentScen <-0
+priors<-data.frame(best=as.numeric(foc.param),
+                   lower=c(0,0,0,0,0,-50,-50,0,-20,-20,-20),
+                   upper=c(1,1,500,1,1,50,50,1,20,20,20))
 
-sourceCpp(here("ActCrit_R.cpp"))
+rownames(priors)<-names(foc.param)
 
-predicton<-do_simulation(emp_data = fieldData,
-                         focal_param = foc.param,
-                         # fileStr= outParam)
-                         sim_param =   param_mcmc)
+defaultPars<-foc.param
 
-
-
-sourceCpp(here("SWE_ActCrit.cpp"))
-
-do_simulation(emp_data = fieldData,
-              focal_param = foc.param,
-              # fileStr= outParam)
-              sim_param =   param_mcmc)
+# choosing which parameters to calibrate
+parSel = c("scaleConst", "gamma0", "negReward0")
 
 
-sourceCpp(here("test.cpp"))
+LogLihood<-function(pars){
+    # set parameters that are not calibrated on default values 
+    x = defaultPars
+    x[parSel] = pars[parSel]
+    predicted <- do_simulation(emp_data = fieldData,
+                  focal_param = x,
+                  sim_param =   param_mcmc)    # run simulations
+    logliHood<-sum(dbinom(predicted[,"score_visitor"],20,
+           predicted[,"marketPred"],log = TRUE)) # 
+    # Log likelihood calculated using the number of visitor choices, 
+    # the total number of trials (20) and the model prediction
+    return(logliHood)
+}
 
-do_simulation(emp_data = fieldData,
-              focal_param = foc.param,
-              # fileStr= outParam)
-              sim_param =   param_mcmc)
+# Create uniform prior
+prior <- createUniformPrior(lower = priors[parSel,"lower"], 
+                            upper = priors[parSel,"upper"], 
+                            best = priors[parSel,"best"])
+
+# Create own prior
+densityPrior <- function(pars){
+  scaleConstD <-dtruncnorm(pars[1],0,500,150,100)
+  gamma1D <- dbeta(pars[2],2,5)
+  negreward1D <-dtruncnorm(pars[3],-50,50,0,15)
+  return(scaleConstD+gamma1D+negreward1D)
+}
+
+samplerPrior <- function(n=1){
+  scaleConstR <-rtruncnorm(n,0,500,150,100)
+  gamma1R <- rbeta(n,2,5)
+  negreward1R <-rtruncnorm(n,-50,50,0,15)
+  return(cbind(scaleConstR,gamma1R,negreward1R))
+}
+
+prior <- createPrior(density = densityPrior, sampler = samplerPrior,
+                     lower = priors[parSel,"lower"], 
+                     upper = priors[parSel,"upper"], 
+                     best = NULL)
 
 
-timesTwo(3)
 
-?VSEM
+# Set up the bayesian engine
+bayesianSetup <- createBayesianSetup(LogLihood, prior, 
+                                     names = parSel)
 
-focal<-new(model_param)
-focal$set_gamma(0.5,0.5)
-focal$logist()
-focal$methodJson()
+# settings for the sampler, iterations should be increased for real applicatoin
+settings <- list(iterations = 100000, nrChains = 1)
 
-showPi(focal$myJson)
-
-new_param<-new(model_param)
-new_param$set_gamma(1,10)
-new_param$logist()
-
-focal$copy(new_param$get_ptr())
-
-focal$logist()
+MCMC.FAA <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
 
 
-focal$set_gamma(1,1)
-focal$logist()
-focal$set_gamma(0.5,0.6)
-focal$logist()
+par()
+plot(MCMC.FAA)
+summary(MCMC.FAA)
+marginalPlot(MCMC.FAA)
+gelmanDiagnostics(MCMC.FAA)
 
-hello()
-bla()
-bla2(42, 0.42)
+## Run MCMC chains in parallel
 
-w <- new(World)
-w$greet()
-w$set("hohoho")
-w$greet()
+## Start cluster with n cores for n chains and export BayesianTools library
+nChains<-5
+cl <- parallel::makeCluster(nChains)
+parallel::clusterEvalQ(cl, {
+  library(BayesianTools)
+  library(Rcpp)
+  library(here)
+  library("truncnorm")
+  library(data.table)
+  library("jsonlite")
+  library("RcppJson")
+  # Cpp file with the simulation model
+  sourceCpp(here("ActCrit_R.cpp"))
+  param_mcmc<-list(
+    totRounds=10000, 
+    # Number of rounds in the learning model
+    ResReward=1,VisReward=1, 
+    # Magnitude of reward for residents and visitors
+    ResProbLeav=0, 
+    # Prob. of resident leaving the station if unattended
+    scenario=0, 
+    # scenario of how the clients reach the station
+    #nature 0, experiment 1, marketExperiment 2, ExtendedMarket 3
+    inbr=0,outbr=0, 
+    # probability of clients seeking similar/ different,
+    # clients, respectively, in the station
+    forRat=0.0, 
+    # Rate at which cleaners forget what they have learned
+    seed=1,  
+    # Seed for the random number generator
+    agent="FAA",
+    agentScen = 0,
+    # Type of agent FAA (chuncking), PAA (not chuncking)
+    propfullPrint = 0.7, 
+    #Proportion of final rounds used to calculate predictions
+    # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
+    nRep=30, # number of replicate simulations
+    Group = FALSE, # grouped data according to social competence
+    # from triki et al. 2020
+    groupPars = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE)
+  )
+  defaultPars<-list(alphaC=0.01,alphaA=0.01,scaleConst=150,
+                    gamma0=0.9, gamma1=0.9,negReward0=0.0,negReward1=0.0,
+                    probFAA=1,interpReg=1,slopRegRelAC=2,
+                    slopRegPVL=2)
+  parSel = c("scaleConst", "gamma0", "negReward0")
+  fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
+  names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
+                           "prob_Vis_Leav","group")
+}
+)
 
-muUnif<-new(Uniform,0,2)
+## calculate parallel n chains, for each chain the likelihood will be calculated on one core
+MCMC.FAA <- parallel::parLapply(cl, 1:nChains, fun = function(X, bayesianSetup, settings) 
+  runMCMC(bayesianSetup, settings, sampler = "DEzs"), bayesianSetup, settings)
 
-muUnif$draw(5)
+## Combine the chains
+MCMC.FAA <- createMcmcSamplerList(MCMC.FAA)
+
+head(MCMC.FAA)
+
+
+par()
+plot(MCMC.FAA)
+summary(MCMC.FAA)
+marginalPlot(MCMC.FAA)
+gelmanDiagnostics(MCMC.FAA)
+

@@ -629,23 +629,22 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   // array to store the queue of clients
   int idClientSet;
   // counter for the client queue
-  Rcpp::NumericVector gammas = focal_param["gamma"];
-  Rcpp::NumericVector negRewards = focal_param["negReward"];
   agent* cleaners[2][2];
   // Array with the 4 agent types: PAA, FAA, with and without groups
-  PAATyp1 PAAcleaner_NG(focal_param["alphaC"], gammas[0],
-                        negRewards[0], focal_param["alphaA"],
+  PAATyp1 PAAcleaner_NG(focal_param["alphaC"], focal_param["gamma0"],
+                        focal_param["negReward0"], focal_param["alphaA"],
                                                   1.0, 0.0);
   cleaners[0][0] = &PAAcleaner_NG;
-  FAATyp1 FAAcleaner_NG (focal_param["alphaC"], gammas[0],
-                         negRewards[0], focal_param["alphaA"]);
+  FAATyp1 FAAcleaner_NG (focal_param["alphaC"], focal_param["gamma0"],
+                         focal_param["negReward0"], focal_param["alphaA"]);
   cleaners[1][0] = &FAAcleaner_NG;
   if (sim_param["Group"]) {
-    PAATyp1 PAAcleaner_G (focal_param["alphaC"], gammas[1],
-                          negRewards[1], focal_param["alphaA"], 1.0, 0.0);
+    PAATyp1 PAAcleaner_G (focal_param["alphaC"], focal_param["gamma1"],
+                          focal_param["negReward1"], focal_param["alphaA"], 
+                                                                1.0, 0.0);
     cleaners[0][1] = &PAAcleaner_G;
-    FAATyp1 FAAcleaner_G (focal_param["alphaC"], gammas[1],
-                          negRewards[2], focal_param["alphaA"]);
+    FAATyp1 FAAcleaner_G (focal_param["alphaC"], focal_param["gamma1"],
+                          focal_param["negReward1"], focal_param["alphaA"]);
     cleaners[1][1] = &FAAcleaner_G;
   }
   double VisPref, init;
@@ -680,12 +679,19 @@ Rcpp::DataFrame do_simulation(//del focal_model,
      emp_data[id_data_point].marketPred = emp_data[id_data_point - 1].marketPred;
      }
      else {*/
+    
+    std::string gammaVal = "gamma" + itos(group[id_data_point]);
     init = 
-      gammas[group[id_data_point]]*
+      double(focal_param[gammaVal])*
       (1 - pow(1 -
       rel_abund_resid[id_data_point] -
       rel_abund_visitors[id_data_point], 2)) /
-      (1 - gammas[group[id_data_point]]);
+      (1 - double(focal_param[gammaVal]));
+      // gammas[group[id_data_point]]*
+      // (1 - pow(1 -
+      // rel_abund_resid[id_data_point] -
+      // rel_abund_visitors[id_data_point], 2)) /
+      // (1 - gammas[group[id_data_point]]);
     draw(clientSet, int(sim_param["totRounds"]),
          rel_abund_resid[id_data_point],
          rel_abund_visitors[id_data_point]);
@@ -711,13 +717,12 @@ Rcpp::DataFrame do_simulation(//del focal_model,
           if (cleaners[agent[id_data_point]][group[id_data_point]]->
                   cleanOptionsT[cleaners[agent[id_data_point]]
                 [group[id_data_point]]->getChoice(0)] == visitor){
-            wait_for_returnRcpp("trial:"+itos(trial));
             ++VisPref;
           }
         }
       }
     }
-    wait_for_returnRcpp("data point:"+itos(id_data_point));
+    // wait_for_returnRcpp("data point:"+itos(id_data_point));
     // cout << countRVopt << endl;
     if (countRVopt == 0) marketPred.push_back(0.5);
     else marketPred.push_back( VisPref / countRVopt);
