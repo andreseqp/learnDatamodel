@@ -13,36 +13,6 @@ fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
 names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
                          "prob_Vis_Leav","group")
 
-# Parameters not to be fitted
-param_mcmc<-list(
-    totRounds=10000, 
-   # Number of rounds in the learning model
-   ResReward=1,VisReward=1, 
-   # Magnitude of reward for residents and visitors
-   ResProbLeav=0, 
-   # Prob. of resident leaving the station if unattended
-   scenario=0, 
-   # scenario of how the clients reach the station
-   #nature 0, experiment 1, marketExperiment 2, ExtendedMarket 3
-   inbr=0,outbr=0, 
-   # probability of clients seeking similar/ different,
-   # clients, respectively, in the station
-   forRat=0.0, 
-   # Rate at which cleaners forget what they have learned
-   seed=1,  
-   # Seed for the random number generator
-   agent="FAA",
-   agentScen = 0,
-   # Type of agent FAA (chuncking), PAA (not chuncking)
-   propfullPrint = 0.7, 
-   #Proportion of final rounds used to calculate predictions
-   # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
-   nRep=30, # number of replicate simulations
-   Group = FALSE, # grouped data according to social competence
-   # from triki et al. 2020
-   groupPars = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE)
-)
-
 foc.param<-list(alphaC=0.05,alphaA=0.05,scaleConst=150,
                 gamma0=0.9, gamma1=0.9,negReward0=0.0,negReward1=0.0,
                 probFAA=1,interpReg=1,slopRegRelAC=2,
@@ -57,7 +27,7 @@ rownames(priors)<-names(foc.param)
 defaultPars<-foc.param
 
 # choosing which parameters to calibrate
-parSel = c("scaleConst", "gamma0", "negReward0")
+parSel = c("scaleConst", "gamma0")
 
 
 LogLihood<-function(pars){
@@ -82,16 +52,16 @@ prior <- createUniformPrior(lower = priors[parSel,"lower"],
 # Create own prior
 densityPrior <- function(pars){
   scaleConstD <-dtruncnorm(pars[1],0,500,150,100)
-  gamma1D <- dbeta(pars[2],2,5)
-  negreward1D <-dtruncnorm(pars[3],-50,50,0,15)
+  gamma1D <- dtruncnorm(pars[1],-1,1,0,0.2)# dbeta(pars[2],2,5)
+  negreward1D <-0#dtruncnorm(pars[3],-50,50,0,15)
   return(scaleConstD+gamma1D+negreward1D)
 }
 
 samplerPrior <- function(n=1){
   scaleConstR <-rtruncnorm(n,0,500,150,100)
   gamma1R <- rbeta(n,2,5)
-  negreward1R <-rtruncnorm(n,-50,50,0,15)
-  return(cbind(scaleConstR,gamma1R,negreward1R))
+  # negreward1R <-rtruncnorm(n,-50,50,0,15)
+  return(cbind(scaleConstR,gamma1R))#,negreward1R))
 }
 
 prior <- createPrior(density = densityPrior, sampler = samplerPrior,
@@ -106,21 +76,21 @@ bayesianSetup <- createBayesianSetup(LogLihood, prior,
                                      names = parSel)
 
 # settings for the sampler, iterations should be increased for real applicatoin
-settings <- list(iterations = 100000, nrChains = 1)
+settings <- list(iterations = 100, nrChains = 1)
 
-MCMC.FAA <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
-
-
-par()
-plot(MCMC.FAA)
-summary(MCMC.FAA)
-marginalPlot(MCMC.FAA)
-gelmanDiagnostics(MCMC.FAA)
+# MCMC.FAA <- runMCMC(bayesianSetup = bayesianSetup, sampler = "DEzs", settings = settings)
+# 
+# 
+# par()
+# plot(MCMC.FAA)
+# summary(MCMC.FAA)
+# marginalPlot(MCMC.FAA)
+# gelmanDiagnostics(MCMC.FAA)
 
 ## Run MCMC chains in parallel
 
 ## Start cluster with n cores for n chains and export BayesianTools library
-nChains<-5
+nChains<-2
 cl <- parallel::makeCluster(nChains)
 parallel::clusterEvalQ(cl, {
   library(BayesianTools)
@@ -180,9 +150,17 @@ MCMC.FAA <- createMcmcSamplerList(MCMC.FAA)
 
 head(MCMC.FAA)
 
+typeof(MCMC.FAA[1])
+
+saveRDS(MCMC.FAA, file= here("Simulations","testBayesianTools_","MCMC_FAA.rda"))
+MCMC.FAA.loaded <- readRDS(file = here("Simulations",
+                                       "testBayesianTools_","MCMC_FAA.rda"))
+
+
+typeof(MCMC.FAA.loaded)
 
 par()
-plot(MCMC.FAA)
+plot(MCMC.FAA.loaded)
 summary(MCMC.FAA)
 marginalPlot(MCMC.FAA)
 gelmanDiagnostics(MCMC.FAA)
