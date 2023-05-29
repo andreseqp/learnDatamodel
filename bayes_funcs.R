@@ -18,13 +18,12 @@ LogLihood<-function(pars){
 
 # Default parameters
 foc.param<-list(alphaC=0.05,alphaA=0.05,scaleConst=150,
-                gamma0=0.9, gamma1=0.9,negReward0=0.0,negReward1=0.0,
-                probFAA=1,interpReg=1,slopRegRelAC=2,
-                slopRegPVL=2)
+                gamma0=0.0, gamma1=0.0,negReward0=0.0,negReward1=0.0,
+                probFAA=1,interpReg=0,slopRegRelAC=0, slopRegPVL=0)
 
 
 priors<-data.frame(best=as.numeric(foc.param),
-                   lower=c(0,0,0,0,0,-50,-50,0,-20,-20,-20),
+                   lower=c(0,0,0,-1,-1,-50,-50,0,-20,-20,-20),
                    upper=c(1,1,500,1,1,50,50,1,20,20,20))
 
 rownames(priors)<-names(foc.param)
@@ -33,13 +32,14 @@ rownames(priors)<-names(foc.param)
 # Create own prior
 densityPriorCreator <- function(par.sel){
   funcs<-list(
-    alphaC=function(x) beta(x,2,5),
-    alphaA=function(x) beta(x,2,5),
+    alphaC=function(x) dbeta(x,2,5),
+    alphaA=function(x) dbeta(x,2,5),
     scaleConst= function(x) dtruncnorm(x,0,500,150,100),
     gamma0= function(x) dtruncnorm(x,-1,1,0,0.2),# dbeta(pars[2],2,5)
     gamma1=function(x) dtruncnorm(x,-1,1,0,0.2),# dbeta(pars[2],2,5)
     negReward0=function(x) dtruncnorm(x,-50,50,0,15),
-    probFAA=function(x) beta(x,2,5),
+    negReward1=function(x) dtruncnorm(x,-50,50,0,15),
+    probFAA=function(x) dbeta(x,2,2),
     interpReg= function(x)dtruncnorm(x,-50,50,0,15),
     slopRegRelAC=function(x)dtruncnorm(x,-50,50,0,15),
     slopRegPVL=function(x)dtruncnorm(x,-50,50,0,15)
@@ -69,6 +69,7 @@ samplePriorCreator <- function(par.sel){
     gamma0= function(n) rtruncnorm(n,-1,1,0,0.2),# dbeta(pars[2],2,5)
     gamma1=function(n) rtruncnorm(n,-1,1,0,0.2),# dbeta(pars[2],2,5)
     negReward0=function(n) rtruncnorm(n,-50,50,0,15),
+    negReward1=function(n) rtruncnorm(n,-50,50,0,15),
     probFAA=function(n) rbeta(n,2,5),
     interpReg= function(n) rtruncnorm(n,-50,50,0,15),
     slopRegRelAC=function(n) rtruncnorm(n,-50,50,0,15),

@@ -1,0 +1,133 @@
+starting worker pid=26040 on localhost:11233 at 16:57:40.154
+starting worker pid=25868 on localhost:11233 at 16:57:40.639
+starting worker pid=27768 on localhost:11233 at 16:57:41.046
+starting worker pid=25896 on localhost:11233 at 16:57:41.356
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+starting worker pid=24996 on localhost:11128 at 17:08:01.591
+starting worker pid=26204 on localhost:11128 at 17:08:02.049
+starting worker pid=12552 on localhost:11128 at 17:08:02.373
+starting worker pid=17916 on localhost:11128 at 17:08:02.687
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+starting worker pid=20032 on localhost:11128 at 17:19:51.988
+starting worker pid=20428 on localhost:11128 at 17:19:52.397
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+starting worker pid=29140 on localhost:11312 at 09:17:49.548
+starting worker pid=29588 on localhost:11312 at 09:17:50.033
+starting worker pid=29528 on localhost:11312 at 09:19:28.648
+starting worker pid=29692 on localhost:11312 at 09:19:29.196
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -519.1657 -518.4531 -520.8122 . Please wait! runMCMC terminated after 53.37seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+starting worker pid=32388 on localhost:11312 at 09:47:54.011
+starting worker pid=18284 on localhost:11312 at 09:47:54.636
+here() starts at E:/Projects/learnDatamodel
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Execution halted
+1: package 'truncnorm' was built under R version 4.2.3 
+2: Start values outside prior range 
+Execution halted
+starting worker pid=25864 on localhost:11048 at 09:23:03.910
+starting worker pid=22980 on localhost:11048 at 09:23:04.491
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -519.1937 -517.0781 -517.646 . Please wait! runMCMC terminated after 305.15seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+starting worker pid=16588 on localhost:11632 at 14:30:28.078
+starting worker pid=9632 on localhost:11632 at 14:30:28.487
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -519.6079 -520.7928 -520.81 . Please wait! runMCMC terminated after 134.06seconds
+starting worker pid=30000 on localhost:11632 at 14:35:28.702
+starting worker pid=15340 on localhost:11632 at 14:35:29.052
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -518.9287 -518.8299 -519.1511 . Please wait! runMCMC terminated after 471.62seconds
+starting worker pid=26796 on localhost:11632 at 14:47:23.030
+starting worker pid=24792 on localhost:11632 at 14:47:23.467
+here() starts at E:/Projects/learnDatamodel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -518.9246 -519.1636 -520.7847 . Please wait! runMCMC terminated after 190.69seconds
+starting worker pid=21532 on localhost:11632 at 15:05:03.917
+starting worker pid=27360 on localhost:11632 at 15:05:04.889
+here() starts at E:/Projects/learnDatamodel
+here() starts at E:/Projects/learnDatamodel
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+Execution halted
+package 'truncnorm' was built under R version 4.2.3 
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning message:
+package 'truncnorm' was built under R version 4.2.3 
+package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted

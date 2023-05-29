@@ -570,22 +570,22 @@ void checkGroups(Rcpp::IntegerVector &group,bool groups) {
 }
 
 
-bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, int group,
+bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, 
               double rel_abund_clean,double prob_Vis_Leav) {
   
   double prob_F;
-  Rcpp::IntegerVector probFAAs = currPars["probFAA"];
   switch (int(sim_param["agentScen"])){
     case 0:
-      prob_F = probFAAs[group];
+      prob_F = currPars["probFAA"];
       break;
     case 1:
       prob_F = 1 / (1 + exp(-(double(currPars["interpReg"])
                             + double(currPars["slopRegRelAC"])*rel_abund_clean
                             + double(currPars["slopRegPVL"])*prob_Vis_Leav)));
+      break;
     default:
-      prob_F =probFAAs[group];
-    break;
+      prob_F = currPars["probFAA"];
+      break;
   }
   return rnd::bernoulli(prob_F);
 }
@@ -624,7 +624,7 @@ Rcpp::DataFrame abs2rel_abund(Rcpp::NumericVector abund_clean,
 Rcpp::DataFrame do_simulation(//del focal_model,
     Rcpp::DataFrame emp_data, Rcpp::List focal_param,
     Rcpp::List sim_param) {
-  
+  cout  << focal_param["inter"]
   client clientSet[int(sim_param["totRounds"]) * 2];
   // array to store the queue of clients
   int idClientSet;
@@ -646,6 +646,7 @@ Rcpp::DataFrame do_simulation(//del focal_model,
     FAATyp1 FAAcleaner_G (focal_param["alphaC"], focal_param["gamma1"],
                           focal_param["negReward1"], focal_param["alphaA"]);
     cleaners[1][1] = &FAAcleaner_G;
+    // cout << "Agents built" << "\n"; 
   }
   double VisPref, init;
   int countRVopt;
@@ -667,7 +668,6 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   for (int id_data_point = 0; id_data_point < emp_data.nrows(); ++id_data_point) {
 
     agent.push_back(setAgent(focal_param,sim_param,
-                                  group[id_data_point],
                                   rel_abund_clean[id_data_point],
                                   prob_Vis_Leav[id_data_point]
                                )

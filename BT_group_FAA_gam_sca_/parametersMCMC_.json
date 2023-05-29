@@ -1,0 +1,14 @@
+{
+  "totRounds": 10000,
+  "ResReward": 1,
+  "VisReward": 1,
+  "ResProbLeav": 0,
+  "scenario": 0,
+  "inbr": 0,
+  "outbr": 0,
+  "seed": 1,
+  "agentScen": 0,
+  "propfullPrint": 0.7,
+  "nRep": 30,
+  "Group": true
+}
