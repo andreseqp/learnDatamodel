@@ -23,8 +23,8 @@ foc.param<-list(alphaC=0.05,alphaA=0.05,scaleConst=150,
 
 
 priors<-data.frame(best=as.numeric(foc.param),
-                   lower=c(0,0,0,-1,-1,-50,-50,0,-20,-20,-20),
-                   upper=c(1,1,500,1,1,50,50,1,20,20,20))
+                   lower=c(0,0,0,-1,-1,-50,-50,0,-50,-50,-50),
+                   upper=c(1,1,500,1,1,50,50,1,50,50,50))
 
 rownames(priors)<-names(foc.param)
 

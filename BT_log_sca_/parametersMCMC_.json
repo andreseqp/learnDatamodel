@@ -9,5 +9,6 @@
   "seed": 1,
   "agentScen": 1,
   "propfullPrint": 0.7,
+  "nRep": 30,
   "Group": false
 }

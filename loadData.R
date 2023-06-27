@@ -164,6 +164,12 @@ logist<-function(theta1,theta2){
   return(1/(1+exp(-(theta1-theta2))))
 }
 
+# Logistic function to compute probability of FAA from parameters ---------------------
+
+logistAgent<-function(x,y,interp,slopox,slopy){
+  return(1/(1+exp(-(interp+slopox*x+slopy*y))))
+}
+
 # Visualize difference in parameters between 2 JSON files
 
 diffJsons<-function(json1,json2){

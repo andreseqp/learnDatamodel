@@ -19,11 +19,11 @@ suppressPackageStartupMessages(c(
 #   library("BayesianTools"),
 #   library(data.table),
 #   library("jsonlite"),
-#   # library("RcppJson")
 #   library("ps"),
 #   library(devtools),
 #   library("truncnorm")
 # ))
+
 
 source(here("loadData.R"))
 # Cpp file with the simulation model
@@ -40,12 +40,19 @@ names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
 
 # choosing which parameters to calibrate
 # parSel = c("scaleConst", "gamma0","negReward0")
-scenarios_select<-list(BT_PAA_gam_Nrew_sca=c("scaleConst", "gamma0","negReward0"),
-                BT_PAA_gam_sca=c("scaleConst", "gamma0"),
-                BT_PAA_Nrew_sca=c("scaleConst", "negReward0"))
+
+scenarios_select<-list(BT_FAA_gam_Nrew_sca=
+                         c("scaleConst", "gamma0","negReward0"),
+                       BT_FAA_gam_sca=
+                         c("scaleConst", "gamma0"),
+                       BT_FAA_Nrew_sca=
+                         c("scaleConst","negReward0"))
+# ,
+#                 BT_log_Nrew_sca=c("scaleConst", "negReward0"))
 
 
-scenarios<-c("BT_PAA_gam_sca","BT_PAA_Nrew_sca")
+
+scenarios<-names(scenarios_select)
 
 for(scenario in scenarios){
   
@@ -53,7 +60,6 @@ for(scenario in scenarios){
 
   check_create.dir(here(),param = rep(scenario,1),
                  values = c(""))
-  
   
   param_mcmc<-list(
     totRounds=10000, 
@@ -68,11 +74,8 @@ for(scenario in scenarios){
     inbr=0,outbr=0, 
     # probability of clients seeking similar/ different,
     # clients, respectively, in the station
-    forRat=0.0, 
-    # Rate at which cleaners forget what they have learned
     seed=1,  
     # Seed for the random number generator
-    agent="PAA",
     agentScen = 0,
     # Type of agent FAA (chuncking), PAA (not chuncking)
     propfullPrint = 0.7, 
@@ -83,12 +86,10 @@ for(scenario in scenarios){
     # from triki et al. 2020
   )
   
+  
   source(here("bayes_funcs.R"))
   
-  foc.param["probFAA"] <-0
-  
   defaultPars<-foc.param
-  
   
   # define priors and their sampling function
   densityPrior<-densityPriorCreator(parSel)
@@ -98,7 +99,21 @@ for(scenario in scenarios){
                        upper = priors[parSel,"upper"], 
                        best = NULL)
   
-## Plotting the priors ---------------------------------------------------------
+  
+  # library(ggplot2)
+  # library(dplyr)
+  # 
+  # prior.short<-samplerPrior(10000) %>% as.data.table()
+  # 
+  # prior.short %>% melt() %>%
+  #   ggplot(aes(x=value,fill=variable)) +
+  #   geom_histogram() +
+  #   facet_grid(~variable,scales = "free_x")+
+  #   theme_classic()
+  
+  
+  
+# ## Plotting the priors ---------------------------------------------------------
 # par(mfrow=c(3,1))
 # plot(x=seq(0,500,by=0.1),
 #      y=dtruncnorm(x=seq(0,500,by=0.1),0,500,150,100),type="l")
@@ -108,22 +123,20 @@ for(scenario in scenarios){
 # 
 # plot(x=seq(-50,50,by=0.01),
 #      y=dtruncnorm(seq(-50,50,by=0.01),-50,50,0,15),type="l")
-
-
-# Set up the bayesian engine ---------------------------------------------------
+# 
+  
+  # Set up the bayesian engine ---------------------------------------------------
   bayesianSetup <- createBayesianSetup(LogLihood, prior, 
                                      names = parSel)
 
 # settings for the sampler, iterations should be increased for real applicatoin
   settings <- list(iterations = nIter, nrChains = 1)
 
-
-  
-
+  ## Write out file with parameter values 
   fileName<-paste("parametersMCMC_",".json",sep="")
   outParam<-toJSON(param_mcmc,auto_unbox = TRUE,pretty = TRUE)
   write(outParam,here(paste0(scenario,"_"),fileName))
-
+  
   ## Run MCMC chains in parallel
   ## Start cluster with n cores for n chains and export BayesianTools library
   nChains<-nChainsI
@@ -132,7 +145,7 @@ for(scenario in scenarios){
                                "foc.param",
                                "parSel",
                                "fieldData")
-  )
+                          )
   parallel::clusterEvalQ(cl, {
     library(BayesianTools,lib.loc="RLibs")
     library(Rcpp,lib.loc="RLibs")
@@ -140,7 +153,7 @@ for(scenario in scenarios){
     library("truncnorm",lib.loc="RLibs")
     library(data.table,lib.loc="RLibs")
     library("jsonlite",lib.loc="RLibs")
-    
+
     # library(BayesianTools)
     # library(Rcpp)
     # library(here)
@@ -152,24 +165,21 @@ for(scenario in scenarios){
     sourceCpp(here("ActCrit_R.cpp"))
     
     defaultPars<-foc.param
-  }
+    }
   )
-  
 
   ## calculate parallel n chains, for each chain the likelihood will be calculated on one core
-  MCMC.PAA <- parallel::parLapply(cl, 1:nChains, 
+  MCMC.FAA <- parallel::parLapply(cl, 1:nChains, 
                                   fun = function(X, bayesianSetup, settings) 
     runMCMC(bayesianSetup, settings, sampler = "DEzs"), bayesianSetup, settings)
-
+  
+  
   ## Combine the chains
-  MCMC.PAA <- createMcmcSamplerList(MCMC.FAA)
+  MCMC.FAA <- createMcmcSamplerList(MCMC.FAA)
 
   # Save files for future analysis
-  saveRDS(MCMC.PAA, file= here(paste0(scenario,"_"),"MCMC_PAA.rda"))
-  # MCMC.FAA.loaded <- readRDS(file = here(paste0(scenario,"_"),
-  #                                      "MCMC_FAA.rda"))
+  saveRDS(MCMC.FAA, file= here(paste0(scenario,"_"),"MCMC_FAA.rda"))
 
-  # MCMC.FAA.loaded <- readRDS(file = here("Simulations",paste0("testBayesianTools","_"),
-  #                                        "MCMC_FAA.rda"))
-  print(paste0("Done",scenario))
+  print(paste0("Done ",scenario))
 }
+

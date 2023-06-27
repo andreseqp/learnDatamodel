@@ -19,13 +19,13 @@ suppressPackageStartupMessages(c(
   library("BayesianTools"),
   library(data.table),
   library("jsonlite"),
-  # library("RcppJson")
   library("ps"),
   library(devtools),
   library("truncnorm")
 ))
 
-source(here("loadData.R"))
+
+cpsource(here("loadData.R"))
 # Cpp file with the simulation model
 sourceCpp(here("ActCrit_R.cpp"))
 
@@ -79,7 +79,7 @@ scenarios<-names(scenarios_select)
     propfullPrint = 0.7, 
     #Proportion of final rounds used to calculate predictions
     # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
-    # nRep=30, # number of replicate simulations
+    nRep=30, # number of replicate simulations
     Group = FALSE # grouped data according to social competence
     # from triki et al. 2020
   )
@@ -111,7 +111,7 @@ scenarios<-names(scenarios_select)
   
   
   
-## Plotting the priors ---------------------------------------------------------
+# ## Plotting the priors ---------------------------------------------------------
 # par(mfrow=c(3,1))
 # plot(x=seq(0,500,by=0.1),
 #      y=dtruncnorm(x=seq(0,500,by=0.1),0,500,150,100),type="l")
@@ -121,9 +121,9 @@ scenarios<-names(scenarios_select)
 # 
 # plot(x=seq(-50,50,by=0.01),
 #      y=dtruncnorm(seq(-50,50,by=0.01),-50,50,0,15),type="l")
-
-
-# Set up the bayesian engine ---------------------------------------------------
+# 
+  
+  # Set up the bayesian engine ---------------------------------------------------
   bayesianSetup <- createBayesianSetup(LogLihood, prior, 
                                      names = parSel)
 
@@ -137,10 +137,20 @@ scenarios<-names(scenarios_select)
   
 
   # sourceCpp(here("ActCrit_R.cpp"))
-  do_simulation(fieldData,foc.param,param_mcmc)
+  outSim<-do_simulation(fieldData,foc.param,param_mcmc)
   settings <- list(iterations = 100, nrChains = 1)
   tmp.mcmc<-runMCMC(bayesianSetup, settings, sampler = "DEzs")
 
+  x<-seq(range(outSim$rel_abund_clean)[1],
+        range(outSim$rel_abund_clean)[2],length=1000)
+  y<-seq(range(outSim$prob_Vis_Leav)[1],
+        range(outSim$prob_Vis_Leav)[2], length=1000)
+  
+  ## plot, showing the effects of logistic regression
+  
+  matProb<-outer(x,y,FUN=logistAgent,interp=-1,slopox=-1,slopy=-1)
+  filled.contour(matProb)
+  
   
 
   ## Run MCMC chains in parallel

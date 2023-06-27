@@ -9,9 +9,9 @@ sourceCpp(here("ActCrit_R.cpp"))
 source(here("bayes_funcs.R"))
 
 defaultPars<-foc.param
-scenarios_select<-list(BT_gam_Nrew_sca=c("scaleConst", "gamma0","negReward0"),
-                       BT_gam_sca=c("scaleConst", "gamma0"),
-                       BT_Nrew_sca=c("scaleConst", "negReward0"))
+scenarios_select<-list(BT_FAA_gam_Nrew_sca=c("scaleConst", "gamma0","negReward0"),
+                       BT_FAA_gam_sca=c("scaleConst", "gamma0"),
+                       BT_FAA_Nrew_sca=c("scaleConst", "negReward0"))
 fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
 names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
                          "prob_Vis_Leav","group")
@@ -36,13 +36,13 @@ param_mcmc<-list(
   #Proportion of final rounds used to calculate predictions
   # alphaA,AlphaC, Gamma, NegRew, scalConst,probFAA
   nRep=30, # number of replicate simulations
-  Group = FALSE, # grouped data according to social competence
+  Group = FALSE # grouped data according to social competence
   # from triki et al. 2020
 )
 
 # FAA --------------------------------------------------------------------------
 
-scenario <-"BT_Nrew_sca"
+scenario <-"BT_FAA_gam_Nrew_sca"
 parSel <- scenarios_select[[scenario]]
 # Load MCMC chains
 MCMC.FAA.loaded <- readRDS(file = here(paste0(scenario,"_"),
@@ -58,7 +58,7 @@ gelmanDiagnostics(MCMC.FAA.loaded)
 
 # PAA --------------------------------------------------------------------------
 
-scenario <-"BT_PAA_gam_Nrew_sca"
+scenario <-"BT_FAA_gam_sca"
 # Load MCMC chains
 MCMC.PAA.loaded <- readRDS(file = here(paste0(scenario,"_"),
                                        "MCMC_FAA.rda"))
@@ -70,3 +70,10 @@ plot(MCMC.PAA.loaded)
 summary(MCMC.PAA.loaded)
 marginalPlot(MCMC.PAA.loaded)
 gelmanDiagnostics(MCMC.PAA.loaded)
+
+# Compare two models via Bayes factor ------------------------------------------
+
+ML.FAA <- marginalLikelihood(MCMC.FAA.loaded)
+ML.PAA <- marginalLikelihood(MCMC.PAA.loaded)
+
+exp(M1$ln.ML) / ( exp(M1$ln.ML) + exp(M2$ln.ML))
