@@ -6,12 +6,9 @@
   "scenario": 0,
   "inbr": 0,
   "outbr": 0,
-  "forRat": 0,
   "seed": 1,
-  "agent": "PAA",
   "agentScen": 0,
   "propfullPrint": 0.7,
   "nRep": 30,
-  "Group": false,
-  "groupPars": [false, false, false, false, false, false]
+  "Group": false
 }

@@ -1,0 +1,683 @@
+starting worker pid=6652 on localhost:11045 at 09:13:59.852
+starting worker pid=27472 on localhost:11045 at 09:14:00.137
+starting worker pid=22208 on localhost:11045 at 09:14:00.410
+starting worker pid=20956 on localhost:11045 at 09:14:00.633
+starting worker pid=12120 on localhost:11045 at 09:14:00.854
+starting worker pid=35464 on localhost:11045 at 08:49:58.831
+starting worker pid=12260 on localhost:11045 at 08:49:59.077
+starting worker pid=12796 on localhost:11045 at 08:49:59.280
+starting worker pid=25456 on localhost:11045 at 08:49:59.486
+starting worker pid=40700 on localhost:11045 at 08:49:59.706
+starting worker pid=35352 on localhost:11045 at 08:50:35.557
+starting worker pid=45480 on localhost:11045 at 08:50:35.906
+starting worker pid=42120 on localhost:11045 at 08:50:36.461
+starting worker pid=8100 on localhost:11045 at 08:50:37.089
+starting worker pid=26196 on localhost:11045 at 08:50:37.603
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.69 -519.0244 -520.0831 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -519.1643 -520.6231 -519.1803 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -518.8255 -518.8393 -520.5422 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.7966 -519.6291 -520.0571 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -518.8344 -519.3296 -519.6837 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.8157 -520.0226 -520.788 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -519.7638 -519.1595 -519.3513 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.1689 -518.9616 -519.2063 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -519.8534 -519.114 -520.7149 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.7634 -520.7318 -519.4783 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.1166 -520.7993 -518.8587 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -518.8978 -519.1879 -518.856 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -519.8969 -520.4924 -520.6059 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -519.1755 -519.145 -518.952 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -518.9144 -519.0569 -518.9233 . Please wait! runMCMC terminated after 848.38seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -519.199 -520.3907 -518.8456 . Please wait! runMCMC terminated after 850.3seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.7809 -520.7975 -519.4964 . Please wait! runMCMC terminated after 862.72seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -518.8272 -519.8455 -520.7714 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -519.2574 -520.7794 -520.5985 . Please wait! runMCMC terminated after 901.31seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -518.9477 -520.5361 -520.683 . Please wait! runMCMC terminated after 937seconds
+starting worker pid=46232 on localhost:11045 at 09:06:32.845
+starting worker pid=7436 on localhost:11045 at 09:06:33.096
+starting worker pid=27052 on localhost:11045 at 09:06:33.299
+starting worker pid=1568 on localhost:11045 at 09:06:33.500
+starting worker pid=26276 on localhost:11045 at 09:06:33.703
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -518.9414 -519.3386 -520.7617 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.0857 -520.8155 -520.817 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.5115 -520.8143 -518.8239 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.7372 -520.8147 -520.8147 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -519.2796 -519.0339 -519.0799 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.0286 -519.3551 -520.8184 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.6931 -519.7367 -520.6259 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -519.3377 -518.8614 -519.2873 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -518.939 -519.598 -520.8064 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -519.24 -520.5132 -519.4859 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.5678 -519.7505 -520.6375 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.7306 -520.1098 -519.4722 . Please wait! runMCMC terminated after 868.17seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -518.8327 -518.8267 -520.7202 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -518.9301 -519.3848 -519.6897 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -518.8596 -520.2378 -520.7985 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8182 -518.9011 -520.147 . Please wait! runMCMC terminated after 948.97seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -518.8909 -520.8171 -519.1205 . Please wait! runMCMC terminated after 957.84seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.1344 -520.8162 -520.5216 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8107 -518.9316 -519.5767 . Please wait! runMCMC terminated after 1014.2seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -518.8435 -519.8665 -519.0925 . Please wait! runMCMC terminated after 1053.45seconds
+starting worker pid=41660 on localhost:11045 at 09:24:17.964
+starting worker pid=14836 on localhost:11045 at 09:24:18.270
+starting worker pid=5548 on localhost:11045 at 09:24:18.471
+starting worker pid=18180 on localhost:11045 at 09:24:18.673
+starting worker pid=45332 on localhost:11045 at 09:24:18.874
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.8079 -520.8174 -520.8066 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.8135 -520.7921 -520.8039 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.7941 -520.7931 -520.8093 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.7918 -520.7962 -520.8178 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -520.8173 -520.8136 -520.8144 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.8175 -520.7961 -520.8152 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.8177 -520.8019 -520.8059 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.8173 -520.793 -520.7909 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.8033 -520.7917 -520.7919 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -520.7918 -520.8023 -520.8086 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.7933 -520.8181 -520.808 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.7923 -520.8071 -520.8165 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.7931 -520.8135 -520.7973 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.7937 -520.8038 -520.8057 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8142 -520.8071 -520.8036 . Please wait! runMCMC terminated after 743.7seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -520.8144 -520.8156 -520.8153 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8134 -520.8175 -520.8132 . Please wait! runMCMC terminated after 769.64seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8164 -520.7923 -520.8142 . Please wait! runMCMC terminated after 786.74seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.7898 -520.804 -520.7929 . Please wait! runMCMC terminated after 801.12seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -520.8124 -520.7925 -520.7981 . Please wait! runMCMC terminated after 834.2seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+ 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+1 
+lls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+In addition: Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+Execution halted
+2: package 'Rcpp' was built under R version 4.2.1 
+Execution halted
+orm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+In addition: ayesianTools' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from 3: package 'truncnorm' was built under R version 4.2.3 
+ -> recvData.SOCKnode -> unserialize
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+In addition: 3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+n
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncn2: package 'Rcpp' was built under R version 4.2.1 
+connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+In addition: ted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+starting worker pid=43028 on localhost:11274 at 10:49:18.738
+starting worker pid=3944 on localhost:11274 at 10:49:18.966
+starting worker pid=23516 on localhost:11274 at 10:49:19.190
+starting worker pid=31576 on localhost:11274 at 10:49:19.920
+starting worker pid=16200 on localhost:11274 at 10:49:20.133
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+starting worker pid=29016 on localhost:11274 at 10:53:49.453
+starting worker pid=22784 on localhost:11274 at 10:53:49.710
+starting worker pid=19252 on localhost:11274 at 10:53:49.934
+starting worker pid=24900 on localhost:11274 at 10:53:50.216
+starting worker pid=39172 on localhost:11274 at 10:53:50.430
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+starting worker pid=43344 on localhost:11274 at 10:56:00.483
+starting worker pid=45832 on localhost:11274 at 10:56:00.688
+starting worker pid=12372 on localhost:11274 at 10:56:00.892
+starting worker pid=26252 on localhost:11274 at 10:56:01.102
+starting worker pid=27192 on localhost:11274 at 10:56:01.311
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+starting worker pid=4168 on localhost:11274 at 11:04:13.174
+starting worker pid=15388 on localhost:11274 at 11:04:13.383
+starting worker pid=37776 on localhost:11274 at 11:04:13.592
+starting worker pid=15960 on localhost:11274 at 11:04:13.802
+starting worker pid=33024 on localhost:11274 at 11:04:14.015
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialiWarning messages:
+r reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: 1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Warning messages:
+rm' was built under R version 4.2.3 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: In addition: Execution halted
+ze(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+1: package 'BayesiaIn addition: ayesianTools' was built underIn addition: 2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+ R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+e 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+2: package 'Rcpp' was built under R version 4.2.1 
+.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+ze(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+In addition: ted
+Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+n
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+starting worker pid=29956 on localhost:11274 at 11:46:36.993
+starting worker pid=25668 on localhost:11274 at 11:46:37.195
+starting worker pid=18124 on localhost:11274 at 11:46:37.401
+starting worker pid=40564 on localhost:11274 at 11:46:37.604
+starting worker pid=46496 on localhost:11274 at 11:46:37.814
+starting worker pid=35720 on localhost:11274 at 11:58:50.621
+starting worker pid=37872 on localhost:11274 at 11:58:50.829
+starting worker pid=33592 on localhost:11274 at 11:58:51.324
+starting worker pid=42932 on localhost:11274 at 11:58:51.537
+starting worker pid=10480 on localhost:11274 at 11:58:51.742
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.6113 -337.8083 -338.2352 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.3468 -336.3624 -338.2448 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.3465 -336.9437 -336.3184 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -337.0697 -336.3638 -338.2407 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.5878 -338.0749 -338.1771 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -338.2267 -338.1311 -338.2344 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.8358 -336.3816 -337.5906 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.247 -338.2382 -336.6362 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.5707 -337.3063 -336.8296 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.4211 -337.4165 -338.2471 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -336.4175 -338.1767 -336.3231 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -336.7673 -336.544 -337.9605 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -337.2882 -337.1485 -336.3696 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -336.3332 -336.6564 -336.8934 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -338.1666 -336.3305 -338.1881 . Please wait! runMCMC terminated after 828.56seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -336.4069 -337.3251 -337.8632 . Please wait! runMCMC terminated after 846.35seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -337.693 -337.8246 -338.2178 . Please wait! runMCMC terminated after 858.26seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -336.2559 -336.3033 -336.3553 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -338.0312 -337.694 -336.2455 . Please wait! runMCMC terminated after 888.28seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -337.6331 -336.2318 -338.2193 . Please wait! runMCMC terminated after 955.22seconds
+starting worker pid=42148 on localhost:11274 at 12:14:58.026
+starting worker pid=42616 on localhost:11274 at 12:14:58.341
+starting worker pid=40440 on localhost:11274 at 12:14:58.552
+starting worker pid=10776 on localhost:11274 at 12:14:58.760
+starting worker pid=30468 on localhost:11274 at 12:14:58.977
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.3219 -338.248 -336.6186 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -337.9543 -338.2441 -338.2435 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -338.248 -338.1957 -338.2452 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -336.4377 -336.5419 -336.2539 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -337.0274 -336.2861 -338.2467 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.6239 -336.2498 -336.3312 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -337.6626 -336.4042 -337.3651 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -337.0195 -336.9047 -338.245 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.687 -336.2973 -337.6678 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -336.821 -338.1937 -338.1829 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -338.248 -336.3305 -336.3307 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -337.4518 -337.5739 -338.148 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -338.1391 -336.4447 -336.3695 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -338.2447 -338.2154 -337.6837 . Please wait! runMCMC terminated after 921.17seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -336.6457 -336.6632 -338.2353 . Please wait! runMCMC terminated after 960.14seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -338.0538 -337.6492 -338.1318 . Please wait! runMCMC terminated after 977.42seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -336.587 -336.3329 -336.8213 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -338.2477 -337.2995 -336.5949 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -337.2271 -337.267 -338.2326 . Please wait! runMCMC terminated after 1086.22seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -338.247 -336.2667 -336.2939 . Please wait! runMCMC terminated after 1102.14seconds
+starting worker pid=35452 on localhost:11274 at 12:33:32.476
+starting worker pid=44876 on localhost:11274 at 12:33:32.744
+starting worker pid=23736 on localhost:11274 at 12:33:32.999
+starting worker pid=27508 on localhost:11274 at 12:33:33.209
+starting worker pid=13968 on localhost:11274 at 12:33:33.419
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+g++  -std=gnu++11 -I"C:/PROGRA~1/R/R-42~1.0/include" -DNDEBUG   -I"C:/Users/andre/AppData/Local/R/win-library/4.2/Rcpp/include" -I"M:/Projects/learnDataModel"   -I"M:/rtools42/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c ActCrit_R.cpp -o ActCrit_R.o
+g++  -std=gnu++11 -I"C:/PROGRA~1/R/R-42~1.0/include" -DNDEBUG   -I"C:/Users/andre/AppData/Local/R/win-library/4.2/Rcpp/include" -I"M:/Projects/learnDataModel"   -I"M:/rtools42/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c ActCrit_R.cpp -o ActCrit_R.o
+g++  -std=gnu++11 -I"C:/PROGRA~1/R/R-42~1.0/include" -DNDEBUG   -I"C:/Users/andre/AppData/Local/R/win-library/4.2/Rcpp/include" -I"M:/Projects/learnDataModel"   -I"M:/rtools42/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c ActCrit_R.cpp -o ActCrit_R.o
+g++  -std=gnu++11 -I"C:/PROGRA~1/R/R-42~1.0/include" -DNDEBUG   -I"C:/Users/andre/AppData/Local/R/win-library/4.2/Rcpp/include" -I"M:/Projects/learnDataModel"   -I"M:/rtools42/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c ActCrit_R.cpp -o ActCrit_R.o
+g++  -std=gnu++11 -I"C:/PROGRA~1/R/R-42~1.0/include" -DNDEBUG   -I"C:/Users/andre/AppData/Local/R/win-library/4.2/Rcpp/include" -I"M:/Projects/learnDataModel"   -I"M:/rtools42/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c ActCrit_R.cpp -o ActCrit_R.o
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Execution halted
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Execution halted
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: In addition: 3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+Warning messages:
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: 1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: 1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Warning messages:
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Warning messages:
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+starting worker pid=8968 on localhost:11137 at 11:37:47.825
+starting worker pid=13316 on localhost:11137 at 11:37:48.079
+starting worker pid=12460 on localhost:11137 at 11:37:48.305
+starting worker pid=10292 on localhost:11137 at 11:37:48.584
+starting worker pid=16392 on localhost:11137 at 11:37:48.789
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+starting worker pid=13824 on localhost:11137 at 11:41:47.292
+starting worker pid=11256 on localhost:11137 at 11:41:47.556
+starting worker pid=1012 on localhost:11137 at 11:41:47.770
+starting worker pid=15440 on localhost:11137 at 11:41:48.267
+starting worker pid=1080 on localhost:11137 at 11:41:48.480
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5866 -313.5794 -315.1483 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5883 -314.6155 -313.668 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -314.001 -315.5347 -314.2623 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5843 -313.5926 -313.7927 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5939 -315.5784 -314.4807 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5913 -314.2987 -313.6489 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5727 -313.8721 -313.9633 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -314.0964 -313.6458 -313.6272 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.587 -313.7451 -313.7143 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -313.6351 -313.6094 -315.2594 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.6197 -313.8184 -313.8048 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -314.6409 -313.5984 -315.2247 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.5708 -315.5866 -315.4277 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.6002 -315.2727 -315.1294 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.6309 -315.5779 -315.0702 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -313.6583 -313.5747 -314.4138 . Please wait! runMCMC terminated after 770.14seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -314.0041 -313.6249 -314.4597 . Please wait! runMCMC terminated after 785.12seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -314.0557 -315.59 -314.9369 . Please wait! runMCMC terminated after 807.94seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -313.622 -314.0453 -313.7161 . Please wait! runMCMC terminated after 814.37seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.3037 -314.1378 -315.121 . Please wait! runMCMC terminated after 822.89seconds
+starting worker pid=1976 on localhost:11137 at 11:55:41.597
+starting worker pid=7460 on localhost:11137 at 11:55:41.856
+starting worker pid=15656 on localhost:11137 at 11:55:42.069
+starting worker pid=18884 on localhost:11137 at 11:55:42.283
+starting worker pid=20460 on localhost:11137 at 11:55:42.499
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.4889 -313.5982 -314.3632 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -313.7982 -314.469 -313.79 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.591 -313.7852 -315.5515 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -313.968 -314.0956 -315.5914 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5607 -313.733 -313.6087 . Please wait! Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: ges:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+ction
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+e 'truncnorm' was built under R version 4.2.3 
+Execution halted
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+3: package 'truncnorm' was built under R version 4.2.3 
+In addition: Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+In addition: In addition: Warning messages:
+Warning messages:
+nTools' was built under R version 4.2.1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+ Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5025 -313.9098 -313.6095 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -313.7232 -314.2462 -313.9783 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.4603 -314.5416 -313.6461 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -314.1512 -315.5919 -314.9363 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5904 -314.679 -313.68 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.6343 -314.0954 -313.6203 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -314.8291 -313.626 -313.9619 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.7402 -314.2846 -313.7964 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -314.866 -313.9872 -315.5235 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -313.602 -313.7645 -313.6528 . Please wait! runMCMC terminated after 877.18seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -313.8306 -315.0307 -315.5116 . Please wait! runMCMC terminated after 886.8seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.5939 -314.1069 -315.5603 . Please wait! runMCMC terminated after 905.83seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -313.6052 -315.5337 -313.833 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -314.4034 -315.5574 -315.5 . Please wait! runMCMC terminated after 954.86seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -314.6228 -313.9087 -315.5418 . Please wait! runMCMC terminated after 976.49seconds
+starting worker pid=7400 on localhost:11137 at 12:12:09.675
+starting worker pid=8968 on localhost:11137 at 12:12:09.987
+starting worker pid=12180 on localhost:11137 at 12:12:10.202
+starting worker pid=18932 on localhost:11137 at 12:12:10.424
+starting worker pid=15704 on localhost:11137 at 12:12:10.642
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5906 -315.5918 -315.5668 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.585 -315.5909 -315.5878 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5898 -315.577 -315.5704 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5902 -315.5854 -315.5943 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -315.5845 -315.5815 -315.5909 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5706 -315.5677 -315.5908 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.574 -315.5688 -315.5939 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5936 -315.5918 -315.5941 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5678 -315.5934 -315.5821 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -315.5799 -315.5927 -315.589 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.5943 -315.5742 -315.5911 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.5915 -315.5867 -315.566 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.587 -315.5948 -315.5829 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.5655 -315.5943 -315.5887 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.5827 -315.5697 -315.5701 . Please wait! runMCMC terminated after 738.61seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.5913 -315.589 -315.5894 . Please wait! runMCMC terminated after 751.96seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.5935 -315.5817 -315.5908 . Please wait! runMCMC terminated after 765.41seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.5716 -315.5811 -315.5892 . Please wait! runMCMC terminated after 771.74seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -315.5774 -315.5671 -315.5911 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -315.57 -315.5932 -315.5771 . Please wait! runMCMC terminated after 871.48seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Warning messages:
+In addition: ayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+ze(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: In addition: ges:
+e(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+In addition: 3: package 'truncnorm' was built under R version 4.2.3 
+1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Warning messages:
+rm' was built under R version 4.2.3 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+1: package 'BayesianTools' was built under R version 4.2.1 
+n
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+In addition: In addition: ted
+Warning messages:
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+1 
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+.3 
+3: package 'truncnorm' was built under R version 4.2.3 
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+In addition: Execution halted
+Warning messages:
+Execution halted
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+Execution halted
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted
+Warning messages:
+1: package 'BayesianTools' was built under R version 4.2.1 
+2: package 'Rcpp' was built under R version 4.2.1 
+3: package 'truncnorm' was built under R version 4.2.3 
+Execution halted

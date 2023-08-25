@@ -1,41 +1,37 @@
 # install.packages(c(
 #   "Rcpp","here","BayesianTools","data.table","jsonlite","truncnorm"
 # ))
-suppressPackageStartupMessages(c(
-  library(Rcpp,lib.loc="RLibs"),
-  library(here,lib.loc="RLibs"),
-  library("BayesianTools",lib.loc="RLibs"),
-  library(data.table,lib.loc="RLibs"),
-  library("jsonlite",lib.loc="RLibs"),
-  # library("RcppJson")
-  library("ps",lib.loc="RLibs"),
-  library(devtools,lib.loc="RLibs"),
-  library("truncnorm",lib.loc="RLibs")
-))
-
 # suppressPackageStartupMessages(c(
-#   library(Rcpp),
-#   library(here),
-#   library("BayesianTools"),
-#   library(data.table),
-#   library("jsonlite"),
-#   library("ps"),
-#   library(devtools),
-#   library("truncnorm")
+#   library(Rcpp,lib.loc="RLibs"),
+#   library(here,lib.loc="RLibs"),
+#   library("BayesianTools",lib.loc="RLibs"),
+#   library(data.table,lib.loc="RLibs"),
+#   library("jsonlite",lib.loc="RLibs"),
+#   # library("RcppJson")
+#   library("ps",lib.loc="RLibs"),
+#   library(devtools,lib.loc="RLibs"),
+#   library("truncnorm",lib.loc="RLibs")
 # ))
+
+suppressPackageStartupMessages(c(
+  library(Rcpp),
+  library(here),
+  library("BayesianTools"),
+  library(data.table),
+  library("jsonlite"),
+  library("ps"),
+  library(devtools),
+  library("truncnorm")
+))
 
 
 source(here("loadData.R"))
 # Cpp file with the simulation model
 sourceCpp(here("ActCrit_R.cpp"))
 
-nIter<-100000
+nIter<-1000
 nChainsI<-5
 
-#load data
-fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
-names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
-                         "prob_Vis_Leav","group")
 
 
 # choosing which parameters to calibrate
@@ -147,19 +143,19 @@ for(scenario in scenarios){
                                "fieldData")
                           )
   parallel::clusterEvalQ(cl, {
-    library(BayesianTools,lib.loc="RLibs")
-    library(Rcpp,lib.loc="RLibs")
-    library(here,lib.loc="RLibs")
-    library("truncnorm",lib.loc="RLibs")
-    library(data.table,lib.loc="RLibs")
-    library("jsonlite",lib.loc="RLibs")
+    # library(BayesianTools,lib.loc="RLibs")
+    # library(Rcpp,lib.loc="RLibs")
+    # library(here,lib.loc="RLibs")
+    # library("truncnorm",lib.loc="RLibs")
+    # library(data.table,lib.loc="RLibs")
+    # library("jsonlite",lib.loc="RLibs")
 
-    # library(BayesianTools)
-    # library(Rcpp)
-    # library(here)
-    # library("truncnorm")
-    # library(data.table)
-    # library("jsonlite")
+    library(BayesianTools)
+    library(Rcpp)
+    library(here)
+    library("truncnorm")
+    library(data.table)
+    library("jsonlite")
     
     # Cpp file with the simulation model
     sourceCpp(here("ActCrit_R.cpp"))

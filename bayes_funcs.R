@@ -6,6 +6,7 @@ LogLihood<-function(pars){
   # set parameters that are not calibrated on default values 
   x = defaultPars
   x[parSel] = pars[parSel]
+  if(is.null(parSel))  warning(call. = TRUE)
   predicted <- do_simulation(emp_data = fieldData,
                              focal_param = x,
                              sim_param =   param_mcmc)    # run simulations

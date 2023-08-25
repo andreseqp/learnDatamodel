@@ -394,8 +394,10 @@ void agent::update(){
   nextState = mapOptions(cleanOptionsT1, choiceT);
   delta = currentReward -
     negRew_curr*neta + gamma*values[nextState] - values[currState];
-  // construct the TD error
+    // construct the TD error
   values[currState] += alpha*delta;
+  // cout << currentReward +gamma*values[nextState]<< '\t' << values[currState] << '\t' << delta 
+  //      << endl;
   // update value
   updateThet(currState);
 }
@@ -498,7 +500,10 @@ public:
         theta[0] -= alphath*delta*piV;
         theta[1] += alphath*delta*piV;
       }
+      //cout << theta[0] << '\t'<< theta[1] << endl;
       piV = logist();
+      // cout << theta[0] << '\t'<< theta[1] << '\t'
+      //      << delta << endl;
     }
   }
 };
@@ -506,9 +511,8 @@ public:
 class PAATyp1 :public agent{				// Partially Aware Agent (PAA)	
 public:
   PAATyp1(double alphaI, double gammaI, double netaI, 
-          double alphaThI, double initVal, double alphaThNchI):agent(alphaI, gammaI,  
+          double alphaThI, double initVal):agent(alphaI, gammaI,  
           netaI, alphaThI,initVal){
-    alphaThNch = alphaThNchI;
     numEst = 3;
     values[3] -= 1;
   }
@@ -523,28 +527,41 @@ public:
     if (curStatAct < 2) {
       //int notchoice = (choiceT == 0);
       if (curStatAct == 1) {
-        if (cleanOptionsT[0] == cleanOptionsT[1]) {
-          theta[0] += alphaThNch*alphath*delta*(1 - piV);
-        }
-        else {
-          theta[0] += alphath*delta*(1 - piV);
-        }
-        
+        theta[0] += alphath*delta*(1 - piV);
       }
       else {
-        if (cleanOptionsT[0] == cleanOptionsT[1]) {
-          theta[1] += alphaThNch*alphath*delta*piV;
-        }
-        else {
-          theta[1] += alphath*delta*piV;
-        }
-        
+        theta[1] += alphath*delta*piV;
       }
       piV = logist();
+      // cout << theta[0] << '\t'<< theta[1] << '\t'
+      //      << delta << endl;
     }
   }
-private:
-  double alphaThNch;
+  // virtual void updateThet(int curStatAct) {
+  //   if (curStatAct < 2) {
+  //     //int notchoice = (choiceT == 0);
+  //     if (curStatAct == 1) {
+  //       if (cleanOptionsT[0] == cleanOptionsT[1]) {
+  //         theta[0] += alphath*delta*(1 - piV);
+  //       }
+  //       else {
+  //         theta[0] += alphath*delta*(1 - piV);
+  //       }
+  //       
+  //     }
+  //     else {
+  //       if (cleanOptionsT[0] == cleanOptionsT[1]) {
+  //         theta[1] += alphath*delta*piV;
+  //       }
+  //       else {
+  //         theta[1] += alphath*delta*piV;
+  //       }
+  //       
+  //     }
+  //     piV = logist();
+  //     cout << theta[0] << '\t'<< theta[1] << endl;
+  //   }
+  // }
 };
 
 // Functions external to the agent
@@ -570,7 +587,7 @@ void checkGroups(Rcpp::IntegerVector &group,bool groups) {
 }
 
 
-bool setAgent(Rcpp::List currPars, Rcpp::List sim_param, 
+double setAgent(Rcpp::List currPars, Rcpp::List sim_param, 
               double rel_abund_clean,double prob_Vis_Leav) {
   
   double prob_F;
@@ -587,7 +604,7 @@ bool setAgent(Rcpp::List currPars, Rcpp::List sim_param,
       prob_F = currPars["probFAA"];
       break;
   }
-  return rnd::bernoulli(prob_F);
+  return prob_F;
 }
 
 
@@ -633,7 +650,7 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   // Array with the 4 agent types: PAA, FAA, with and without groups
   PAATyp1 PAAcleaner_NG(focal_param["alphaC"], focal_param["gamma0"],
                         focal_param["negReward0"], focal_param["alphaA"],
-                                                  1.0, 0.0);
+                                                  1.0);
   cleaners[0][0] = &PAAcleaner_NG;
   FAATyp1 FAAcleaner_NG (focal_param["alphaC"], focal_param["gamma0"],
                          focal_param["negReward0"], focal_param["alphaA"]);
@@ -641,15 +658,15 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   if (sim_param["Group"]) {
     PAATyp1 PAAcleaner_G (focal_param["alphaC"], focal_param["gamma1"],
                           focal_param["negReward1"], focal_param["alphaA"], 
-                                                                1.0, 0.0);
+                                                                1.0);
     cleaners[0][1] = &PAAcleaner_G;
     FAATyp1 FAAcleaner_G (focal_param["alphaC"], focal_param["gamma1"],
                           focal_param["negReward1"], focal_param["alphaA"]);
     cleaners[1][1] = &FAAcleaner_G;
     // cout << "Agents built" << "\n"; 
   }
-  double VisPref, init;
-  int countRVopt;
+  double VisPref[2], init;
+  int countRVopt,nRep,agent_l;
   Rcpp::DataFrame relAbunds = abs2rel_abund(emp_data["abund_clean"],
                                             emp_data["abund_resid"],
                                             emp_data["abund_visitors"],
@@ -661,26 +678,28 @@ Rcpp::DataFrame do_simulation(//del focal_model,
   Rcpp::NumericVector prob_Vis_Leav = emp_data["prob_Vis_Leav"];
   Rcpp::NumericVector rel_abund_resid = relAbunds["rel_abund_resid"];
   Rcpp::NumericVector rel_abund_visitors = relAbunds["rel_abund_visitors"];
-  Rcpp::LogicalVector agent;
+  Rcpp::NumericVector agent;
   Rcpp::NumericVector marketPred;
   checkGroups(group,sim_param["Group"]);
   // Loop through the data points
   for (int id_data_point = 0; id_data_point < emp_data.nrows(); ++id_data_point) {
     // Loop through the replicates
-    VisPref = 0, countRVopt = 0;
-    for(int idRep = 0 ;idRep < int(sim_param["nRep"]);++idRep){
-      agent.push_back(setAgent(focal_param,sim_param,
-                                    rel_abund_clean[id_data_point],
-                                    prob_Vis_Leav[id_data_point]
-                                 )
-                        );
-      
-      /*if (id_data_point > 0 &&
+    agent.push_back(setAgent(focal_param,sim_param,
+                             rel_abund_clean[id_data_point],
+                                            prob_Vis_Leav[id_data_point]));
+    if(agent[id_data_point]==1 || agent[id_data_point]==0)
+      nRep= 1,agent_l=agent[id_data_point];
+    else
+      nRep = 2, agent_l=0;
+    VisPref[0] = 0,VisPref[1] = 0;
+    for(int idRep = 0; idRep < nRep; ++idRep){
+        /*if (id_data_point > 0 &&
        (emp_data[id_data_point].site_year == emp_data[id_data_point - 1].site_year &&
        emp_data[id_data_point].group == emp_data[id_data_point - 1].group)) {
        emp_data[id_data_point].marketPred = emp_data[id_data_point - 1].marketPred;
        }
        else {*/
+      countRVopt = 0;
       std::string gammaVal = "gamma" + itos(group[id_data_point]);
       init = 
         double(focal_param[gammaVal])*
@@ -688,6 +707,7 @@ Rcpp::DataFrame do_simulation(//del focal_model,
         rel_abund_resid[id_data_point] -
         rel_abund_visitors[id_data_point], 2)) /
         (1 - double(focal_param[gammaVal]));
+      //cout << "InitVal: " << init << endl;
         // gammas[group[id_data_point]]*
         // (1 - pow(1 -
         // rel_abund_resid[id_data_point] -
@@ -697,39 +717,47 @@ Rcpp::DataFrame do_simulation(//del focal_model,
            rel_abund_resid[id_data_point],
            rel_abund_visitors[id_data_point]);
       // cout << id_data_point << '\t'<< group[id_data_point]  << '\n';
-      cleaners[agent[id_data_point]][group[id_data_point]]->rebirth(init);
+      cleaners[agent_l][group[id_data_point]]->rebirth(init);
       idClientSet = 0;
       // set counters to 0
       // Loop through the learning rounds
       for (int trial = 0;trial < int(sim_param["totRounds"]); ++trial) {
-        cleaners[agent[id_data_point]][group[id_data_point]]->
+        cleaners[agent_l][group[id_data_point]]->
           act(clientSet, idClientSet, prob_Vis_Leav[id_data_point],
               double(sim_param["ResProbLeav"]), double(sim_param["VisReward"]),
               sim_param["ResReward"], sim_param["inbr"], sim_param["outbr"],
               learnScenario(int(sim_param["scenario"])));
-        cleaners[agent[id_data_point]][group[id_data_point]]->update();
+        cleaners[agent_l][group[id_data_point]]->update();
         // cout << cleaners[agent[id_data_point]][group[id_data_point]]->cleanOptionsT[0]
         //      << '\t'
         //      << cleaners[agent[id_data_point]][group[id_data_point]]->cleanOptionsT[1]
         //      << endl;
         if (trial > int(sim_param["totRounds"]) * float(sim_param["propfullPrint"])) {
-          if (cleaners[agent[id_data_point]][group[id_data_point]]->isRVoption(0)) {
+          if (cleaners[agent_l][group[id_data_point]]->isRVoption(0)) {
             ++countRVopt;
-            if (cleaners[agent[id_data_point]][group[id_data_point]]->
-                    cleanOptionsT[cleaners[agent[id_data_point]]
+            if (cleaners[agent_l][group[id_data_point]]->
+                    cleanOptionsT[cleaners[agent_l]
                   [group[id_data_point]]->getChoice(0)] == visitor){
-              ++VisPref;
-            }
-          }
-        }
-      }
+              ++VisPref[agent_l];
+            } // count Visitor if 
+          } // Only RV options if
+        } // last rounds recording if
+      } // trials loop
       // wait_for_returnRcpp("data point:"+itos(id_data_point));
-      // cout << countRVopt << endl;
-      if (countRVopt == 0) marketPred.push_back(0.5);
-      else marketPred.push_back( VisPref / countRVopt);
-      cleaners[agent[id_data_point]][group[id_data_point]]->rebirth();
+      // cout << agent_l << '\t' << VisPref[agent_l] << '\t' << countRVopt <<
+      //       '\t' << VisPref[agent_l]/countRVopt << endl;
+      cleaners[agent_l][group[id_data_point]]->rebirth();
+      VisPref[agent_l] = VisPref[agent_l]/countRVopt;
+      ++agent_l;
+    } // replicate loop
+    //cout << VisPref[1] << '\t' << VisPref[0] << endl;
+    if (countRVopt == 0) marketPred.push_back(0.5);
+    else {
+      marketPred.push_back( VisPref[1]*agent[id_data_point] + 
+        VisPref[0]*(1- agent[id_data_point])); 
     }
-  }
+    //cout << marketPred[id_data_point] << endl;
+  } // data point loop
   // construct the data frame
   emp_data.push_back(rel_abund_clean,"rel_abund_clean");
   emp_data.push_back(rel_abund_resid,"rel_abund_resid");

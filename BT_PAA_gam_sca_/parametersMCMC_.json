@@ -12,6 +12,5 @@
   "agentScen": 0,
   "propfullPrint": 0.7,
   "nRep": 30,
-  "Group": false,
-  "groupPars": [false, false, false, false, false, false]
+  "Group": false
 }
