@@ -2,19 +2,20 @@
 
 ## Likelihood
 
-LogLihood<-function(pars){
+LogLihood<-function(pars,sum=TRUE){
   # set parameters that are not calibrated on default values 
   x = defaultPars
-  x[parSel] = pars[parSel]
+  loc_pars = match(parSel,names(defaultPars))
+  x[loc_pars] = pars
   if(is.null(parSel))  warning(call. = TRUE)
-  predicted <- do_simulation(emp_data = fieldData,
+    predicted <- do_simulation(emp_data = fieldData,
                              focal_param = x,
                              sim_param =   param_mcmc)    # run simulations
-  logliHood<-sum(dbinom(predicted[,"score_visitor"],20,
-                        predicted[,"marketPred"],log = TRUE)) # 
+  logliHood<-dbinom(predicted[,"score_visitor"],20,
+                        predicted[,"marketPred"],log = TRUE)
   # Log likelihood calculated using the number of visitor choices, 
   # the total number of trials (20) and the model prediction
-  return(logliHood)
+  return(if (sum == TRUE) sum(logliHood) else logliHood)
 }
 
 # Default parameters

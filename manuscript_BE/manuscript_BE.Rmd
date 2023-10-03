@@ -657,15 +657,15 @@ plot_grid(first_col,second_col)
 Low cleaner fish relative abundance yields different predictions 
 from a model with only chaining and with penalty.
 The model with only chaining predicts a low preference fpr the visitor when
-cleaner fish relative abundance is low (Fig. \ref{fig:pred} c). In contrast,
+cleaner fish relative abundance is low (Fig. \ref{fig:predPAA} c). In contrast,
 the models including penalty (with and without chaining) predict high 
-preference for the visitor option (Fig. \ref{fig:pred} a and e).
+preference for the visitor option (Fig. \ref{fig:predFAA} a and e).
 For intermediate and high cleaner relative abundances the predictions 
 are similar for all three models. Intermediate relative abundance 
 trigger a high preference for the visitor; while low abundances trigger
-low preference for the visitor (Fig. \ref{fig:pred}a,b,e). 
+low preference for the visitor (Fig. \ref{fig:predFAA}a,b,e). 
 Note, however, we calculated 
-preferences shown in figure \ref{fig:pred} left panels by using only the model 
+preferences shown in figure \ref{fig:predFAA} left panels by using only the model 
 of the posterior distributions, and by holding constant the balance between 
 resident and visitors' abundances. Panels on the right, show how close 
 predictions are from the observed data, allowing the balance between 
@@ -675,7 +675,7 @@ distribution.
 Visitor leaving probability has an overall 
 positive effect on the probability of choosing the visitor
 clients on all three models. All three models predict an increase preference 
-for visitors as the visitor probability increases  (Fig. \ref{fig:pred}).
+for visitors as the visitor probability increases  (Fig. \ref{fig:predFAA}).
 
 
 ## Discussion
@@ -700,7 +700,7 @@ habitats with low cleaner-to-client ratios, regardless of the
 visitor leaving probability. In contrast, models including 
 negative reward predicted the highest performance in the ephemeral 
 reward task when relative cleaner fish abundance is low, particularly 
-together with a high probability of visitor leaving (Fig. \ref{fig:pred}).
+together with a high probability of visitor leaving (Fig. \ref{fig:predFAA}).
 Low relative cleaner fish abundances mean the market has an excess of demand for
 cleaning services. In the models, this translates to a cleaning station
 that is frequently full. Thus, when a visitor leaves, it is likely that the

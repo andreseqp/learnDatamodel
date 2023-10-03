@@ -681,3 +681,173 @@ Warning messages:
 2: package 'Rcpp' was built under R version 4.2.1 
 3: package 'truncnorm' was built under R version 4.2.3 
 Execution halted
+starting worker pid=5892 on localhost:11273 at 11:07:43.465
+starting worker pid=24672 on localhost:11273 at 11:07:43.898
+starting worker pid=28420 on localhost:11273 at 11:07:44.225
+starting worker pid=28204 on localhost:11273 at 11:07:44.455
+starting worker pid=10844 on localhost:11273 at 11:07:44.682
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -757.3335 -758.5937 -757.5341 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -757.3388 -758.6984 -759.1417 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -757.1983 -759.1664 -757.2838 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1749 -758.5142 -757.5258 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1711 -759.0026 -758.2631 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -757.192 -759.039 -757.2213 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -758.026 -757.6761 -759.0283 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -757.575 -757.2682 -759.1637 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -757.2395 -758.195 -757.9686 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -758.2891 -757.3088 -759.1829 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -758.2876 -758.6264 -757.1703 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.3184 -757.182 -757.1947 . Please wait! runMCMC terminated after 1657.26seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -757.5383 -757.9686 -757.588 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1002 -757.9063 -757.2934 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -758.3969 -759.0109 -759.1026 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -758.8899 -759.0209 -757.4916 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.1896 -757.2986 -758.9803 . Please wait! runMCMC terminated after 1916.79seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.2489 -759.146 -758.8577 . Please wait! runMCMC terminated after 1990.23seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.1646 -757.1884 -758.006 . Please wait! runMCMC terminated after 2003.06seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -758.3348 -757.4847 -757.5236 . Please wait! runMCMC terminated after 2054.72seconds
+starting worker pid=23772 on localhost:11273 at 11:42:13.135
+starting worker pid=24488 on localhost:11273 at 11:42:13.410
+starting worker pid=13780 on localhost:11273 at 11:42:13.639
+starting worker pid=20400 on localhost:11273 at 11:42:13.866
+starting worker pid=15260 on localhost:11273 at 11:42:14.100
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -757.4159 -757.2279 -759.1461 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -757.5749 -759.1829 -758.8038 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -758.1808 -759.18 -757.473 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1578 -757.1906 -758.7446 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -758.4403 -757.188 -757.3409 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -757.2405 -759.043 -757.4834 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -758.4848 -757.8835 -757.2124 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -757.2207 -758.4884 -758.893 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -758.5756 -757.2283 -757.2726 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -758.4135 -758.9878 -757.4884 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -757.3205 -759.1653 -757.6358 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -757.7689 -757.2163 -757.8227 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.2007 -757.2035 -757.2779 . Please wait! runMCMC terminated after 1866.93seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -758.0165 -757.3304 -759.0417 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.228 -757.2016 -757.6686 . Please wait! runMCMC terminated after 1950.33seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -757.4522 -757.7649 -758.1416 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -758.8977 -758.3098 -759.1737 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.2426 -757.2747 -759.1494 . Please wait! runMCMC terminated after 2093.47seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.3503 -759.0525 -757.6223 . Please wait! runMCMC terminated after 2200.87seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -757.2145 -759.1708 -759.1839 . Please wait! runMCMC terminated after 2212.98seconds
+starting worker pid=24328 on localhost:11273 at 12:19:20.926
+starting worker pid=23828 on localhost:11273 at 12:19:21.186
+starting worker pid=27656 on localhost:11273 at 12:19:21.694
+starting worker pid=24308 on localhost:11273 at 12:19:21.909
+starting worker pid=15744 on localhost:11273 at 12:19:22.126
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1711 -759.184 -759.1836 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.18 -759.1802 -759.1554 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1755 -759.1836 -759.1544 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1833 -759.1826 -759.1693 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -759.1797 -759.1715 -759.1607 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -759.1641 -759.1841 -759.1817 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -759.1793 -759.1588 -759.1798 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -759.1636 -759.1749 -759.1587 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -759.1673 -759.1604 -759.1828 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -759.179 -759.1804 -759.1642 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1688 -759.161 -759.1825 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1821 -759.168 -759.175 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1837 -759.1553 -759.158 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.184 -759.1809 -759.18 . Please wait! runMCMC terminated after 1453.97seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1688 -759.17 -759.1643 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.1748 -759.1801 -759.1724 . Please wait! runMCMC terminated after 1536.71seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.169 -759.1826 -759.1798 . Please wait! runMCMC terminated after 1567.72seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -759.1817 -759.1681 -759.1818 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.157 -759.1764 -759.165 . Please wait! runMCMC terminated after 1646.83seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -759.1748 -759.1697 -759.1812 . Please wait! runMCMC terminated after 1746.99seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+starting worker pid=16528 on localhost:11526 at 10:24:16.104
+starting worker pid=25228 on localhost:11526 at 10:24:16.333
+starting worker pid=20816 on localhost:11526 at 10:24:16.549
+starting worker pid=9276 on localhost:11526 at 10:24:16.770
+starting worker pid=13004 on localhost:11526 at 10:24:16.990
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -309.6281 -305.7392 -297.8348 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -308.5681 -313.3441 -331.7176 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -291.4489 -286.3975 -283.0447 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -313.3097 -293.8172 -298.9924 . Please wait!  Running DEzs-MCMC, chain  1 iteration 300 of 1002 . Current logp  -293.4744 -292.1826 -284.5135 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -294.9043 -284.749 -284.2786 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -296.3477 -290.0913 -290.4798 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -282.7618 -287.8853 -282.5832 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -291.1371 -293.8172 -296.9577 . Please wait!  Running DEzs-MCMC, chain  1 iteration 600 of 1002 . Current logp  -288.3293 -285.7715 -285.1626 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -285.7416 -285.0674 -279.714 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -287.015 -287.0781 -279.714 . Please wait! runMCMC terminated after 1438.23seconds
+ Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -294.2145 -283.4624 -287.4137 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -285.9609 -280.3927 -282.6521 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -290.8132 -293.2245 -288.7253 . Please wait!  Running DEzs-MCMC, chain  1 iteration 900 of 1002 . Current logp  -282.2447 -284.8041 -283.5173 . Please wait!  Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -290.4439 -283.4624 -287.4137 . Please wait! runMCMC terminated after 1793.34seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -285.9609 -280.3927 -282.6521 . Please wait! runMCMC terminated after 1796.09seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -290.8132 -292.2913 -288.7253 . Please wait! runMCMC terminated after 1807.85seconds
+ Running DEzs-MCMC, chain  1 iteration 1002 of 1002 . Current logp  -282.2447 -284.8041 -284.6991 . Please wait! runMCMC terminated after 1883.52seconds
+starting worker pid=33056 on localhost:11475 at 08:33:09.633
+starting worker pid=45920 on localhost:11475 at 08:33:09.902
+starting worker pid=45724 on localhost:11475 at 08:33:10.131
+starting worker pid=46120 on localhost:11475 at 08:33:10.432
+starting worker pid=46624 on localhost:11475 at 08:33:10.649
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+starting worker pid=51980 on localhost:11560 at 08:35:40.421
+starting worker pid=52748 on localhost:11560 at 08:35:40.681
+starting worker pid=52564 on localhost:11560 at 08:35:40.911
+starting worker pid=56020 on localhost:11560 at 08:35:41.659
+starting worker pid=55212 on localhost:11560 at 08:35:41.878
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -2536.136 -765.9161 -711.9933 . Please wait! runMCMC terminated after 382.17seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -726.4189 -Inf -1941.593 . Please wait! runMCMC terminated after 382.77seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -1955.703 -1005.641 -1288.204 . Please wait! runMCMC terminated after 387.02seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -2509.562 -Inf -2101.756 . Please wait! runMCMC terminated after 414.79seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -690.1773 -3770.032 -3980.337 . Please wait! runMCMC terminated after 437.37seconds
+starting worker pid=69140 on localhost:11560 at 08:43:12.494
+starting worker pid=70092 on localhost:11560 at 08:43:13.202
+starting worker pid=70304 on localhost:11560 at 08:43:13.427
+starting worker pid=69436 on localhost:11560 at 08:43:13.652
+starting worker pid=68852 on localhost:11560 at 08:43:13.886
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -731.9808 -760.3289 -765.9624 . Please wait! runMCMC terminated after 255.06seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -713.2237 -710.1379 -720.0252 . Please wait! runMCMC terminated after 302.94seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -731.1887 -703.6382 -717.3892 . Please wait! runMCMC terminated after 305.59seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -713.3936 -708.2838 -712.2746 . Please wait! runMCMC terminated after 385.28seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -693.8399 -710.941 -705.7517 . Please wait! runMCMC terminated after 404.83seconds
+starting worker pid=10592 on localhost:11560 at 08:50:15.582
+starting worker pid=44980 on localhost:11560 at 08:50:15.896
+starting worker pid=38844 on localhost:11560 at 08:50:16.112
+starting worker pid=16564 on localhost:11560 at 08:50:16.333
+starting worker pid=71988 on localhost:11560 at 08:50:16.550
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+here() starts at M:/Projects/learnDataModel
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -Inf -Inf -1622.782 . Please wait! runMCMC terminated after 245.99seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -1059.74 -822.6406 -2856.189 . Please wait! runMCMC terminated after 313.45seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -3634.56 -1217.242 -1130.051 . Please wait! runMCMC terminated after 336.52seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -754.892 -813.1939 -760.5783 . Please wait! runMCMC terminated after 359.68seconds
+ Running DEzs-MCMC, chain  1 iteration 102 of 102 . Current logp  -724.6333 -695.9393 -703.0666 . Please wait! runMCMC terminated after 386.05seconds
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted
+Error in unserialize(node$con) : error reading from connection
+Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
+Execution halted

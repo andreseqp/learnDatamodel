@@ -12,10 +12,10 @@ sourceCpp(here("ActCrit_R.cpp"))
 source(here("bayes_funcs.R"))
 
 defaultPars<-foc.param
-scenarios_select<-list(BT_FAA_gam_Nrew_sca=
+scenarios_select<-list(BTSfake_FAA_gam_Nrew_sca=
                          c("scaleConst", "gamma0","negReward0"),
-                       BT_FAA_gam_sca=c("scaleConst", "gamma0"),
-                       BT_FAA_Nrew_sca=c("scaleConst", "negReward0"))
+                       BTSfake_FAA_gam_sca=c("scaleConst", "gamma0"),
+                       BTSfake_FAA_Nrew_sca=c("scaleConst", "negReward0"))
 fieldData<-fread(here("Data","data_cleaner_abs_threa1.5.txt"))
 names(fieldData)[4:8]<-c("abund_clean","abund_visitors","abund_resid",
                          "prob_Vis_Leav","group")
@@ -46,7 +46,7 @@ param_mcmc<-list(
 
 # FAA --------------------------------------------------------------------------
 
-scenario <-"BT_FAA_gam_sca"
+scenario <-"BTSfake_FAA_gam_Nrew_sca"
 parSel <- scenarios_select[[scenario]]
 # Load MCMC chains
 MCMC.FAA.loaded <- readRDS(file = here(paste0(scenario,"_"),
@@ -97,7 +97,7 @@ sum(dbinom(fieldData$score_visitor,20,
            fieldData$score_visitor/20,log = TRUE))
 
 sourceCpp(here("ActCrit_R.cpp"))
-
+source("bayes_funcs.R")
 
 parSel<- names(test.param)
 
@@ -111,12 +111,18 @@ test.param.0<-test.param
 test.param.0$gamma0<-0.3
 test.param.0$probFAA<-0
 
+foc.param[parSel]
+
+as.numeric(test.param.0)
+
 FAA_gam_0 <- do_simulation(fieldData,test.param.0,param_mcmc.1)
+
+LogLihood(pars = as.numeric(test.param.0)[match(parSel,names(test.param.0))])
+
 mean(FAA_gam_0[,"marketPred"])
 hist.0<-ggplot(FAA_gam_0,aes(x=marketPred))+geom_histogram()+
   ggtitle(paste0("Log-likelihood_0: ",LogLihood(pars = test.param.0)))+
   xlim(0,1)
-
 test.param.1<-test.param
 test.param.1$gamma0<-0.5
 test.param.1$probFAA<-1

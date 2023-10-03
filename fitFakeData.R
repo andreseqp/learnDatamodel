@@ -48,23 +48,52 @@ pars2reco<-foc.param
 pars2reco$scaleConst <-350
 pars2reco$gamma0 <- 0.5
 
+t(fieldData[,lapply(.SD,fivenum),.SDcols = c('abund_clean','abund_visitors',
+                                           'abund_visitors','prob_Vis_Leav')])
+fieldData[,unique(interaction(site.year,cleaner_ID))]
+fieldData[,unique(cleaner_ID)]
 
-fakedata <- do_simulation(fieldData,focal_param = pars2reco,
+
+str(fieldData)
+
+totN<-240
+SuperFakeData <- data.table(
+  site.year=rep(1:24,each=10),
+  cleaner_ID=rep(1:10,24),
+  abund_clean=rep(runif(24,range(fieldData[,abund_clean])[1],
+                    range(fieldData[,abund_clean])[2]),
+                  each=10),
+  abund_visitors=rep(runif(24,range(fieldData[,abund_visitors])[1],
+                           range(fieldData[,abund_visitors])[2]),
+                     each=10),
+  abund_resid=rep(runif(24,range(fieldData[,abund_resid])[1],
+                           range(fieldData[,abund_resid])[2]),
+                     each=10),
+  prob_Vis_Leav=rep(runif(24,range(fieldData[,prob_Vis_Leav])[1],
+                        range(fieldData[,prob_Vis_Leav])[2]),
+                  each=10),
+  score_visitor=rep(-1,240),
+  group=rep(0,240)
+)
+
+simfakedata <- do_simulation(SuperFakeData,focal_param = pars2reco,
                           sim_param = param_mcmc)
 
-fakedata<-data.table(fakedata)
+simfakedata <- data.table(simfakedata)
+str(simfakedata)
 
-fakedata[,fake_score_vis:=sapply(marketPred,FUN = rbinom,n=1,size = 20)]
+dim(simfakedata)
 
-fakeFieldData <- fieldData
-
-fakeFieldData[,score_visitor:=fakedata[,fake_score_vis]]
-
-fieldData <- as.data.frame(fakeFieldData)
+simfakedata[,fake_score_vis:=
+              sapply(marketPred,FUN = rbinom,n=1,size = 20)]
 
 
+SuperFakeData[,score_visitor:=simfakedata[,fake_score_vis]]
 
-nIter<-1000
+fieldData <- as.data.frame(SuperFakeData)
+
+
+nIter<-100
 nChainsI<-5
 
 
@@ -73,11 +102,11 @@ nChainsI<-5
 
 
 
-scenarios_select<-list(BTfake_FAA_gam_Nrew_sca=
+scenarios_select<-list(BTSfake_FAA_gam_Nrew_sca=
                          c("scaleConst", "gamma0","negReward0"),
-                       BTfake_FAA_gam_sca=
+                       BTSfake_FAA_gam_sca=
                          c("scaleConst", "gamma0"),
-                       BTfake_FAA_Nrew_sca=
+                       BTSfake_FAA_Nrew_sca=
                          c("scaleConst","negReward0"))
 
 
@@ -85,10 +114,11 @@ scenarios_select<-list(BTfake_FAA_gam_Nrew_sca=
 scenarios<-names(scenarios_select)
 
 for(scenario in scenarios){
+  
   parSel <- scenarios_select[[scenario]]
   
-  check_create.dir(here(),param = rep(scenario,1),
-                   values = c(""))
+  # check_create.dir(here(),param = rep(scenario,1),
+  #                  values = c(""))
   
   param_mcmc<-list(
     totRounds=10000, 
@@ -166,7 +196,7 @@ for(scenario in scenarios){
   outParam<-toJSON(param_mcmc,auto_unbox = TRUE,pretty = TRUE)
   write(outParam,here(paste0(scenario,"_"),fileName))
   
-    ## Run MCMC chains in parallel
+  ## Run MCMC chains in parallel
   ## Start cluster with n cores for n chains and export BayesianTools library
   nChains <- nChainsI
   cl <- parallel::makeCluster(nChains,outfile="out")
@@ -199,28 +229,16 @@ for(scenario in scenarios){
   
   ## calculate parallel n chains, for each chain the likelihood will be calculated on one core
   MCMC.FAA <- parallel::parLapply(cl, 1:nChains, 
-                          fun = function(X, bayesianSetup, settings) 
-                          runMCMC(bayesianSetup, settings, sampler = "DEzs"), 
-                          bayesianSetup, settings)
+                                  fun = function(X, bayesianSetup, settings) 
+                                    runMCMC(bayesianSetup, settings, sampler = "DEzs"), 
+                                  bayesianSetup, settings)
   
   ## Combine the chains
   MCMC.FAA <- createMcmcSamplerList(MCMC.FAA)
-  
-  # # Plot the MCMC chains ----------------------------------------------------------
-  # 
-  # par()
-  # plot(MCMC.FAA)
-  # summary(MCMC.FAA)
-  # marginalPlot(MCMC.FAA)
-  # gelmanDiagnostics(MCMC.FAA)
   
   # Save files for future analysis
   saveRDS(MCMC.FAA, file= here(paste0(scenario,"_"),"MCMC_FAA.rda"))
   
   print(paste0("Done ",scenario))
 }
-
-
-
-
-
+ 
